@@ -3,6 +3,7 @@ package com.alorma.rac1.ui
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
 import com.alorma.rac1.R
 import com.luseen.spacenavigation.SpaceItem
@@ -29,11 +30,9 @@ class MainActivity : AppCompatActivity() {
             setSpaceOnClickListener(object : SpaceOnClickListener {
                 override fun onCentreButtonClick() {
                     if (isPlaying) {
-                        // TODO -> pause
-                        setPlayIcon()
+                        pausePlayback()
                     } else {
-                        // TODO -> play
-                        setPauseIcon()
+                        playPlayback()
                     }
                     isPlaying = isPlaying.not()
                 }
@@ -53,6 +52,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun playPlayback() {
+        // TODO -> play
+        setPauseIcon()
+        nowPlaying.visibility = View.VISIBLE
+    }
+
+    private fun pausePlayback() {
+        // TODO -> pause
+        setPlayIcon()
+        nowPlaying.visibility = View.GONE
+    }
+
     private fun openSchedule() {
 
     }
@@ -61,13 +72,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun SpaceNavigationView.setPauseIcon() {
-        changeCenterButtonIcon(R.drawable.ic_pause)
+    private fun setPauseIcon() {
+        with(bottomBar) {
+            changeCenterButtonIcon(R.drawable.ic_pause)
+            (ContextCompat.getColor(this@MainActivity, R.color.white))
+        }
     }
 
-    private fun SpaceNavigationView.setPlayIcon() {
-        changeCenterButtonIcon(R.drawable.ic_play)
-        (ContextCompat.getColor(this@MainActivity, R.color.white))
+    private fun setPlayIcon() {
+        with(bottomBar) {
+            changeCenterButtonIcon(R.drawable.ic_play)
+            (ContextCompat.getColor(this@MainActivity, R.color.white))
+        }
     }
 
     private fun SpaceNavigationView.configScheduleButton() {
