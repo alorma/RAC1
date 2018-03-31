@@ -80,7 +80,7 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
         }
 
         override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
-            handlePlayRequest()
+
         }
 
         override fun onPause() {

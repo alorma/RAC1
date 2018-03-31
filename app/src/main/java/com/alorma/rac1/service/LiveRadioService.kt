@@ -1,6 +1,7 @@
 package com.alorma.rac1.service
 
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -45,7 +46,6 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
         mSession.setExtras(Bundle())
 
         playbackManager.updatePlaybackState(null)
-        //mMediaNotificationManager = MediaNotificationManager(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -56,7 +56,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
             }
         }
 
-        return super.onStartCommand(intent, flags, startId)
+        return Service.START_STICKY_COMPATIBILITY
     }
 
     /*
@@ -73,7 +73,8 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * @see android.app.Service.onDestroy
      */
     override fun onDestroy() {
-        playbackManager.handleStopRequest(null)
+        playbackManager.handleStopRequest()
+        mediaNotificationManager.destroy()
         mSession.release()
     }
 
@@ -91,8 +92,10 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * Callback method called from PlaybackManager whenever the music is about to play.
      */
     override fun onPlaybackStart() {
-        mediaNotificationManager.show(mSession.sessionToken)
+        val notification = mediaNotificationManager.show(mSession.sessionToken)
         mSession.isActive = true
+
+        startForeground(MediaNotificationManager.ID_LIVE, notification)
 
         // The service needs to continue running even after the bound client (usually a
         // MediaController) disconnects, otherwise the music playback will stop.

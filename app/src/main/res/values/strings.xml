@@ -2,4 +2,6 @@
     <string name="app_name">Rac1</string>
     <string name="navigation_schedule">Graella</string>
     <string name="navigation_programs">Programes</string>
+    <string name="live_radio_title">Rádio en directe</string>
+    <string name="live_radio_stop">Parar</string>
 </resources>

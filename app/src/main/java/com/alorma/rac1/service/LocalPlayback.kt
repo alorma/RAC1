@@ -44,16 +44,7 @@ class LocalPlayback(private val context: Context) : Playback {
     private val mAudioManager: AudioManager
 
     private val mExoPlayer: SimpleExoPlayer by lazy {
-        val renders = object : DefaultRenderersFactory(context) {
-
-            /*
-            override fun createRenderers(eventHandler: Handler?, videoRendererEventListener: VideoRendererEventListener?, audioRendererEventListener: AudioRendererEventListener?, textRendererOutput: TextRenderer.Output?, metadataRendererOutput: MetadataRenderer.Output?): Array<Renderer> {
-                val items = arrayListOf<Renderer>()
-                buildAudioRenderers(context, null, buildAudioProcessors(), eventHandler, audioRendererEventListener, EXTENSION_RENDERER_MODE_OFF, items)
-                return items.toTypedArray()
-            }
-            */
-        }
+        val renders = DefaultRenderersFactory(context)
 
         ExoPlayerFactory.newSimpleInstance(renders, DefaultTrackSelector(), DefaultLoadControl()).apply {
 
@@ -99,9 +90,13 @@ class LocalPlayback(private val context: Context) : Playback {
         mPlayOnFocusGain = true
         tryToGetAudioFocus()
         releaseResources(false)
-        val dataSourceFactory = DefaultDataSourceFactory(mContext, "rac1", null)
+        val dataSourceFactory = DefaultDataSourceFactory(mContext, "rac1")
         val extractorsFactory = DefaultExtractorsFactory()
-        val mediaSource = ExtractorMediaSource(Uri.parse(LIVE_URL), dataSourceFactory, extractorsFactory, null, null)
+
+        val uri = Uri.parse(LIVE_URL)
+
+        val mediaSource = ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null)
+
         mExoPlayer.prepare(mediaSource)
         mWifiLock.acquire()
         configurePlayerState()

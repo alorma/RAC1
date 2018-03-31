@@ -1,6 +1,7 @@
 package com.alorma.rac1.ui
 
 import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.os.RemoteException
 import android.support.v4.content.ContextCompat
@@ -81,6 +82,10 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         setStopIcon()
                         nowPlaying.visibility = View.VISIBLE
+
+                        val intent = Intent(this@MainActivity, LiveRadioService::class.java)
+                        startForegroundService(intent)
+
                         MediaControllerCompat.getMediaController(this@MainActivity)?.transportControls?.play()
                     }
                     isPlaying = isPlaying.not()
