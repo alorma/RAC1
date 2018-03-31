@@ -1,37 +1,74 @@
 package com.alorma.rac1.ui
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.support.v4.content.ContextCompat
+import android.support.v4.media.session.MediaControllerCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.alorma.rac1.R
-import com.alorma.rac1.service.LiveRadioService
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.ComponentName
+import android.os.RemoteException
+import android.support.v4.media.MediaBrowserCompat
+import com.alorma.rac1.service.LiveRadioService
+
 
 class MainActivity : AppCompatActivity() {
 
-    var isPlaying: Boolean = false
+    private val mediaBrowserCompat: MediaBrowserCompat by lazy {
+        MediaBrowserCompat(this, ComponentName(this, LiveRadioService::class.java), mediaBrowserCompatConnectionCallback, null)
+    }
+    private var isPlaying: Boolean = false
 
-    var liveRadioService: LiveRadioService? = null
+    private val mediaCallback: MediaControllerCompat.Callback by lazy {
+        object : MediaControllerCompat.Callback() {
+            override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
+                super.onPlaybackStateChanged(state)
 
-    private val liveConnection: ServiceConnection by lazy {
-        object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName) {
-                liveRadioService = null
+                when (state.state) {
+                    PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> {
+
+                        setPlayIcon()
+                        nowPlaying.visibility = View.GONE
+                    }
+                    PlaybackStateCompat.STATE_ERROR -> {
+                    }
+                    else -> {
+                        setPauseIcon()
+                        nowPlaying.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+    }
+
+    private val mediaBrowserCompatConnectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
+        override fun onConnected() {
+            try {
+                // Create a MediaControllerCompat
+                val mediaController = MediaControllerCompat(this@MainActivity, mediaBrowserCompat.sessionToken)
+
+                // Save the controller
+                MediaControllerCompat.setMediaController(this@MainActivity, mediaController)
+
+            } catch (e: RemoteException) {
+                e.printStackTrace()
             }
 
-            override fun onServiceConnected(name: ComponentName, service: IBinder) {
-                val binder = service as LiveRadioService.LiveBinder
-                liveRadioService = binder.getService()
-            }
+        }
+
+        override fun onConnectionSuspended() {
+
+            // We were connected, but no longer :-(
+        }
+
+        override fun onConnectionFailed() {
+            // The attempt to connect failed completely.
+            // Check the ComponentName!
         }
     }
 
@@ -47,9 +84,9 @@ class MainActivity : AppCompatActivity() {
             setSpaceOnClickListener(object : SpaceOnClickListener {
                 override fun onCentreButtonClick() {
                     if (isPlaying) {
-                        pausePlayback()
+                        MediaControllerCompat.getMediaController(this@MainActivity)?.transportControls?.stop()
                     } else {
-                        playPlayback()
+                        MediaControllerCompat.getMediaController(this@MainActivity)?.transportControls?.play()
                     }
                     isPlaying = isPlaying.not()
                 }
@@ -68,20 +105,7 @@ class MainActivity : AppCompatActivity() {
             openSchedule()
         }
 
-        val intent = Intent(this, LiveRadioService::class.java)
-        bindService(intent, liveConnection, Context.BIND_AUTO_CREATE)
-    }
-
-    private fun playPlayback() {
-        liveRadioService?.play()
-        setPauseIcon()
-        nowPlaying.visibility = View.VISIBLE
-    }
-
-    private fun pausePlayback() {
-        liveRadioService?.pause()
-        setPlayIcon()
-        nowPlaying.visibility = View.GONE
+        MediaControllerCompat.getMediaController(this)?.registerCallback(mediaCallback)
     }
 
     private fun openSchedule() {
@@ -94,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPauseIcon() {
         with(bottomBar) {
-            changeCenterButtonIcon(R.drawable.ic_pause)
+            changeCenterButtonIcon(R.drawable.ic_stop)
             (ContextCompat.getColor(this@MainActivity, R.color.white))
         }
     }
@@ -127,8 +151,15 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
+    override fun onStart() {
+        super.onStart()
+        mediaBrowserCompat.connect()
+    }
+
     override fun onStop() {
-        unbindService(liveConnection)
+        MediaControllerCompat.getMediaController(this)
+                ?.unregisterCallback(mediaCallback)
+        mediaBrowserCompat.disconnect()
         super.onStop()
     }
 }

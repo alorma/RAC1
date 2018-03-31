@@ -28,8 +28,10 @@ dependencies {
     implementation kotlin
     implementation support.appcompat
     implementation support.design
+    implementation support.media
     implementation support.constraint
 
+    implementation exoplayer
 
     kapt dagger.compiler
     implementation dagger.library

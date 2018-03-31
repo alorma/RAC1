@@ -2,6 +2,8 @@ package com.alorma.rac1.di.module
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.alorma.rac1.service.LocalPlayback
+import com.alorma.rac1.service.Playback
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import dagger.Module
@@ -26,5 +28,8 @@ open class ApplicationModule(private val context: Context) {
 
     @Provides
     fun getContext(): Context = context
+
+    @Provides
+    fun getPlayback(context: Context): Playback = LocalPlayback(context)
 
 }

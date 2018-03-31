@@ -11,11 +11,12 @@ ext {
 
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    def supportVersion = "27.0.2"
+    def supportVersion = "27.1.0"
     def supportConstraintVersion = "1.0.2"
     support = [
             appcompat : "com.android.support:appcompat-v7:$supportVersion",
             design    : "com.android.support:design:$supportVersion",
+            media     : "com.android.support:support-media-compat:$supportVersion",
             constraint: "com.android.support.constraint:constraint-layout:$supportConstraintVersion",
     ]
 
@@ -57,6 +58,8 @@ ext {
                     compiler: "com.github.bumptech.glide:compiler:$glideVersion",
             ]
     ]
+
+    exoplayer = "com.google.android.exoplayer:exoplayer:r2.5.0"
 
     def spaceNavigationVersion = '1.6.0'
     spaceNavigation = "com.github.armcha:SpaceNavigationView:$spaceNavigationVersion"
