@@ -1,22 +1,39 @@
 package com.alorma.rac1.ui
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.alorma.rac1.R
+import com.alorma.rac1.service.LiveRadioService
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     var isPlaying: Boolean = false
 
-    private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
+    var liveRadioService: LiveRadioService? = null
+
+    private val liveConnection: ServiceConnection by lazy {
+        object : ServiceConnection {
+            override fun onServiceDisconnected(name: ComponentName) {
+                liveRadioService = null
+            }
+
+            override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                val binder = service as LiveRadioService.LiveBinder
+                liveRadioService = binder.getService()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +67,19 @@ class MainActivity : AppCompatActivity() {
             })
             openSchedule()
         }
+
+        val intent = Intent(this, LiveRadioService::class.java)
+        bindService(intent, liveConnection, Context.BIND_AUTO_CREATE)
     }
 
     private fun playPlayback() {
-        // TODO -> play
+        liveRadioService?.play()
         setPauseIcon()
         nowPlaying.visibility = View.VISIBLE
     }
 
     private fun pausePlayback() {
-        // TODO -> pause
+        liveRadioService?.pause()
         setPlayIcon()
         nowPlaying.visibility = View.GONE
     }
@@ -102,8 +122,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun getSpace(title: Int, icon: Int): SpaceItem = SpaceItem(resources.getString(title), icon)
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        bottomBar.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onStop() {
-        disposable.clear()
+        unbindService(liveConnection)
         super.onStop()
     }
 }
