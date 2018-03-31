@@ -1,19 +1,16 @@
 package com.alorma.rac1.net
 
-import io.reactivex.Completable
+import io.reactivex.Single
 import retrofit2.http.GET
 
 interface Rac1Api {
 
-    @GET("properties")
-    fun properties(): Completable
-
     @GET("now")
-    fun now(): Completable
+    fun now(): Single<ResponseNowDto>
 
     @GET("schedule")
-    fun schedule(): Completable
+    fun schedule(): Single<ResponseScheduleDto>
 
     @GET("programs")
-    fun programs(): Completable
+    fun programs(): Single<ResponseProgramsDto>
 }

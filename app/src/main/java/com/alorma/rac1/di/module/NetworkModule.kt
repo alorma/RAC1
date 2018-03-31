@@ -2,6 +2,7 @@ package com.alorma.rac1.di.module
 
 import android.content.Context
 import com.alorma.rac1.BuildConfig
+import com.alorma.rac1.net.Rac1Api
 import com.google.gson.Gson
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
@@ -23,6 +24,8 @@ class NetworkModule {
         private const val API_URL = "https://api.audioteca.rac1.cat/api/app/v1/"
     }
 
+    @Provides
+    fun getRac1(retrofit: Retrofit): Rac1Api = retrofit.create(Rac1Api::class.java)
 
     @Provides
     fun getApiRetrofit(retrofitBuilder: Retrofit.Builder): Retrofit = retrofitBuilder.baseUrl(API_URL).build()
