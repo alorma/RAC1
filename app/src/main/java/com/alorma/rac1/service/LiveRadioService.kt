@@ -13,6 +13,14 @@ import javax.inject.Inject
 
 class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.PlaybackServiceCallback {
 
+    companion object {
+        const val CMD = "CMD"
+        const val CMD_STOP = "CMD_STOP"
+    }
+
+    @Inject
+    lateinit var mediaNotificationManager: MediaNotificationManager
+
     @Inject
     lateinit var playbackManager: LivePlaybackManager
 
@@ -40,6 +48,17 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
         //mMediaNotificationManager = MediaNotificationManager(this)
     }
 
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+
+        if (intent.hasExtra(CMD)) {
+            if (intent.getStringExtra(CMD) == CMD_STOP) {
+                playbackManager.handleStopRequest()
+            }
+        }
+
+        return super.onStartCommand(intent, flags, startId)
+    }
+
     /*
      * Handle case when user swipes the app away from the recents apps list by
      * stopping the service (and any ongoing playback).
@@ -55,7 +74,6 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      */
     override fun onDestroy() {
         playbackManager.handleStopRequest(null)
-        // mMediaNotificationManager!!.stopNotification()
         mSession.release()
     }
 
@@ -73,6 +91,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * Callback method called from PlaybackManager whenever the music is about to play.
      */
     override fun onPlaybackStart() {
+        mediaNotificationManager.show(mSession.sessionToken)
         mSession.isActive = true
 
         // The service needs to continue running even after the bound client (usually a
@@ -86,11 +105,8 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * Callback method called from PlaybackManager whenever the music stops playing.
      */
     override fun onPlaybackStop() {
+        mediaNotificationManager.hide()
         stopForeground(true)
-    }
-
-    override fun onNotificationRequired() {
-        //mMediaNotificationManager!!.startNotification()
     }
 
     override fun onPlaybackStateUpdated(newState: PlaybackStateCompat) {

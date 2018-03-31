@@ -1,20 +1,20 @@
 package com.alorma.rac1.ui
 
+import android.content.ComponentName
 import android.os.Bundle
+import android.os.RemoteException
 import android.support.v4.content.ContextCompat
+import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.alorma.rac1.R
+import com.alorma.rac1.service.LiveRadioService
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.ComponentName
-import android.os.RemoteException
-import android.support.v4.media.MediaBrowserCompat
-import com.alorma.rac1.service.LiveRadioService
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,19 +29,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
                 super.onPlaybackStateChanged(state)
 
-                when (state.state) {
-                    PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> {
-
-                        setPlayIcon()
-                        nowPlaying.visibility = View.GONE
-                    }
-                    PlaybackStateCompat.STATE_ERROR -> {
-                    }
-                    else -> {
-                        setPauseIcon()
-                        nowPlaying.visibility = View.VISIBLE
-                    }
-                }
+                onStateChanged(state)
             }
         }
     }
@@ -52,6 +40,9 @@ class MainActivity : AppCompatActivity() {
                 // Create a MediaControllerCompat
                 val mediaController = MediaControllerCompat(this@MainActivity, mediaBrowserCompat.sessionToken)
 
+                onStateChanged(mediaController.playbackState)
+
+                mediaController.registerCallback(mediaCallback)
                 // Save the controller
                 MediaControllerCompat.setMediaController(this@MainActivity, mediaController)
 
@@ -84,8 +75,12 @@ class MainActivity : AppCompatActivity() {
             setSpaceOnClickListener(object : SpaceOnClickListener {
                 override fun onCentreButtonClick() {
                     if (isPlaying) {
+                        setStopIcon()
+                        nowPlaying.visibility = View.VISIBLE
                         MediaControllerCompat.getMediaController(this@MainActivity)?.transportControls?.stop()
                     } else {
+                        setStopIcon()
+                        nowPlaying.visibility = View.VISIBLE
                         MediaControllerCompat.getMediaController(this@MainActivity)?.transportControls?.play()
                     }
                     isPlaying = isPlaying.not()
@@ -104,8 +99,6 @@ class MainActivity : AppCompatActivity() {
             })
             openSchedule()
         }
-
-        MediaControllerCompat.getMediaController(this)?.registerCallback(mediaCallback)
     }
 
     private fun openSchedule() {
@@ -116,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setPauseIcon() {
+    private fun setStopIcon() {
         with(bottomBar) {
             changeCenterButtonIcon(R.drawable.ic_stop)
             (ContextCompat.getColor(this@MainActivity, R.color.white))
@@ -151,8 +144,30 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
+    private fun onStateChanged(state: PlaybackStateCompat) {
+        when (state.state) {
+            PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> {
+                isPlaying = false
+                setPlayIcon()
+                nowPlaying.visibility = View.GONE
+            }
+            PlaybackStateCompat.STATE_ERROR -> {
+            }
+            else -> {
+                setStopIcon()
+                nowPlaying.visibility = View.VISIBLE
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
+
+        val playbackState = MediaControllerCompat.getMediaController(this)?.playbackState
+        if (playbackState != null) {
+            onStateChanged(playbackState)
+        }
+
         mediaBrowserCompat.connect()
     }
 

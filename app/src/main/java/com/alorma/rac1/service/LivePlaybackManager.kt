@@ -56,10 +56,6 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
         stateBuilder.setState(state, 0, 1.0f, SystemClock.elapsedRealtime())
 
         serviceCallback.onPlaybackStateUpdated(stateBuilder.build())
-
-        if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED) {
-            serviceCallback.onNotificationRequired()
-        }
     }
 
     override fun onPlaybackStatusChanged(state: Int) {
@@ -113,8 +109,6 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
 
     interface PlaybackServiceCallback {
         fun onPlaybackStart()
-
-        fun onNotificationRequired()
 
         fun onPlaybackStop()
 
