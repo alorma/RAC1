@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationCompat.FLAG_NO_CLEAR
+import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.alorma.rac1.R
@@ -61,12 +63,14 @@ class MediaNotificationManager @Inject constructor(private val context: Context)
             color = ContextCompat.getColor(context, R.color.colorPrimary)
             val stopAction = NotificationCompat.Action.Builder(R.drawable.ic_stop, "Stop", getActionPendingIntentStop()).build()
             addAction(stopAction)
-        }.build()
+        }.build().apply {
+            flags = FLAG_NO_CLEAR
+        }
 
         nm.notify(ID_LIVE, notification)
     }
 
-    fun getActionPendingIntentStop(): PendingIntent? {
+    private fun getActionPendingIntentStop(): PendingIntent? {
         val intent = Intent(context, LiveRadioService::class.java).apply {
             putExtra(LiveRadioService.CMD, LiveRadioService.CMD_STOP)
         }
