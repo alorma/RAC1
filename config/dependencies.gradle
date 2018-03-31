@@ -1,0 +1,67 @@
+ext {
+
+    minSdk = 19
+    targetSdk = 27
+    compileSdk = 27
+
+    appPackage = "com.alorma.rac1"
+    appCode = 1
+    appName = "1.0.0"
+
+
+    kotlin = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    def supportVersion = "27.0.2"
+    def supportConstraintVersion = "1.0.2"
+    support = [
+            appcompat : "com.android.support:appcompat-v7:$supportVersion",
+            design    : "com.android.support:design:$supportVersion",
+            constraint: "com.android.support.constraint:constraint-layout:$supportConstraintVersion",
+    ]
+
+    def daggerVersion = "2.14.1"
+    dagger = [
+            compiler: "com.google.dagger:dagger-compiler:$daggerVersion",
+            library : "com.google.dagger:dagger:$daggerVersion",
+    ]
+
+    def rxJavaVersion = "2.1.8"
+    rx = [
+            java   : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            android: "io.reactivex.rxjava2:rxandroid:2.0.1"
+    ]
+
+
+    def retrofitVersion = "2.3.0"
+    def chuckVersion = "1.1.0"
+    def okHttpVersion = "3.9.1"
+    def glideVersion = "4.6.1"
+    network = [
+            retrofit: [
+                    library  : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+                    rxAdapter: "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+                    gson     : "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+            ],
+
+            okhttp  : [
+                    library: "com.squareup.okhttp3:okhttp:$okHttpVersion",
+                    logging: "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
+                    chuck  : [
+                            debug  : "com.readystatesoftware.chuck:library:$chuckVersion",
+                            release: "com.readystatesoftware.chuck:library-no-op:$chuckVersion",
+                    ]
+            ],
+
+            glide   : [
+                    library : "com.github.bumptech.glide:glide:$glideVersion",
+                    compiler: "com.github.bumptech.glide:compiler:$glideVersion",
+            ]
+    ]
+
+    def spaceNavigationVersion = '1.6.1'
+    spaceNavigation = "com.github.armcha:SpaceNavigationView:$spaceNavigationVersion"
+
+    testing = [
+            jUnit: "junit:junit:4.12"
+    ]
+}

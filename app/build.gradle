@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: "../config/dependencies.gradle"
+
+android {
+    compileSdkVersion compileSdk
+    defaultConfig {
+        applicationId appPackage
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode appCode
+        versionName appName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation kotlin
+    implementation support.appcompat
+    implementation support.design
+    implementation support.constraint
+
+
+    kapt dagger.compiler
+    implementation dagger.library
+
+    implementation rx.java
+    implementation rx.android
+
+    implementation network.retrofit.library
+    implementation network.retrofit.gson
+    implementation network.retrofit.rxAdapter
+
+    implementation network.okhttp.library
+    implementation network.okhttp.logging
+
+    debugImplementation network.okhttp.chuck.debug
+    releaseImplementation network.okhttp.chuck.release
+
+    implementation network.glide.library
+    kapt network.glide.compiler
+
+    implementation spaceNavigation
+
+    testImplementation testing.jUnit
+}
