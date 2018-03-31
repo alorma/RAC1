@@ -58,7 +58,7 @@ ext {
             ]
     ]
 
-    def spaceNavigationVersion = '1.6.1'
+    def spaceNavigationVersion = '1.6.0'
     spaceNavigation = "com.github.armcha:SpaceNavigationView:$spaceNavigationVersion"
 
     testing = [

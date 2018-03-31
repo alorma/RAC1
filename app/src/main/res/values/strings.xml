@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Rac1</string>
+    <string name="navigation_schedule">Graella</string>
+    <string name="navigation_programs">Programes</string>
 </resources>
