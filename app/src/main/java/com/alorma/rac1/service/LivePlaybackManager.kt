@@ -35,16 +35,6 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
     }
 
     /**
-     * Handle a request to pause music
-     */
-    fun handlePauseRequest() {
-        if (playback.isPlaying) {
-            playback.pause()
-            serviceCallback.onPlaybackStop()
-        }
-    }
-
-    /**
      * Handle a request to stop music
      *
      * @param withError Error message in case the stop has an unexpected cause. The error
@@ -52,7 +42,7 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
      * MediaController clients.
      */
     fun handleStopRequest(withError: String? = null) {
-        playback.stop(true)
+        playback.stop()
         serviceCallback.onPlaybackStop()
         updatePlaybackState(withError)
     }
@@ -70,10 +60,6 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
         if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED) {
             serviceCallback.onNotificationRequired()
         }
-    }
-
-    override fun onCompletion() {
-        handleStopRequest()
     }
 
     override fun onPlaybackStatusChanged(state: Int) {
@@ -102,7 +88,6 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
         }
 
         override fun onPause() {
-            handlePauseRequest()
         }
 
         override fun onStop() {

@@ -1,12 +1,10 @@
 package com.alorma.rac1.service
 
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
-import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.alorma.rac1.Rac1Application.Companion.component
@@ -19,12 +17,6 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     lateinit var playbackManager: LivePlaybackManager
 
     private val mSession: MediaSessionCompat by lazy { MediaSessionCompat(this, "MusicService") }
-
-    companion object {
-        private const val ACTION_CMD = "com.example.android.uamp.ACTION_CMD"
-        private const val CMD_NAME = "CMD_NAME"
-        private const val CMD_PAUSE = "CMD_PAUSE"
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -46,27 +38,6 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
 
         playbackManager.updatePlaybackState(null)
         //mMediaNotificationManager = MediaNotificationManager(this)
-    }
-
-    /**
-     * (non-Javadoc)
-     * @see android.app.Service.onStartCommand
-     */
-    override fun onStartCommand(startIntent: Intent?, flags: Int, startId: Int): Int {
-        if (startIntent != null) {
-            val action = startIntent.action
-            val command = startIntent.getStringExtra(CMD_NAME)
-            if (ACTION_CMD == action) {
-                if (CMD_PAUSE == command) {
-                    playbackManager.handlePauseRequest()
-                }
-            } else {
-                // Try to handle the intent as a media button event wrapped by MediaButtonReceiver
-                MediaButtonReceiver.handleIntent(mSession, startIntent)
-            }
-        }
-
-        return Service.START_STICKY
     }
 
     /*
