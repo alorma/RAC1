@@ -15,6 +15,10 @@ import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.net.Rac1Api
 import com.alorma.rac1.net.ResponseNowDto
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -39,7 +43,6 @@ class MediaNotificationManager @Inject constructor(
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         createChannel(nm)
-
 
         disposable += rac1Api.now()
                 .retry(3)
@@ -83,6 +86,19 @@ class MediaNotificationManager @Inject constructor(
 
     private fun updateNotification(nm: NotificationManager, dto: ResponseNowDto, sessionToken: MediaSessionCompat.Token) {
         val data = dto.result.program
+        val requestOptions = RequestOptions().apply {
+            error(R.drawable.rac1_micro)
+        }
+
+        Glide.with(context)
+                .asBitmap()
+                .load(data.images.itunes)
+                .apply(requestOptions)
+                .into(object : SimpleTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        updateNotificationIcon(nm, dto, sessionToken, resource)
+                    }
+                })
 
         val largeIcon = BitmapFactory.decodeResource(context.resources, R.drawable.rac1_micro)
 
@@ -90,6 +106,23 @@ class MediaNotificationManager @Inject constructor(
             setContentTitle(data.title)
             setSubText(data.subtitle)
             configBaseNotification(largeIcon, sessionToken)
+        }.build().apply {
+            flags = FLAG_NO_CLEAR
+        }
+
+        nm.notify(ID_LIVE, notification)
+    }
+
+    private fun updateNotificationIcon(nm: NotificationManager,
+                                       dto: ResponseNowDto,
+                                       sessionToken: MediaSessionCompat.Token,
+                                       resource: Bitmap) {
+        val data = dto.result.program
+
+        val notification = NotificationCompat.Builder(context, CHANNEL_LIVE_ID).apply {
+            setContentTitle(data.title)
+            setSubText(data.subtitle)
+            configBaseNotification(resource, sessionToken)
         }.build().apply {
             flags = FLAG_NO_CLEAR
         }
