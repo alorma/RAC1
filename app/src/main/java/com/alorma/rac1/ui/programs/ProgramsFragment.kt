@@ -3,24 +3,28 @@ package com.alorma.rac1.ui.programs
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.alorma.rac1.R
 import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.ProgramsAdapter
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.programs_fragment.*
 import javax.inject.Inject
 
 class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, ProgramsState> {
+
     @Inject
     lateinit var presenter: ProgramsPresenter
 
-    private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
-    private val adapter: ProgramsAdapter by lazy { ProgramsAdapter() }
+    private val adapter: ProgramsAdapter by lazy {
+        ProgramsAdapter {
+            presenter reduce ProgramsAction.ProgramSelected(it)
+        }
+    }
+
     private val manager: LinearLayoutManager by lazy { LinearLayoutManager(context) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,12 +65,15 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     }
 
     override fun navigate(r: ProgramsRoute) {
-
+        when(r) {
+            is ProgramsRoute.OpenProgramDetail -> {
+                Toast.makeText(context, r.programDto.title, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
-    override fun onStop() {
-        disposable.clear()
-        super.onStop()
+    override fun onDestroy() {
+        presenter.destroy()
+        super.onDestroy()
     }
-
 }

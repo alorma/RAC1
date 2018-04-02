@@ -21,6 +21,7 @@ class ProgramsPresenter @Inject constructor(
         when (a) {
             is ProgramsAction.LoadSchedule -> loadSchedules()
             is ProgramsAction.LoadPrograms -> loadPrograms()
+            is ProgramsAction.ProgramSelected -> navigate(ProgramsRoute.OpenProgramDetail(a.programDto))
         }
     }
 

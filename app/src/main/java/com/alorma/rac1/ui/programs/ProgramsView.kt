@@ -9,10 +9,13 @@ import com.alorma.rac1.ui.common.State
 sealed class ProgramsAction : Action() {
     class LoadSchedule : ProgramsAction()
     class LoadPrograms : ProgramsAction()
+    data class ProgramSelected(val programDto: ProgramDto) : ProgramsAction()
 }
 
 sealed class ProgramsState : State() {
     data class ApplyDiff(val items: List<ProgramDto>, val diffResult: DiffUtil.DiffResult) : ProgramsState()
 }
 
-sealed class ProgramsRoute : Route()
+sealed class ProgramsRoute : Route() {
+    data class OpenProgramDetail(val programDto: ProgramDto): ProgramsRoute()
+}

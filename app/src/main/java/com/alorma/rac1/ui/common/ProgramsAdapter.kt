@@ -10,7 +10,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.program_row.view.*
 
-class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
+class ProgramsAdapter(private val onClick: (ProgramDto) -> Unit)
+    : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
 
     private var items: List<ProgramDto> = listOf()
 
@@ -18,7 +19,7 @@ class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
             Holder(parent.adapterInflate(R.layout.program_row))
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], onClick)
     }
 
     override fun getItemCount(): Int = items.size
@@ -28,7 +29,7 @@ class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(programDto: ProgramDto) {
+        fun bind(programDto: ProgramDto, onClick: (ProgramDto) -> Unit) {
             itemView.programName.text = null
             itemView.programSubtitle.text = null
             itemView.programSchedule.text = null
@@ -45,7 +46,7 @@ class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
             itemView.programSchedule.text = programDto.schedule?.replace(", ", "\n")
             itemView.programDescription.text = programDto.description
 
-            itemView.setOnClickListener {  }
+            itemView.setOnClickListener { onClick(programDto) }
         }
     }
 }
