@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         fragment = ProgramsFragment()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
-                .commit()
+                .commitNow()
 
         with(bottomBar) {
             configScheduleButton()
@@ -111,7 +111,8 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-        //openSchedule()
+
+        openSchedule()
     }
 
     private fun openSchedule() {
