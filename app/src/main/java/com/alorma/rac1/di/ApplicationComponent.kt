@@ -4,7 +4,7 @@ import com.alorma.rac1.di.module.ApplicationModule
 import com.alorma.rac1.di.module.NetworkModule
 import com.alorma.rac1.service.LiveRadioService
 import com.alorma.rac1.ui.MainActivity
-import com.alorma.rac1.ui.ScheduleFragment
+import com.alorma.rac1.ui.schedule.ScheduleFragment
 import dagger.Component
 import javax.inject.Singleton
 

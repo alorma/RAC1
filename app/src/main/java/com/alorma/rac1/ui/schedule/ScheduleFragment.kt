@@ -1,8 +1,8 @@
-package com.alorma.rac1.ui
+package com.alorma.rac1.ui.schedule
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,10 @@ import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramsRepository
+import com.alorma.rac1.net.ProgramDto
+import com.alorma.rac1.ui.common.ScheduleProgramsAdapter
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.schedule_fragment.*
 import javax.inject.Inject
 
 class ScheduleFragment : Fragment() {
@@ -21,6 +24,7 @@ class ScheduleFragment : Fragment() {
     lateinit var programsRepository: ProgramsRepository
 
     private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
+    private val adapter : ScheduleProgramsAdapter by lazy { ScheduleProgramsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,16 +39,21 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
         disposable += programsRepository.getSchedule()
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
-                    it.forEach {
-                        Log.i("Alorma", "$it")
-                    }
+                    onItemsLoaded(it)
                 }, {
 
                 })
+    }
+
+    private fun onItemsLoaded(items: List<ProgramDto>) {
+        adapter.addAll(items)
     }
 
     override fun onStop() {

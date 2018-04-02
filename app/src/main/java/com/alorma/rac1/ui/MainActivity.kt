@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.service.LiveRadioService
+import com.alorma.rac1.ui.schedule.ScheduleFragment
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
