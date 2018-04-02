@@ -28,7 +28,11 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
         }
     }
 
-    private val manager: LinearLayoutManager by lazy { LinearLayoutManager(context) }
+    private val manager: LinearLayoutManager by lazy { object: LinearLayoutManager(context) {
+        override fun supportsPredictiveItemAnimations(): Boolean {
+            return false
+        }
+    }}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +69,7 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
         when (s) {
             is ProgramsState.ApplyDiff -> {
                 val first = manager.findFirstVisibleItemPosition()
+                recyclerView.recycledViewPool.clear()
                 adapter.setItems(s.items)
                 s.diffResult.dispatchUpdatesTo(adapter)
                 recyclerView.scrollToPosition(first)

@@ -13,11 +13,17 @@ class ProgramMapper @Inject constructor(
             dto.title,
             dto.subtitle,
             dto.description,
-            dto.schedule?.let { map(it) },
+            map(dto.schedule),
             dto.socialNetworks,
             dto.images,
             dto.url
     )
 
-    private fun map(schedule: String): Schedule = scheduleParser.parse(schedule)
+    private fun map(schedule: String?): Schedule? {
+        return if (schedule != null && schedule.isNotBlank()) {
+            scheduleParser.parse(schedule)
+        } else {
+            null
+        }
+    }
 }
