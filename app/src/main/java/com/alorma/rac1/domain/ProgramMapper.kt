@@ -36,7 +36,7 @@ class ProgramMapper @Inject constructor(
     )
 
     private fun dateTimes(start: String, end: String, duration: String): Times? {
-        return Times(dateFormatter.mapDate(start), dateFormatter.mapDate(end), dateFormatter.mapDuration(duration))
+        return Times(dateFormatter.mapDate(start), dateFormatter.mapDate(end), 0)
     }
 
     private fun map(schedule: String?): Schedule? {
