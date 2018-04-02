@@ -56,7 +56,7 @@
 
         <TextView
             android:id="@+id/dayMonday"
-            style="@style/Programs.Item.Schedule.Day"
+            style="@style/Programs.Item.Schedule.Day.Week"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:text="Dl" />
@@ -67,7 +67,7 @@
 
         <TextView
             android:id="@+id/dayTuesday"
-            style="@style/Programs.Item.Schedule.Day"
+            style="@style/Programs.Item.Schedule.Day.Week"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:text="Dm" />
@@ -78,8 +78,9 @@
 
         <TextView
             android:id="@+id/dayWednesday"
-            style="@style/Programs.Item.Schedule.Day"
+            style="@style/Programs.Item.Schedule.Day.Week"
             android:layout_width="36dp"
+            tools:enabled="false"
             android:layout_height="36dp"
             android:text="Dc" />
 
@@ -89,7 +90,7 @@
 
         <TextView
             android:id="@+id/dayThursday"
-            style="@style/Programs.Item.Schedule.Day"
+            style="@style/Programs.Item.Schedule.Day.Week"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:text="Dj" />
@@ -100,7 +101,7 @@
 
         <TextView
             android:id="@+id/dayFriday"
-            style="@style/Programs.Item.Schedule.Day"
+            style="@style/Programs.Item.Schedule.Day.Week"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:text="Dv" />
@@ -111,7 +112,7 @@
 
         <TextView
             android:id="@+id/daySaturday"
-            style="@style/Programs.Item.Schedule.Day"
+            style="@style/Programs.Item.Schedule.Day.Weekend"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:text="Ds" />
@@ -122,9 +123,10 @@
 
         <TextView
             android:id="@+id/daySunday"
-            style="@style/Programs.Item.Schedule.Day"
+            style="@style/Programs.Item.Schedule.Day.Weekend"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            tools:enabled="false"
             android:text="Dg" />
 
     </LinearLayout>
