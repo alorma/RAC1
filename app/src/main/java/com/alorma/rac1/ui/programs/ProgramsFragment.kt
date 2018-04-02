@@ -8,28 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.alorma.rac1.R
 import com.alorma.rac1.Rac1Application.Companion.component
-import com.alorma.rac1.commons.observeOnUI
-import com.alorma.rac1.commons.plusAssign
-import com.alorma.rac1.commons.subscribeOnIO
-import com.alorma.rac1.domain.ProgramsRepository
-import com.alorma.rac1.data.net.ProgramDto
+import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.ProgramsAdapter
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import javax.inject.Inject
 
-class ProgramsFragment : Fragment() {
-
+class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, ProgramsState> {
     @Inject
-    lateinit var programsRepository: ProgramsRepository
+    lateinit var presenter: ProgramsPresenter
 
     private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
-    private val adapter : ProgramsAdapter by lazy { ProgramsAdapter() }
+    private val adapter: ProgramsAdapter by lazy { ProgramsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         component inject this
+        presenter init this
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,29 +40,24 @@ class ProgramsFragment : Fragment() {
     }
 
     fun loadSchedule() {
-        disposable += programsRepository.getSchedule()
-                .subscribeOnIO()
-                .observeOnUI()
-                .subscribe({
-                    onItemsLoaded(it)
-                }, {
-
-                })
+        presenter reduce ProgramsAction.LoadSchedule()
     }
 
     fun loadPrograms() {
-        disposable += programsRepository.getPrograms()
-                .subscribeOnIO()
-                .observeOnUI()
-                .subscribe({
-                    onItemsLoaded(it)
-                }, {
-
-                })
+        presenter reduce ProgramsAction.LoadPrograms()
     }
 
-    private fun onItemsLoaded(items: List<ProgramDto>) {
-        adapter.addAll(items)
+    override fun render(s: ProgramsState) {
+        when (s) {
+            is ProgramsState.ApplyDiff -> {
+                adapter.setItems(s.items)
+                s.diffResult.dispatchUpdatesTo(adapter)
+            }
+        }
+    }
+
+    override fun navigate(r: ProgramsRoute) {
+
     }
 
     override fun onStop() {

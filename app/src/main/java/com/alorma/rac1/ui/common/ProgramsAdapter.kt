@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.program_row.view.*
 
 class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
 
-    private val items = mutableListOf<ProgramDto>()
+    private var items: List<ProgramDto> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
             Holder(parent.adapterInflate(R.layout.program_row))
@@ -20,12 +20,8 @@ class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
 
     override fun getItemCount(): Int = items.size
 
-    fun addAll(newItems: List<ProgramDto>) {
-        diffDSL<ProgramDto> {
-            oldList = items
-            newList = newItems
-            comparable = compareBy { it.id }
-        }
+    fun setItems(items: List<ProgramDto>) {
+        this.items = items
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

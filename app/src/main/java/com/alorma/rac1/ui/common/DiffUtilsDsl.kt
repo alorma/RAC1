@@ -1,7 +1,6 @@
 package com.alorma.rac1.ui.common
 
 import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
 
 @DslMarker
 annotation class DiffUtilsDsl
@@ -9,23 +8,19 @@ annotation class DiffUtilsDsl
 @DiffUtilsDsl
 class DiffUtilsBuilder<R> {
 
-    lateinit var adapter: RecyclerView.Adapter<*>
-    lateinit var adapterDiff: AdapterDiff<R>
     lateinit var comparable: Comparator<R>
     var oldList: MutableList<R> = mutableListOf()
     var newList: List<R> = listOf()
 
-    fun build() {
-        adapterDiff = AdapterDiff(oldList, newList, comparable)
-        adapterDiff.run { DiffUtil.calculateDiff(this) }
-                .also {
-                    this.oldList.apply {
-                        clear()
-                        addAll(newList)
+    fun build(): DiffUtil.DiffResult =
+            AdapterDiff(oldList, newList, comparable)
+                    .run { DiffUtil.calculateDiff(this) }
+                    .also<DiffUtil.DiffResult> {
+                        oldList.apply {
+                            clear()
+                            addAll(newList)
+                        }
                     }
-                }
-                .dispatchUpdatesTo(adapter)
-    }
 }
 
 class AdapterDiff<R>(private val oldList: List<R>,
@@ -41,9 +36,10 @@ class AdapterDiff<R>(private val oldList: List<R>,
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) = oldList[oldItemPosition] == newList[newItemPosition]
 }
 
-inline fun <reified R> RecyclerView.Adapter<*>.diffDSL(setup: DiffUtilsBuilder<R>.() -> Unit) {
-    with(DiffUtilsBuilder<R>()) {
-        adapter = this@diffDSL
+inline fun <reified R> MutableList<R>.diffDSL(setup: DiffUtilsBuilder<R>.() -> Unit):
+        DiffUtil.DiffResult {
+    return with(DiffUtilsBuilder<R>()) {
+        oldList = this@diffDSL
         setup()
         build()
     }
