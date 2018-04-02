@@ -67,7 +67,7 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     override fun navigate(r: ProgramsRoute) {
         when(r) {
             is ProgramsRoute.OpenProgramDetail -> {
-                Toast.makeText(context, r.programDto.title, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, r.it.title, Toast.LENGTH_SHORT).show()
             }
         }
     }

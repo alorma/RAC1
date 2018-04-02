@@ -3,7 +3,7 @@ package com.alorma.rac1.ui.programs
 import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
-import com.alorma.rac1.data.net.ProgramDto
+import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
 import com.alorma.rac1.ui.common.BasePresenter
 import com.alorma.rac1.ui.common.diffDSL
@@ -14,14 +14,13 @@ class ProgramsPresenter @Inject constructor(
         private val programsRepository: ProgramsRepository)
     : BasePresenter<ProgramsAction, ProgramsRoute, ProgramsState>() {
 
-
-    private val items = mutableListOf<ProgramDto>()
+    private val items = mutableListOf<ProgramItem>()
 
     override infix fun reduce(a: ProgramsAction) {
         when (a) {
             is ProgramsAction.LoadSchedule -> loadSchedules()
             is ProgramsAction.LoadPrograms -> loadPrograms()
-            is ProgramsAction.ProgramSelected -> navigate(ProgramsRoute.OpenProgramDetail(a.programDto))
+            is ProgramsAction.ProgramSelected -> navigate(ProgramsRoute.OpenProgramDetail(a.it))
         }
     }
 
@@ -33,7 +32,7 @@ class ProgramsPresenter @Inject constructor(
         loadItems(programsRepository.getPrograms())
     }
 
-    private fun loadItems(single: Single<List<ProgramDto>>) {
+    private fun loadItems(single: Single<List<ProgramItem>>) {
         disposable += single.map {
             val diffDSL = items.diffDSL {
                 newList = it
@@ -45,7 +44,7 @@ class ProgramsPresenter @Inject constructor(
                 .subscribe({
                     render(ProgramsState.ApplyDiff(it.first, it.second))
                 }, {
-
+                    it.printStackTrace()
                 })
     }
 }
