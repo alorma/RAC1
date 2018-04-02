@@ -7,7 +7,7 @@ import com.alorma.rac1.R
 import com.alorma.rac1.net.ProgramDto
 import kotlinx.android.synthetic.main.program_row.view.*
 
-class ScheduleProgramsAdapter : RecyclerView.Adapter<ScheduleProgramsAdapter.Holder>() {
+class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
 
     private val items = mutableListOf<ProgramDto>()
 

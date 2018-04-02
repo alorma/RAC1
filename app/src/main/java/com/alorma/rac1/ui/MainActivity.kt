@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.service.LiveRadioService
+import com.alorma.rac1.ui.programs.ProgramsFragment
 import com.alorma.rac1.ui.schedule.ScheduleFragment
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
@@ -115,7 +116,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openPrograms() {
-
+        val fragment = ProgramsFragment()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit()
     }
 
     private fun setStopIcon() {

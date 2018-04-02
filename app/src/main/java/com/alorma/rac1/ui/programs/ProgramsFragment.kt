@@ -1,4 +1,4 @@
-package com.alorma.rac1.ui.schedule
+package com.alorma.rac1.ui.programs
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,7 +18,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import javax.inject.Inject
 
-class ScheduleFragment : Fragment() {
+class ProgramsFragment : Fragment() {
 
     @Inject
     lateinit var programsRepository: ProgramsRepository
@@ -42,7 +42,7 @@ class ScheduleFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        disposable += programsRepository.getSchedule()
+        disposable += programsRepository.getPrograms()
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
