@@ -3,6 +3,7 @@ package com.alorma.rac1.ui.programs
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.ProgramsAdapter
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.schedule_fragment.*
+import kotlinx.android.synthetic.main.programs_fragment.*
 import javax.inject.Inject
 
 class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, ProgramsState> {
@@ -20,6 +21,7 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
 
     private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
     private val adapter: ProgramsAdapter by lazy { ProgramsAdapter() }
+    private val manager: LinearLayoutManager by lazy { LinearLayoutManager(context) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +31,14 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.schedule_fragment, null, false)
+        return inflater.inflate(R.layout.programs_fragment, null, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = manager
     }
 
     fun loadSchedule() {
@@ -50,8 +52,10 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     override fun render(s: ProgramsState) {
         when (s) {
             is ProgramsState.ApplyDiff -> {
+                val first = manager.findFirstVisibleItemPosition()
                 adapter.setItems(s.items)
                 s.diffResult.dispatchUpdatesTo(adapter)
+                recyclerView.scrollToPosition(first)
             }
         }
     }

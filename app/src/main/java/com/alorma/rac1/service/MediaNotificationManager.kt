@@ -115,7 +115,7 @@ class MediaNotificationManager @Inject constructor(
     private fun NotificationCompat.Builder.setProgramData(data: ProgramDto) {
         setContentTitle(data.title)
         setSubText(data.subtitle)
-        setContentText(data.schedule.removeSuffix(","))
+        setContentText(data.schedule?.removeSuffix(","))
     }
 
     private fun updateNotificationIcon(nm: NotificationManager,

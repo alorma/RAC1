@@ -1,7 +1,28 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Programs" />
+
+    <style name="Programs.Item" />
+
+    <style name="Programs.Item.Title">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+    </style>
+
+    <style name="Programs.Item.SubTitle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="Programs.Item.Schedule">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+    </style>
+
+    <style name="Programs.Item.Text">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 </resources>
