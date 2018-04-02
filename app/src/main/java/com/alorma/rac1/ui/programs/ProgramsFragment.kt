@@ -1,7 +1,10 @@
 package com.alorma.rac1.ui.programs
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +46,11 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = manager
+        recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+            context?.let {
+                setDrawable(ColorDrawable(ContextCompat.getColor(it, R.color.very_dark_grey)))
+            }
+        })
     }
 
     fun loadSchedule() {
@@ -65,7 +73,7 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     }
 
     override fun navigate(r: ProgramsRoute) {
-        when(r) {
+        when (r) {
             is ProgramsRoute.OpenProgramDetail -> {
                 Toast.makeText(context, r.it.title, Toast.LENGTH_SHORT).show()
             }
