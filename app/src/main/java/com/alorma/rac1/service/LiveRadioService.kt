@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Bundle
+import android.os.IBinder
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -102,7 +103,6 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
         // Calling startService(Intent) will keep the service running until it is explicitly killed.
         startService(Intent(applicationContext, LiveRadioService::class.java))
     }
-
 
     /**
      * Callback method called from PlaybackManager whenever the music stops playing.
