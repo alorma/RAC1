@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.program_row.view.*
+import org.threeten.bp.format.DateTimeFormatter
+import java.time.LocalDateTime
 
 class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
     : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
@@ -53,16 +55,19 @@ class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
             item.schedule?.let { setupDays(itemView, it) } ?: hideDays(itemView)
         }
 
-        private fun getSubtitleWithTime(item: ProgramItem, it: Times): String =
-                if (it.duration.toHours() > 0) {
-                    if (it.duration.asMinutes() > 0) {
-                        "${item.subtitle} - ${it.duration.toHours()}h ${it.duration.asMinutes()}m"
-                    } else {
-                        "${item.subtitle} - ${it.duration.toHours()}h"
-                    }
+        private fun getSubtitleWithTime(item: ProgramItem, it: Times): String {
+            val startTime = it.start.format(DateTimeFormatter.ofPattern("HH:mm"))
+
+            return if (it.duration.toHours() > 0) {
+                if (it.duration.asMinutes() > 0) {
+                    "${item.subtitle} - $startTime ${it.duration.toHours()}h ${it.duration.asMinutes()}m"
                 } else {
-                    "${item.subtitle} - ${it.duration.asMinutes()}m"
+                    "${item.subtitle} - $startTime ${it.duration.toHours()}h"
                 }
+            } else {
+                "${item.subtitle} - $startTime ${it.duration.asMinutes()}m"
+            }
+        }
 
         private fun hideDays(itemView: View) {
             itemView.days.visibility = View.INVISIBLE
