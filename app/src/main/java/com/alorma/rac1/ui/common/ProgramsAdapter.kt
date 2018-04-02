@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.program_row.view.*
+import org.threeten.bp.Duration
 import org.threeten.bp.format.DateTimeFormatter
-import java.time.LocalDateTime
 
 class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
     : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
@@ -47,25 +47,37 @@ class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
                     .into(itemView.person)
 
             itemView.programName.text = item.title
-            itemView.programSubtitle.text = item.times?.let { getSubtitleWithTime(item, it) } ?: item.subtitle
+            itemView.programSubtitle.text = item.subtitle
+            itemView.timeStart.text = item.times?.let { getSubtitleWithTime(item, it) }
             itemView.programDescription.text = item.description
 
             itemView.setOnClickListener { onClick(item) }
 
+            item.times?.let {
+                itemView.timeDuration.visibility = View.VISIBLE
+                itemView.timeDuration.text = duration(it.duration)
+            } ?: hideDuration(itemView)
+
             item.schedule?.let { setupDays(itemView, it) } ?: hideDays(itemView)
         }
 
-        private fun getSubtitleWithTime(item: ProgramItem, it: Times): String {
-            val startTime = it.start.format(DateTimeFormatter.ofPattern("HH:mm"))
+        private fun hideDuration(itemView: View) {
+            itemView.timeDuration.visibility = View.INVISIBLE
+        }
 
-            return if (it.duration.toHours() > 0) {
-                if (it.duration.asMinutes() > 0) {
-                    "${item.subtitle} - $startTime ${it.duration.toHours()}h ${it.duration.asMinutes()}m"
+        private fun getSubtitleWithTime(item: ProgramItem, it: Times): String {
+            return it.start.format(DateTimeFormatter.ofPattern("HH:mm"))
+        }
+
+        private fun duration(it: Duration): String {
+            return if (it.toHours() > 0) {
+                if (it.asMinutes() > 0) {
+                    "${it.toHours()}:${it.asMinutes()}h"
                 } else {
-                    "${item.subtitle} - $startTime ${it.duration.toHours()}h"
+                    "${it.toHours()}h"
                 }
             } else {
-                "${item.subtitle} - $startTime ${it.duration.asMinutes()}m"
+                "${it.asMinutes()}m"
             }
         }
 

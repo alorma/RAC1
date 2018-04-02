@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/person"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/avatar_background"
@@ -19,11 +19,41 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/timeDuration"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/duration_background"
+        android:elevation="12dp"
+        android:gravity="center"
+        android:textColor="@color/grey"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/person"
+        app:layout_constraintEnd_toEndOf="@+id/person"
+        app:layout_constraintStart_toStartOf="@+id/person"
+        app:layout_constraintTop_toBottomOf="@+id/person" />
+
+    <TextView
+        android:id="@+id/timeStart"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:elevation="12dp"
+        android:gravity="center"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/person"
+        app:layout_constraintStart_toStartOf="@+id/person"
+        app:layout_constraintTop_toBottomOf="@+id/timeDuration"
+        tools:text="@tools:sample/date/hhmm" />
+
+    <TextView
         android:id="@+id/programName"
         style="@style/Programs.Item.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,9 +110,9 @@
             android:id="@+id/dayWednesday"
             style="@style/Programs.Item.Schedule.Day.Week"
             android:layout_width="36dp"
-            tools:enabled="false"
             android:layout_height="36dp"
-            android:text="Dc" />
+            android:text="Dc"
+            tools:enabled="false" />
 
         <Space
             android:layout_width="4dp"
@@ -126,8 +156,8 @@
             style="@style/Programs.Item.Schedule.Day.Weekend"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            tools:enabled="false"
-            android:text="Dg" />
+            android:text="Dg"
+            tools:enabled="false" />
 
     </LinearLayout>
 
