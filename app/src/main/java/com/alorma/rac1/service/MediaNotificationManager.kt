@@ -13,8 +13,8 @@ import com.alorma.rac1.R
 import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
-import com.alorma.rac1.net.Rac1Api
-import com.alorma.rac1.net.ResponseNowDto
+import com.alorma.rac1.domain.ProgramsRepository
+import com.alorma.rac1.net.ProgramDto
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class MediaNotificationManager @Inject constructor(
         private val context: Context,
-        private val rac1Api: Rac1Api
+        private val programsRepository: ProgramsRepository
 ) {
 
     companion object {
@@ -44,7 +44,7 @@ class MediaNotificationManager @Inject constructor(
 
         createChannel(nm)
 
-        disposable += rac1Api.now()
+        disposable += programsRepository.getNow()
                 .retry(3)
                 .subscribeOnIO()
                 .observeOnUI()
@@ -84,8 +84,8 @@ class MediaNotificationManager @Inject constructor(
         }
     }
 
-    private fun updateNotification(nm: NotificationManager, dto: ResponseNowDto, sessionToken: MediaSessionCompat.Token) {
-        val data = dto.result.program
+    private fun updateNotification(nm: NotificationManager, data: ProgramDto,
+                                   sessionToken: MediaSessionCompat.Token) {
         val requestOptions = RequestOptions().apply {
             error(R.drawable.rac1_micro)
         }
@@ -96,15 +96,14 @@ class MediaNotificationManager @Inject constructor(
                 .apply(requestOptions)
                 .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        updateNotificationIcon(nm, dto, sessionToken, resource)
+                        updateNotificationIcon(nm, data, sessionToken, resource)
                     }
                 })
 
         val largeIcon = BitmapFactory.decodeResource(context.resources, R.drawable.rac1_micro)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_LIVE_ID).apply {
-            setContentTitle(data.title)
-            setSubText(data.subtitle)
+            setProgramData(data)
             configBaseNotification(largeIcon, sessionToken)
         }.build().apply {
             flags = FLAG_NO_CLEAR
@@ -113,16 +112,19 @@ class MediaNotificationManager @Inject constructor(
         nm.notify(ID_LIVE, notification)
     }
 
-    private fun updateNotificationIcon(nm: NotificationManager,
-                                       dto: ResponseNowDto,
-                                       sessionToken: MediaSessionCompat.Token,
-                                       resource: Bitmap) {
-        val data = dto.result.program
+    private fun NotificationCompat.Builder.setProgramData(data: ProgramDto) {
+        setContentTitle(data.title)
+        setSubText(data.subtitle)
+        setContentText(data.schedule.removeSuffix(","))
+    }
 
+    private fun updateNotificationIcon(nm: NotificationManager,
+                                       data: ProgramDto,
+                                       sessionToken: MediaSessionCompat.Token,
+                                       largeIcon: Bitmap) {
         val notification = NotificationCompat.Builder(context, CHANNEL_LIVE_ID).apply {
-            setContentTitle(data.title)
-            setSubText(data.subtitle)
-            configBaseNotification(resource, sessionToken)
+            setProgramData(data)
+            configBaseNotification(largeIcon, sessionToken)
         }.build().apply {
             flags = FLAG_NO_CLEAR
         }

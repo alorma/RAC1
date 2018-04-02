@@ -107,7 +107,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openSchedule() {
-
+        val fragment = ScheduleFragment()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit()
     }
 
     private fun openPrograms() {
