@@ -2,7 +2,7 @@ package com.alorma.rac1.di.module
 
 import android.content.Context
 import com.alorma.rac1.BuildConfig
-import com.alorma.rac1.net.Rac1Api
+import com.alorma.rac1.data.net.Rac1Api
 import com.google.gson.Gson
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module

@@ -55,4 +55,7 @@ dependencies {
     implementation spaceNavigation
 
     testImplementation testing.jUnit
+
+    testImplementation testing.mockito.core
+    testImplementation testing.mockito.kotlin
 }

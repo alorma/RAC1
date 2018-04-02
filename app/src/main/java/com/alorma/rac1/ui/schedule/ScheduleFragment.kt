@@ -12,7 +12,7 @@ import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramsRepository
-import com.alorma.rac1.net.ProgramDto
+import com.alorma.rac1.data.net.ProgramDto
 import com.alorma.rac1.ui.common.ProgramsAdapter
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.schedule_fragment.*

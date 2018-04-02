@@ -14,7 +14,7 @@ import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramsRepository
-import com.alorma.rac1.net.ProgramDto
+import com.alorma.rac1.data.net.ProgramDto
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget

@@ -1,4 +1,4 @@
-package com.alorma.rac1.net
+package com.alorma.rac1.data.net
 
 import io.reactivex.Single
 import retrofit2.http.GET

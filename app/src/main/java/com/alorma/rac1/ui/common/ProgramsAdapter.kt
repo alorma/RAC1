@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.alorma.rac1.R
-import com.alorma.rac1.net.ProgramDto
+import com.alorma.rac1.data.net.ProgramDto
 import kotlinx.android.synthetic.main.program_row.view.*
 
 class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {

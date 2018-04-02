@@ -2,6 +2,8 @@ package com.alorma.rac1.di.module
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.alorma.rac1.data.SystemTimeProvider
+import com.alorma.rac1.data.TimeProvider
 import com.alorma.rac1.service.LocalPlayback
 import com.alorma.rac1.service.Playback
 import com.bumptech.glide.Glide
@@ -11,7 +13,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-open class ApplicationModule(private val context: Context) {
+class ApplicationModule(private val context: Context) {
 
     companion object {
         private const val APP_PREFERENCES: String = "SharedPreferences"
@@ -23,7 +25,7 @@ open class ApplicationModule(private val context: Context) {
 
     @Provides
     @Singleton
-    open fun providesSharedPreferences(): SharedPreferences =
+    fun providesSharedPreferences(): SharedPreferences =
             context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
 
     @Provides
@@ -32,4 +34,6 @@ open class ApplicationModule(private val context: Context) {
     @Provides
     fun getPlayback(context: Context): Playback = LocalPlayback(context)
 
+    @Provides
+    fun getTimeProvider(): TimeProvider = SystemTimeProvider()
 }

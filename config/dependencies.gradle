@@ -65,6 +65,10 @@ ext {
     spaceNavigation = "com.github.armcha:SpaceNavigationView:$spaceNavigationVersion"
 
     testing = [
-            jUnit: "junit:junit:4.12"
+            jUnit  : "junit:junit:4.12",
+            mockito: [
+                    core   : "org.mockito:mockito-core:2.13.0",
+                    kotlin : "com.nhaarman:mockito-kotlin:1.5.0"
+            ]
     ]
 }
