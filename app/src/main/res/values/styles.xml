@@ -32,11 +32,9 @@
 
     <style name="Programs.Item.Schedule.Day.Week">
         <item name="android:textColor">@color/day_schedule</item>
-        <item name="android:background">@drawable/day_schedule</item>
     </style>
 
     <style name="Programs.Item.Schedule.Day.Weekend">
         <item name="android:textColor">@color/weekend_schedule</item>
-        <item name="android:background">@drawable/weekend_schedule</item>
     </style>
 </resources>
