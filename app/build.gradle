@@ -40,6 +40,8 @@ dependencies {
     implementation rx.java
     implementation rx.android
 
+    implementation threetenabp
+
     implementation network.retrofit.library
     implementation network.retrofit.gson
     implementation network.retrofit.rxAdapter

@@ -17,7 +17,11 @@ class ProgramsRepository @Inject constructor(
             cache.getSchedule()
                     .onErrorResumeNext {
                         api.schedule()
-                                .map { it.result.map { it.program }.map { programMapper.map(it) } }
+                                .map { schedule ->
+                                    schedule.result.map {
+                                        programMapper.map(it.program, schedule.start, schedule.end, schedule.duration)
+                                    }
+                                }
                                 .doOnSuccess { cache.saveSchedule(it) }
                     }
 
@@ -25,7 +29,9 @@ class ProgramsRepository @Inject constructor(
             cache.getPrograms()
                     .onErrorResumeNext {
                         api.programs()
-                                .map { it.result.map { programMapper.map(it) } }
+                                .map {
+                                    it.result.map { programMapper.map(it) }
+                                }
                                 .doOnSuccess { cache.savePrograms(it) }
                     }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import com.alorma.rac1.di.ApplicationComponent
 import com.alorma.rac1.di.DaggerApplicationComponent
 import com.alorma.rac1.di.module.ApplicationModule
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 class Rac1Application : Application() {
 
@@ -13,6 +14,8 @@ class Rac1Application : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AndroidThreeTen.init(this)
 
         component = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
