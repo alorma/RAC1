@@ -13,7 +13,6 @@ import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.service.LiveRadioService
 import com.alorma.rac1.ui.programs.ProgramsFragment
-import com.alorma.rac1.ui.schedule.ScheduleFragment
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
@@ -66,9 +65,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var fragment: ProgramsFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        fragment = ProgramsFragment()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit()
 
         with(bottomBar) {
             configScheduleButton()
@@ -104,22 +110,16 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
-            openSchedule()
         }
+        //openSchedule()
     }
 
     private fun openSchedule() {
-        val fragment = ScheduleFragment()
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit()
+        fragment.loadSchedule()
     }
 
     private fun openPrograms() {
-        val fragment = ProgramsFragment()
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit()
+        fragment.loadPrograms()
     }
 
     private fun setStopIcon() {

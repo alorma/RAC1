@@ -41,7 +41,20 @@ class ProgramsFragment : Fragment() {
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
+    }
 
+    fun loadSchedule() {
+        disposable += programsRepository.getSchedule()
+                .subscribeOnIO()
+                .observeOnUI()
+                .subscribe({
+                    onItemsLoaded(it)
+                }, {
+
+                })
+    }
+
+    fun loadPrograms() {
         disposable += programsRepository.getPrograms()
                 .subscribeOnIO()
                 .observeOnUI()
