@@ -19,7 +19,7 @@ class DataModule {
 
     @Provides
     fun getTimeToLive(timeProvider: TimeProvider): TimeToLive =
-            TimeToLive(timeProvider, 15, TimeUnit.SECONDS)
+            TimeToLive(timeProvider, 5, TimeUnit.MINUTES)
 
     @Provides
     @Singleton
