@@ -19,7 +19,7 @@ class ProgramsRepository @Inject constructor(
                         api.schedule()
                                 .map { schedule ->
                                     schedule.result.map {
-                                        programMapper.map(it.program, schedule.start, schedule.end, schedule.duration)
+                                        programMapper.map(it)
                                     }
                                 }
                                 .doOnSuccess { cache.saveSchedule(it) }

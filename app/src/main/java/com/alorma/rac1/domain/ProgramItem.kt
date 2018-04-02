@@ -3,6 +3,7 @@ package com.alorma.rac1.domain
 import com.alorma.rac1.data.net.ImagesDto
 import com.alorma.rac1.data.net.SocialNetworksDto
 import com.alorma.rac1.data.schedule.Schedule
+import org.threeten.bp.Duration
 import org.threeten.bp.LocalDateTime
 
 data class ProgramItem(
@@ -17,4 +18,4 @@ data class ProgramItem(
         val times: Times?
 )
 
-data class Times(val start: LocalDateTime, val end: LocalDateTime, val duration: Long)
+data class Times(val start: LocalDateTime, val end: LocalDateTime, val duration: Duration)

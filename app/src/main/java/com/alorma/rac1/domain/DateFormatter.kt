@@ -10,7 +10,6 @@ class DateFormatter @Inject constructor() {
 
     companion object {
         private const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss XXX"
-        private const val TIME_FORMAT = "'PT'HH'H'mm'M'"
     }
 
     // 2018-04-02T22:30:00+02:00

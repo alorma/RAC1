@@ -7,6 +7,8 @@ import android.widget.TextView
 import com.alorma.rac1.R
 import com.alorma.rac1.data.schedule.*
 import com.alorma.rac1.domain.ProgramItem
+import com.alorma.rac1.domain.Times
+import com.alorma.rac1.domain.asMinutes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
@@ -43,13 +45,24 @@ class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
                     .into(itemView.person)
 
             itemView.programName.text = item.title
-            itemView.programSubtitle.text = item.subtitle
+            itemView.programSubtitle.text = item.times?.let { getSubtitleWithTime(item, it) } ?: item.subtitle
             itemView.programDescription.text = item.description
 
             itemView.setOnClickListener { onClick(item) }
 
             item.schedule?.let { setupDays(itemView, it) } ?: hideDays(itemView)
         }
+
+        private fun getSubtitleWithTime(item: ProgramItem, it: Times): String =
+                if (it.duration.toHours() > 0) {
+                    if (it.duration.asMinutes() > 0) {
+                        "${item.subtitle} - ${it.duration.toHours()}h ${it.duration.asMinutes()}m"
+                    } else {
+                        "${item.subtitle} - ${it.duration.toHours()}h"
+                    }
+                } else {
+                    "${item.subtitle} - ${it.duration.asMinutes()}m"
+                }
 
         private fun hideDays(itemView: View) {
             itemView.days.visibility = View.INVISIBLE

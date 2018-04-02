@@ -1,9 +1,9 @@
 package com.alorma.rac1.domain
 
 import com.alorma.rac1.data.net.ProgramDto
+import com.alorma.rac1.data.net.WrappedProgram
 import com.alorma.rac1.data.schedule.Schedule
 import com.alorma.rac1.data.schedule.ScheduleParser
-import java.util.*
 import javax.inject.Inject
 
 class ProgramMapper @Inject constructor(
@@ -23,20 +23,21 @@ class ProgramMapper @Inject constructor(
             null
     )
 
-    fun map(dto: ProgramDto, start: String, end: String, duration: String) = ProgramItem(
-            dto.id,
-            dto.title,
-            dto.subtitle,
-            dto.description,
-            map(dto.schedule),
-            dto.socialNetworks,
-            dto.images,
-            dto.url,
-            dateTimes(start, end, duration)
+    fun map(dto: WrappedProgram) = ProgramItem(
+            dto.program.id,
+            dto.program.title,
+            dto.program.subtitle,
+            dto.program.description,
+            map(dto.program.schedule),
+            dto.program.socialNetworks,
+            dto.program.images,
+            dto.program.url,
+            dateTimes(dto)
     )
 
-    private fun dateTimes(start: String, end: String, duration: String): Times? {
-        return Times(dateFormatter.mapDate(start), dateFormatter.mapDate(end), 0)
+    private fun dateTimes(dto: WrappedProgram): Times {
+        return Times(dateFormatter.mapDate(dto.start), dateFormatter.mapDate(dto.end), dateFormatter.mapDuration(dto.duration))
+
     }
 
     private fun map(schedule: String?): Schedule? {
