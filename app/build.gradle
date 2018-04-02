@@ -29,6 +29,7 @@ dependencies {
     implementation support.appcompat
     implementation support.design
     implementation support.media
+    implementation support.cardview
     implementation support.constraint
 
     implementation exoplayer

@@ -44,6 +44,8 @@ class ProgramsAdapter : RecyclerView.Adapter<ProgramsAdapter.Holder>() {
             itemView.programSubtitle.text = programDto.subtitle
             itemView.programSchedule.text = programDto.schedule?.replace(", ", "\n")
             itemView.programDescription.text = programDto.description
+
+            itemView.setOnClickListener {  }
         }
     }
 }
