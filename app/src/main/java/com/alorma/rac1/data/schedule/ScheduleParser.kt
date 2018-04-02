@@ -4,13 +4,13 @@ import javax.inject.Inject
 
 class ScheduleParser @Inject constructor() {
     private val days = setOf(
-            Monday(),
-            Tuesday(),
-            Wednesday(),
-            Thursday(),
-            Friday(),
-            Saturday(),
-            Sunday()
+            Monday,
+            Tuesday,
+            Wednesday,
+            Thursday,
+            Friday,
+            Saturday,
+            Sunday
     )
 
     fun parse(text: String): Schedule {

@@ -8,7 +8,7 @@ data class ProgramItem(
         val id: String,
         val title: String,
         val subtitle: String,
-        val description: String,
+        val description: String?,
         val schedule: Schedule?,
         val socialNetworks: SocialNetworksDto,
         val images: ImagesDto,

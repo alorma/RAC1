@@ -25,4 +25,10 @@
     <style name="Programs.Item.Text">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
+
+    <style name="Programs.Item.Schedule.Day">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/day_schedule</item>
+        <item name="android:background">@drawable/day_schedule</item>
+    </style>
 </resources>

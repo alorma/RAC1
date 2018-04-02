@@ -17,10 +17,10 @@ sealed class ScheduleDay(
     }
 }
 
-class Monday : ScheduleDay("dilluns")
-class Tuesday : ScheduleDay("dimarts")
-class Wednesday : ScheduleDay("dimecres")
-class Thursday : ScheduleDay("dijous")
-class Friday : ScheduleDay("divendres")
-class Saturday : ScheduleDay("dissabte", "dissabtes")
-class Sunday : ScheduleDay("diumenge", "diumenges")
+object Monday : ScheduleDay("dilluns")
+object Tuesday : ScheduleDay("dimarts")
+object Wednesday : ScheduleDay("dimecres")
+object Thursday : ScheduleDay("dijous")
+object Friday : ScheduleDay("divendres")
+object Saturday : ScheduleDay("dissabte", "dissabtes")
+object Sunday : ScheduleDay("diumenge", "diumenges")
