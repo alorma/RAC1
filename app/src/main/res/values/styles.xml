@@ -27,7 +27,7 @@
     </style>
 
     <style name="Programs.Item.Schedule.Day">
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_vertical|start</item>
     </style>
 
     <style name="Programs.Item.Schedule.Day.Week">
