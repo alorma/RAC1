@@ -15,7 +15,11 @@ data class ProgramItem(
         val socialNetworks: SocialNetworksDto,
         val images: ImagesDto,
         val url: String?,
-        val times: Times?
+        val times: Times?,
+        val sections: List<ProgramSection>
 )
 
 data class Times(val start: LocalDateTime, val end: LocalDateTime, val duration: Duration)
+
+data class ProgramSection(val id: String, val title: String, val itunesUrl: String?,
+                          val active: Boolean, val hidden: Boolean)

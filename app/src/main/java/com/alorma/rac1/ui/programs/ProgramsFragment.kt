@@ -1,6 +1,8 @@
 package com.alorma.rac1.ui.programs
 
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -81,6 +83,11 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
         when (r) {
             is ProgramsRoute.OpenProgramDetail -> {
                 Toast.makeText(context, r.it.title, Toast.LENGTH_SHORT).show()
+
+                r.it.sections[0].itunesUrl?.let {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                    startActivity(intent)
+                }
             }
         }
     }

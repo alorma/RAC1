@@ -12,5 +12,14 @@ data class ProgramDto(
         @SerializedName("images") val images: ImagesDto,
         @SerializedName("url") val url: String,
         @SerializedName("active") val active: Boolean,
+        @SerializedName("hidden") val hidden: Boolean,
+        @SerializedName("sections") val sections: List<Section>
+)
+
+data class Section(
+        @SerializedName("id") val id: String,
+        @SerializedName("title") val title: String,
+        @SerializedName("itunesUrl") val itunesUrl: String,
+        @SerializedName("active") val active: Boolean,
         @SerializedName("hidden") val hidden: Boolean
 )
