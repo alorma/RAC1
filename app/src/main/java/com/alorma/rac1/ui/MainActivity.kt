@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.alorma.rac1.R
 import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
+import com.alorma.rac1.ui.now.NowPlayingFragment
 import com.alorma.rac1.ui.program.ProgramDetailFragment
 import com.alorma.rac1.ui.programs.ProgramsFragment
 import com.luseen.spacenavigation.SpaceItem
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
 
     private lateinit var fragment: ProgramsFragment
     private lateinit var livePlayerFragment: LivePlayerFragment
+    private lateinit var nowPlayingFragment: NowPlayingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +35,13 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
             playerCallback = this@MainActivity
         }
 
-        with(supportFragmentManager.beginTransaction()) {
+        nowPlayingFragment = NowPlayingFragment()
+
+        supportFragmentManager.beginTransaction().apply {
             add(livePlayerFragment, LivePlayerFragment::class.java.simpleName)
-            replace(R.id.container, fragment).commitNow()
-        }
+            replace(R.id.nowPlaying, nowPlayingFragment)
+            replace(R.id.container, fragment)
+        }.commitNow()
 
         with(bottomBar) {
             configScheduleButton()
