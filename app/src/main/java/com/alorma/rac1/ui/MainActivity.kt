@@ -11,7 +11,9 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.alorma.rac1.R
+import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.service.LiveRadioService
+import com.alorma.rac1.ui.program.ProgramDetailFragment
 import com.alorma.rac1.ui.programs.ProgramsFragment
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
@@ -19,7 +21,7 @@ import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback {
 
     private val mediaBrowserCompat: MediaBrowserCompat by lazy {
         MediaBrowserCompat(this, ComponentName(this, LiveRadioService::class.java), mediaBrowserCompatConnectionCallback, null)
@@ -71,7 +73,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fragment = ProgramsFragment()
+        fragment = ProgramsFragment().apply {
+            listCallback = this@MainActivity
+        }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commitNow()
@@ -172,6 +176,14 @@ class MainActivity : AppCompatActivity() {
                 nowPlaying.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun onProgramSelected(programItem: ProgramItem) {
+        val fragment = ProgramDetailFragment()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onStart() {

@@ -1,8 +1,6 @@
 package com.alorma.rac1.ui.programs
 
-import android.content.Intent
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -11,11 +9,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.alorma.rac1.R
 import com.alorma.rac1.Rac1Application.Companion.component
+import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.ProgramsAdapter
+import com.alorma.rac1.ui.common.dsl
 import kotlinx.android.synthetic.main.programs_fragment.*
 import javax.inject.Inject
 
@@ -24,17 +23,15 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     @Inject
     lateinit var presenter: ProgramsPresenter
 
+    var listCallback: ListCallback? = null
+
     private val adapter: ProgramsAdapter by lazy {
         ProgramsAdapter {
             presenter reduce ProgramsAction.ProgramSelected(it)
         }
     }
 
-    private val manager: LinearLayoutManager by lazy { object: LinearLayoutManager(context) {
-        override fun supportsPredictiveItemAnimations(): Boolean {
-            return false
-        }
-    }}
+    lateinit var manager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +47,16 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toolbar.dsl {
+            title = R.string.app_name
+        }
+
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = manager
+        recyclerView.layoutManager = object : LinearLayoutManager(context) {
+            override fun supportsPredictiveItemAnimations(): Boolean {
+                return false
+            }
+        }.also { manager = it }
         recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
             context?.let {
                 setDrawable(ColorDrawable(ContextCompat.getColor(it, R.color.very_dark_grey)))
@@ -82,12 +87,7 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     override fun navigate(r: ProgramsRoute) {
         when (r) {
             is ProgramsRoute.OpenProgramDetail -> {
-                Toast.makeText(context, r.it.title, Toast.LENGTH_SHORT).show()
-
-                r.it.sections[0].itunesUrl?.let {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
-                    startActivity(intent)
-                }
+                listCallback?.onProgramSelected(r.it)
             }
         }
     }
@@ -95,5 +95,9 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
     override fun onDestroy() {
         presenter.destroy()
         super.onDestroy()
+    }
+
+    interface ListCallback {
+        fun onProgramSelected(programItem: ProgramItem)
     }
 }
