@@ -34,7 +34,11 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
                 onSectionClick(it)
             }
             sessionBuilder = {
-                SessionAdapter()
+                SessionAdapter().apply {
+                    sessionClick = {
+                        detailCallback?.onSessionCallback(program, it)
+                    }
+                }
             }
         }
     }
@@ -107,5 +111,6 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
     interface DetailCallback {
         fun onProgramDetailBack()
         fun onProgramDetailError(title: String)
+        fun onSessionCallback(programItem: ProgramItem, session: SessionDto)
     }
 }

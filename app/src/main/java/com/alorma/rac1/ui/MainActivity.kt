@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.alorma.rac1.R
+import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.service.LiveRadioService
 import com.alorma.rac1.ui.program.ProgramDetailFragment
@@ -198,6 +199,10 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, Program
         val error = resources.getString(R.string.error_laoding_program_detail, title)
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()
+    }
+
+    override fun onSessionCallback(programItem: ProgramItem, session: SessionDto) {
+        Toast.makeText(this, "Play: ${programItem.title} - ${session.title}", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {

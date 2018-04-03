@@ -12,11 +12,13 @@ class SessionAdapter : RecyclerView.Adapter<SessionAdapter.Holder>() {
 
     private val items: MutableList<SessionDto> = mutableListOf()
 
+    var sessionClick: ((SessionDto) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
             Holder(parent.adapterInflate(R.layout.session_row))
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], sessionClick)
     }
 
     override fun getItemCount(): Int = items.size
@@ -28,8 +30,11 @@ class SessionAdapter : RecyclerView.Adapter<SessionAdapter.Holder>() {
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(sessionDto: SessionDto) {
+        fun bind(sessionDto: SessionDto, sessionClick: ((SessionDto) -> Unit)?) {
             itemView.title.text = sessionDto.title
+            itemView.setOnClickListener {
+                sessionClick?.invoke(sessionDto)
+            }
         }
     }
 }
