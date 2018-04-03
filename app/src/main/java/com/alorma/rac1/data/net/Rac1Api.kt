@@ -2,6 +2,7 @@ package com.alorma.rac1.data.net
 
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface Rac1Api {
 
@@ -13,4 +14,8 @@ interface Rac1Api {
 
     @GET("programs")
     fun programs(): Single<ResponseProgramsDto>
+
+    @GET("sessions/{program}/{section}")
+    fun getSessions(@Path("program") program: String,
+                    @Path("section") section: String): Single<SessionsDto>
 }
