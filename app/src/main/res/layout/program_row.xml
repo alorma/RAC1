@@ -19,33 +19,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/timeDuration"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/duration_background"
-        android:elevation="12dp"
-        android:gravity="center"
-        android:textColor="@color/grey"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/person"
-        app:layout_constraintEnd_toEndOf="@+id/person"
-        app:layout_constraintStart_toStartOf="@+id/person"
-        app:layout_constraintTop_toBottomOf="@+id/person" />
-
-    <TextView
         android:id="@+id/timeStart"
-        android:layout_width="100dp"
+        style="@style/Programs.Item.Time.StartTime"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:elevation="12dp"
-        android:gravity="center"
-        android:textColor="@color/grey"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/person"
-        app:layout_constraintStart_toStartOf="@+id/person"
-        app:layout_constraintTop_toBottomOf="@+id/timeDuration"
+        app:layout_constraintStart_toStartOf="@+id/programSubtitle"
+        app:layout_constraintTop_toBottomOf="@+id/programSubtitle"
+        tools:text="@tools:sample/date/hhmm" />
+
+    <TextView
+        android:id="@+id/timeDuration"
+        style="@style/Programs.Item.Time.Duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeStart"
+        app:layout_constraintStart_toEndOf="@+id/timeStart"
+        app:layout_constraintTop_toTopOf="@+id/timeStart"
         tools:text="@tools:sample/date/hhmm" />
 
     <TextView
@@ -64,11 +55,9 @@
     <TextView
         android:id="@+id/programSubtitle"
         style="@style/Programs.Item.SubTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/programName"
         app:layout_constraintTop_toBottomOf="@+id/programName"
         tools:text="@tools:sample/full_names" />
@@ -77,12 +66,13 @@
         android:id="@+id/days"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/programSubtitle"
-        app:layout_constraintTop_toBottomOf="@+id/programSubtitle">
+        app:layout_constraintTop_toBottomOf="@+id/timeStart">
 
         <TextView
             android:id="@+id/dayMonday"
@@ -169,12 +159,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/programSchedule"
         tools:text="@tools:sample/lorem/random" />
 
 </android.support.constraint.ConstraintLayout>

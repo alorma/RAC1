@@ -48,7 +48,10 @@ class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
 
             itemView.programName.text = item.title
             itemView.programSubtitle.text = item.subtitle
-            itemView.timeStart.text = item.times?.let { getSubtitleWithTime(item, it) }
+            item.times?.let {
+                itemView.timeStart.visibility = View.VISIBLE
+                itemView.timeStart.text = getSubtitleWithTime(it)
+            } ?: hideTimeStart(itemView)
             itemView.programDescription.text = item.description
 
             itemView.setOnClickListener { onClick(item) }
@@ -61,11 +64,15 @@ class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
             item.schedule?.let { setupDays(itemView, it) } ?: hideDays(itemView)
         }
 
+        private fun hideTimeStart(itemView: View) {
+            itemView.timeStart.visibility = View.INVISIBLE
+        }
+
         private fun hideDuration(itemView: View) {
             itemView.timeDuration.visibility = View.INVISIBLE
         }
 
-        private fun getSubtitleWithTime(item: ProgramItem, it: Times): String {
+        private fun getSubtitleWithTime(it: Times): String {
             return it.start.format(DateTimeFormatter.ofPattern("HH:mm"))
         }
 

@@ -15,6 +15,10 @@
     </style>
 
     <style name="Programs.Item.SubTitle">
+        <item name="android:drawableStart">@drawable/ic_person</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:drawableTint">@color/grey</item>
+        <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
@@ -24,6 +28,23 @@
 
     <style name="Programs.Item.Text">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+    </style>
+
+    <style name="Programs.Item.Time">
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:color">@color/grey</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:drawableTint">@color/grey</item>
+    </style>
+
+    <style name="Programs.Item.Time.StartTime">
+        <item name="android:drawableStart">@drawable/ic_clock</item>
+    </style>
+
+    <style name="Programs.Item.Time.Duration">
+        <item name="android:drawableStart">@drawable/ic_timer</item>
     </style>
 
     <style name="Programs.Item.Schedule.Day">
