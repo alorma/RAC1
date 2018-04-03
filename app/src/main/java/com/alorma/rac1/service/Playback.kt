@@ -6,7 +6,7 @@ interface Playback {
 
     val isPlaying: Boolean
 
-    fun play()
+    fun play(url: String)
 
     fun stop()
 

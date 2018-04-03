@@ -10,11 +10,8 @@ import android.support.v4.app.NotificationCompat.FLAG_NO_CLEAR
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.alorma.rac1.R
-import com.alorma.rac1.commons.observeOnUI
-import com.alorma.rac1.commons.plusAssign
-import com.alorma.rac1.commons.subscribeOnIO
-import com.alorma.rac1.domain.ProgramsRepository
 import com.alorma.rac1.data.net.ProgramDto
+import com.alorma.rac1.domain.ProgramItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -23,9 +20,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class MediaNotificationManager @Inject constructor(
-        private val context: Context,
-        private val programsRepository: ProgramsRepository
-) {
+        private val context: Context) {
 
     companion object {
         const val CHANNEL_GROUP_ID = "AUDIO"
@@ -39,21 +34,10 @@ class MediaNotificationManager @Inject constructor(
 
     private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    fun show(sessionToken: MediaSessionCompat.Token): Notification {
+    fun show(sessionToken: MediaSessionCompat.Token, program: ProgramItem): Notification {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         createChannel(nm)
-
-        disposable += programsRepository.getNow()
-                .retry(3)
-                .subscribeOnIO()
-                .observeOnUI()
-                .subscribe({
-                    updateNotification(nm, it, sessionToken)
-                }, {
-
-                })
-        return createNotification(sessionToken)
+        return showNotification(nm, program, sessionToken)
     }
 
     fun hide() {
@@ -73,19 +57,8 @@ class MediaNotificationManager @Inject constructor(
         nm.createNotificationChannel(channel)
     }
 
-    private fun createNotification(sessionToken: MediaSessionCompat.Token): Notification {
-        val largeIcon = BitmapFactory.decodeResource(context.resources, R.drawable.rac1_micro)
-
-        return NotificationCompat.Builder(context, CHANNEL_LIVE_ID).apply {
-            setContentTitle(context.getString(R.string.live_radio_title))
-            configBaseNotification(largeIcon, sessionToken)
-        }.build().apply {
-            flags = FLAG_NO_CLEAR
-        }
-    }
-
-    private fun updateNotification(nm: NotificationManager, data: ProgramDto,
-                                   sessionToken: MediaSessionCompat.Token) {
+    private fun showNotification(nm: NotificationManager, data: ProgramItem,
+                                 sessionToken: MediaSessionCompat.Token): Notification {
         val requestOptions = RequestOptions().apply {
             error(R.drawable.rac1_micro)
         }
@@ -110,16 +83,18 @@ class MediaNotificationManager @Inject constructor(
         }
 
         nm.notify(ID_LIVE, notification)
+
+        return notification
     }
 
-    private fun NotificationCompat.Builder.setProgramData(data: ProgramDto) {
+    private fun NotificationCompat.Builder.setProgramData(data: ProgramItem) {
         setContentTitle(data.title)
         setSubText(data.subtitle)
-        setContentText(data.schedule?.removeSuffix(","))
+        setContentText(data.scheduleText?.removeSuffix(","))
     }
 
     private fun updateNotificationIcon(nm: NotificationManager,
-                                       data: ProgramDto,
+                                       data: ProgramItem,
                                        sessionToken: MediaSessionCompat.Token,
                                        largeIcon: Bitmap) {
         val notification = NotificationCompat.Builder(context, CHANNEL_LIVE_ID).apply {

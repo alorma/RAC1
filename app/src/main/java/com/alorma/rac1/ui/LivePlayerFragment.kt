@@ -2,14 +2,29 @@ package com.alorma.rac1.ui
 
 import android.content.ComponentName
 import android.content.Intent
+import android.os.Bundle
 import android.os.RemoteException
 import android.support.v4.app.Fragment
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import com.alorma.rac1.service.LiveRadioService
+import com.alorma.rac1.Rac1Application.Companion.component
+import com.alorma.rac1.commons.observeOnUI
+import com.alorma.rac1.commons.subscribeOnIO
+import com.alorma.rac1.data.net.SessionDto
+import com.alorma.rac1.domain.ProgramItem
+import com.alorma.rac1.domain.ProgramsRepository
+import com.alorma.rac1.service.*
+import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
 class LivePlayerFragment : Fragment() {
+
+    @Inject
+    lateinit var programsRepository: ProgramsRepository
+
+    @Inject
+    lateinit var playbackPublisher: PublishSubject<StreamPlayback>
 
     lateinit var playerCallback: PlayerCallback
 
@@ -56,21 +71,50 @@ class LivePlayerFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        component inject this
+    }
+
     fun togglePlay() {
-        activity?.let { act ->
-            val mediaController = MediaControllerCompat.getMediaController(act)
-            if (isPlaying) {
-                mediaController?.transportControls?.stop()
-            } else {
-                val intent = Intent(act, LiveRadioService::class.java)
-                act.startForegroundService(intent)
-                mediaController?.transportControls?.play()
-                playerCallback.onPlayPlayback()
+        if (isPlaying) {
+            playbackPublisher.onNext(Stop)
+        } else {
+            activity?.let {
+                programsRepository.getNow()
+                        .subscribeOnIO()
+                        .observeOnUI()
+                        .subscribe({ onLiveLoaded(it) }, {})
             }
-            isPlaying = isPlaying.not()
         }
     }
 
+    private fun onLiveLoaded(it: ProgramItem) {
+        activity?.let { act ->
+            val mediaController = MediaControllerCompat.getMediaController(act)
+            playbackPublisher.onNext(Live(it))
+            val intent = Intent(act, LiveRadioService::class.java)
+            act.startForegroundService(intent)
+            mediaController?.transportControls?.play()
+            playerCallback.onPlayPlayback()
+            isPlaying = true
+        }
+    }
+
+    fun togglePlay(programItem: ProgramItem, session: SessionDto) {
+        activity?.let { act ->
+            val mediaController = MediaControllerCompat.getMediaController(act)
+            playbackPublisher.onNext(Podcast(programItem, session))
+            val intent = Intent(act, LiveRadioService::class.java)
+            act.startForegroundService(intent)
+            mediaController?.transportControls?.play()
+            playerCallback.onPlayPlayback()
+            if (!isPlaying) {
+                isPlaying = true
+            }
+        }
+    }
 
     private fun onStateChanged(state: PlaybackStateCompat) {
         when (state.state) {

@@ -29,9 +29,9 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
     /**
      * Handle a request to play music
      */
-    fun handlePlayRequest() {
+    fun handlePlayRequest(url: String) {
         serviceCallback.onPlaybackStart()
-        playback.play()
+        playback.play(url)
     }
 
     /**
@@ -67,8 +67,11 @@ class LivePlaybackManager @Inject constructor(private val playback: Playback) : 
     }
 
     inner class MediaSessionCallback : MediaSessionCompat.Callback() {
+        var url: String? = null
         override fun onPlay() {
-            handlePlayRequest()
+            url?.let {
+                handlePlayRequest(it)
+            }
         }
 
         override fun onSkipToQueueItem(queueId: Long) {

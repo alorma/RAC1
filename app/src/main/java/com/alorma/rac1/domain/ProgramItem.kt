@@ -12,6 +12,7 @@ data class ProgramItem(
         val subtitle: String,
         val description: String?,
         val schedule: Schedule?,
+        val scheduleText: String?,
         val socialNetworks: SocialNetworksDto,
         val images: ImagesDto,
         val url: String?,

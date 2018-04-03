@@ -3,8 +3,10 @@ package com.alorma.rac1.di.module
 import com.alorma.rac1.data.TimeProvider
 import com.alorma.rac1.data.TimeToLive
 import com.alorma.rac1.data.cache.ProgramsCacheHandler
+import com.alorma.rac1.service.StreamPlayback
 import dagger.Module
 import dagger.Provides
+import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -33,4 +35,7 @@ class DataModule {
     fun getProgramsCache(timeProvider: TimeProvider, timeToLive: TimeToLive) =
             ProgramsCacheHandler(timeProvider, timeToLive)
 
+    @Provides
+    @Singleton
+    fun getPlaybackPublisher(): PublishSubject<StreamPlayback> = PublishSubject.create()
 }

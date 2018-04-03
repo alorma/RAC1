@@ -4,13 +4,18 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Bundle
-import android.os.IBinder
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.alorma.rac1.Rac1Application.Companion.component
+import com.alorma.rac1.commons.observeOnUI
+import com.alorma.rac1.commons.plusAssign
+import com.alorma.rac1.commons.subscribeOnIO
+import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.ui.MainActivity
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.PlaybackServiceCallback {
@@ -18,6 +23,8 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     companion object {
         const val CMD = "CMD"
         const val CMD_STOP = "CMD_STOP"
+
+        const val LIVE_URL = "http://rac1.radiocat.net:8090/"
     }
 
     @Inject
@@ -26,12 +33,21 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     @Inject
     lateinit var playbackManager: LivePlaybackManager
 
+    @Inject
+    lateinit var playbackPublisher: PublishSubject<StreamPlayback>
+
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
     private val mSession: MediaSessionCompat by lazy { MediaSessionCompat(this, "MusicService") }
+
+    private lateinit var program: ProgramItem
 
     override fun onCreate() {
         super.onCreate()
 
         component inject this
+
+        connectPlaybackPublisher()
 
         playbackManager.serviceCallback = this
 
@@ -47,6 +63,31 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
         mSession.setExtras(Bundle())
 
         playbackManager.updatePlaybackState(null)
+    }
+
+    private fun connectPlaybackPublisher() {
+        disposable += playbackPublisher.subscribeOnIO().observeOnUI().subscribe({
+            onStreamPlayback(it)
+        }, {
+
+        })
+    }
+
+    private fun onStreamPlayback(it: StreamPlayback) {
+        when (it) {
+            Stop -> playbackManager.handleStopRequest()
+            is Play -> {
+                this@LiveRadioService.program = it.programItem
+                when (it) {
+                    is Live -> {
+                        playbackManager.handlePlayRequest(LIVE_URL)
+                    }
+                    is Podcast -> {
+                        playbackManager.handlePlayRequest(it.sessionDto.path)
+                    }
+                }
+            }
+        }
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -74,6 +115,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * @see android.app.Service.onDestroy
      */
     override fun onDestroy() {
+        disposable.clear()
         playbackManager.handleStopRequest()
         mediaNotificationManager.destroy()
         mSession.release()
@@ -93,7 +135,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * Callback method called from PlaybackManager whenever the music is about to play.
      */
     override fun onPlaybackStart() {
-        val notification = mediaNotificationManager.show(mSession.sessionToken)
+        val notification = mediaNotificationManager.show(mSession.sessionToken, program)
         mSession.isActive = true
 
         startForeground(MediaNotificationManager.ID_LIVE, notification)

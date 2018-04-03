@@ -18,9 +18,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 class LocalPlayback(private val context: Context) : Playback {
 
     companion object {
-
-        const val LIVE_URL = "http://rac1.radiocat.net:8090/"
-
         // The volume we set the media player to when we lose audio focus, but are
         // allowed to reduce the volume instead of stopping playback.
         const val VOLUME_DUCK = 0.2f
@@ -86,14 +83,14 @@ class LocalPlayback(private val context: Context) : Playback {
                 .createWifiLock(WifiManager.WIFI_MODE_FULL, "rac1")
     }
 
-    override fun play() {
+    override fun play(url: String) {
         mPlayOnFocusGain = true
         tryToGetAudioFocus()
         releaseResources(false)
         val dataSourceFactory = DefaultDataSourceFactory(mContext, "rac1")
         val extractorsFactory = DefaultExtractorsFactory()
 
-        val uri = Uri.parse(LIVE_URL)
+        val uri = Uri.parse(url)
 
         val mediaSource = ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null)
 

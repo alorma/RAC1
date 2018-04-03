@@ -11,7 +11,9 @@ class ProgramsRepository @Inject constructor(
         private val cache: ProgramsCache,
         private val programMapper: ProgramMapper) {
 
-    fun getNow(): Single<ProgramDto> = api.now().map { it.result }.map { it.program }
+    fun getNow(): Single<ProgramItem> = api.now()
+            .map { it.result }
+            .map { programMapper.map(it.program) }
 
     fun getSchedule(): Single<List<ProgramItem>> =
             cache.getSchedule()

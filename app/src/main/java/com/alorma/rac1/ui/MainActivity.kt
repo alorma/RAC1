@@ -15,8 +15,8 @@ import com.luseen.spacenavigation.SpaceNavigationView
 import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-
-class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, ProgramDetailFragment.DetailCallback, LivePlayerFragment.PlayerCallback {
+class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
+        ProgramDetailFragment.DetailCallback, LivePlayerFragment.PlayerCallback {
 
     private lateinit var fragment: ProgramsFragment
     private lateinit var livePlayerFragment: LivePlayerFragment
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, Program
     }
 
     override fun onSessionCallback(programItem: ProgramItem, session: SessionDto) {
-        Toast.makeText(this, "Play: ${programItem.title} - ${session.title}", Toast.LENGTH_SHORT).show()
+        livePlayerFragment.togglePlay(programItem, session)
     }
 
     override fun onPlayPlayback() {
