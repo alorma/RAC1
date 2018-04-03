@@ -28,10 +28,12 @@ class SectionsAdapter(private val sectionClick: (ProgramSection) -> Unit) : Recy
     }
 
     fun updateItem(section: String, sessions: List<SessionDto>) {
-        val key = items.keys.firstOrNull { it.id == section }
+        val set = items.keys
+        val key = set.firstOrNull { it.id == section }
         key?.let {
+            val position = set.toList().indexOf(it)
             items[it] = sessions
-            notifyDataSetChanged()
+            notifyItemChanged(position)
         }
     }
 
