@@ -9,11 +9,12 @@ import com.alorma.rac1.ui.common.State
 
 sealed class ProgramDetailAction : Action() {
     data class Load(val program: ProgramItem) : ProgramDetailAction()
+    data class LoadSection(val section: ProgramSection) : ProgramDetailAction()
 }
 
 sealed class ProgramDetailState : State() {
     data class Success(val sections: Map<ProgramSection, List<SessionDto>>) : ProgramDetailState()
-    data class SessionsLoaded(val section: ProgramSection, val sessions: List<SessionDto>) : ProgramDetailState()
+    data class SessionsLoaded(val section: String, val sessions: List<SessionDto>) : ProgramDetailState()
 }
 
 sealed class ProgramDetailRoute : Route() {

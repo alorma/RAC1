@@ -8,7 +8,7 @@ import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramSection
 import com.alorma.rac1.ui.common.adapterInflate
 
-class SectionsAdapter : RecyclerView.Adapter<SectionsAdapter.Holder>() {
+class SectionsAdapter(private val sectionClick: (ProgramSection) -> Unit) : RecyclerView.Adapter<SectionsAdapter.Holder>() {
 
     private var items: MutableMap<ProgramSection, List<SessionDto>> = mutableMapOf()
 
@@ -17,7 +17,7 @@ class SectionsAdapter : RecyclerView.Adapter<SectionsAdapter.Holder>() {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val section = items.keys.toList()[position]
-        holder.bind(section, items[section] ?: listOf())
+        holder.bind(section, items[section] ?: listOf(), sectionClick)
     }
 
     override fun getItemCount(): Int = items.keys.toList().size
@@ -27,14 +27,20 @@ class SectionsAdapter : RecyclerView.Adapter<SectionsAdapter.Holder>() {
         notifyDataSetChanged()
     }
 
-    fun updateItem(section: ProgramSection, sessions: List<SessionDto>) {
-        items[section] = sessions
-        notifyDataSetChanged()
+    fun updateItem(section: String, sessions: List<SessionDto>) {
+        val key = items.keys.firstOrNull { it.id == section }
+        key?.let {
+            items[it] = sessions
+            notifyDataSetChanged()
+        }
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(section: ProgramSection, list: List<SessionDto>) {
+        fun bind(section: ProgramSection, list: List<SessionDto>, sectionClick: (ProgramSection) -> Unit) {
             itemView.findViewById<TextView>(android.R.id.text1).text = "${section.title} [${list.size}]"
+            itemView.setOnClickListener {
+                sectionClick(section)
+            }
         }
     }
 }

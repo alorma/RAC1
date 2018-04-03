@@ -29,8 +29,11 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
 
     var detailCallback: DetailCallback? = null
 
-    private val adapter: SectionsAdapter by lazy { SectionsAdapter() }
-
+    private val adapter: SectionsAdapter by lazy {
+        SectionsAdapter {
+            onSectionClick(it)
+        }
+    }
     lateinit var manager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +88,11 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
 
     override fun navigate(r: ProgramDetailRoute) {
 
+    }
+
+
+    private fun onSectionClick(it: ProgramSection) {
+        presenter reduce ProgramDetailAction.LoadSection(it)
     }
 
     override fun onDestroy() {
