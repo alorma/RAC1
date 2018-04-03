@@ -14,7 +14,7 @@ sealed class ProgramDetailAction : Action() {
 
 sealed class ProgramDetailState : State() {
     data class Success(val sections: Map<ProgramSection, List<SessionDto>>) : ProgramDetailState()
-    data class SessionsLoaded(val section: String, val sessions: List<SessionDto>) : ProgramDetailState()
+    data class SessionsLoaded(val section: String, val sessions: List<SessionDto>, val openSections: MutableSet<String>) : ProgramDetailState()
 }
 
 sealed class ProgramDetailRoute : Route() {

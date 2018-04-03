@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +82,7 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
     }
 
     private fun onSessionsLoaded(s: ProgramDetailState.SessionsLoaded) {
-        adapter.updateItem(s.section, s.sessions)
+        adapter.updateItem(s.section, s.sessions, s.openSections)
     }
 
     override fun navigate(r: ProgramDetailRoute) {
