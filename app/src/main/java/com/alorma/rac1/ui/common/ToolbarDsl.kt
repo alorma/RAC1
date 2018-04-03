@@ -36,13 +36,25 @@ class ToolbarBuilder {
 
     lateinit var toolbar: Toolbar
     var back: BackBuilder? = null
-    var title: Int = 0
+    var title: Any? = null
     var menu: Int = 0
     var items = mutableListOf<Pair<Int, () -> Unit>>()
 
     fun build(): Toolbar {
-        if (title != 0) {
-            toolbar.title = toolbar.resources.getString(title)
+
+        when (title) {
+            is Int -> {
+                val titleInt = title as Int
+                if (titleInt != 0) {
+                    toolbar.title = toolbar.resources.getString(titleInt)
+                }
+            }
+            is String -> {
+                val titleString = title as String
+                if (titleString.isEmpty().not()) {
+                    toolbar.title = titleString
+                }
+            }
         }
 
         if (menu != 0) {

@@ -4,4 +4,5 @@
     <string name="navigation_programs">Programes</string>
     <string name="live_radio_title">Rádio en directe</string>
     <string name="live_radio_stop">Parar</string>
+    <string name="error_laoding_program_detail">Error carregant %1$s</string>
 </resources>

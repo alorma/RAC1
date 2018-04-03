@@ -10,6 +10,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.Toast
 import com.alorma.rac1.R
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.service.LiveRadioService
@@ -21,7 +22,7 @@ import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback {
+class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, ProgramDetailFragment.DetailCallback {
 
     private val mediaBrowserCompat: MediaBrowserCompat by lazy {
         MediaBrowserCompat(this, ComponentName(this, LiveRadioService::class.java), mediaBrowserCompatConnectionCallback, null)
@@ -179,11 +180,24 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback {
     }
 
     override fun onProgramSelected(programItem: ProgramItem) {
-        val fragment = ProgramDetailFragment()
+        val fragment = ProgramDetailFragment().apply {
+            program = programItem
+            detailCallback = this@MainActivity
+        }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit()
+    }
+
+    override fun onProgramDetailBack() {
+        supportFragmentManager.popBackStack()
+    }
+
+    override fun onProgramDetailError(title: String) {
+        val error = resources.getString(R.string.error_laoding_program_detail, title)
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 
     override fun onStart() {

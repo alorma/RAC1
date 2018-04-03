@@ -35,4 +35,9 @@ class ProgramsRepository @Inject constructor(
                                 .doOnSuccess { cache.savePrograms(it) }
                     }
 
+    fun getProgram(id: String): Single<ProgramItem> = getPrograms().flatMap {
+        it.firstOrNull { it.id == id }?.let {
+            Single.just(it)
+        } ?: Single.error(Exception())
+    }
 }
