@@ -29,11 +29,16 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
     var detailCallback: DetailCallback? = null
 
     private val adapter: SectionsAdapter by lazy {
-        SectionsAdapter {
-            onSectionClick(it)
+        SectionsAdapter().apply {
+            sectionClick = {
+                onSectionClick(it)
+            }
+            sessionBuilder = {
+                SessionAdapter()
+            }
         }
     }
-    lateinit var manager: LinearLayoutManager
+    private lateinit var manager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
