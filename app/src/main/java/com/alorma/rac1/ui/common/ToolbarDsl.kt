@@ -37,6 +37,7 @@ class ToolbarBuilder {
     lateinit var toolbar: Toolbar
     var back: BackBuilder? = null
     var title: Any? = null
+    var subTitle: Any? = null
     var menu: Int = 0
     var items = mutableListOf<Pair<Int, () -> Unit>>()
 
@@ -53,6 +54,21 @@ class ToolbarBuilder {
                 val titleString = title as String
                 if (titleString.isEmpty().not()) {
                     toolbar.title = titleString
+                }
+            }
+        }
+
+        when (subTitle) {
+            is Int -> {
+                val subTitleInt = subTitle as Int
+                if (subTitleInt != 0) {
+                    toolbar.subtitle = toolbar.resources.getString(subTitleInt)
+                }
+            }
+            is String -> {
+                val subTitleString = subTitle as String
+                if (subTitleString.isEmpty().not()) {
+                    toolbar.subtitle = subTitleString
                 }
             }
         }

@@ -7,7 +7,7 @@ import com.alorma.rac1.domain.ProgramItem
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ProgramsCacheHandler @Inject constructor(
+class ProgramsCacheHandler(
         private val timeProvider: TimeProvider,
         private val timeToLive: TimeToLive) {
 
