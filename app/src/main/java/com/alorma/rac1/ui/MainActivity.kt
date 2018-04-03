@@ -16,10 +16,10 @@ import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, ProgramDetailFragment.DetailCallback, PlayerFragment.PlayerCallback {
+class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, ProgramDetailFragment.DetailCallback, LivePlayerFragment.PlayerCallback {
 
     private lateinit var fragment: ProgramsFragment
-    private lateinit var playerFragment: PlayerFragment
+    private lateinit var livePlayerFragment: LivePlayerFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +29,12 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, Program
             listCallback = this@MainActivity
         }
 
-        playerFragment = PlayerFragment().apply {
+        livePlayerFragment = LivePlayerFragment().apply {
             playerCallback = this@MainActivity
         }
 
         with(supportFragmentManager.beginTransaction()) {
-            add(playerFragment, PlayerFragment::class.java.simpleName)
+            add(livePlayerFragment, LivePlayerFragment::class.java.simpleName)
             replace(R.id.container, fragment).commitNow()
         }
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback, Program
 
             setSpaceOnClickListener(object : SpaceOnClickListener {
                 override fun onCentreButtonClick() {
-                    playerFragment.togglePlay()
+                    livePlayerFragment.togglePlay()
                 }
 
                 override fun onItemReselected(itemIndex: Int, itemName: String?) {

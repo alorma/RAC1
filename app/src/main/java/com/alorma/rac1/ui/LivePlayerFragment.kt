@@ -9,7 +9,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.alorma.rac1.service.LiveRadioService
 
-class PlayerFragment : Fragment() {
+class LivePlayerFragment : Fragment() {
 
     lateinit var playerCallback: PlayerCallback
 
