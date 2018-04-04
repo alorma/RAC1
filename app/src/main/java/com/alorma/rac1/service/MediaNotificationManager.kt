@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationCompat.FLAG_NO_CLEAR
 import android.support.v4.content.ContextCompat
@@ -47,14 +48,15 @@ class MediaNotificationManager @Inject constructor(
     }
 
     private fun createChannel(nm: NotificationManager) {
-        nm.createNotificationChannelGroup(NotificationChannelGroup(CHANNEL_GROUP_ID, CHANNEL_GROUP_NAME))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nm.createNotificationChannelGroup(NotificationChannelGroup(CHANNEL_GROUP_ID, CHANNEL_GROUP_NAME))
 
+            val channel = NotificationChannel(CHANNEL_LIVE_ID, CHANNEL_LIVE_NAME, NotificationManager.IMPORTANCE_HIGH).apply {
+                lightColor = ContextCompat.getColor(context, R.color.colorPrimary)
 
-        val channel = NotificationChannel(CHANNEL_LIVE_ID, CHANNEL_LIVE_NAME, NotificationManager.IMPORTANCE_HIGH).apply {
-            lightColor = ContextCompat.getColor(context, R.color.colorPrimary)
-
+            }
+            nm.createNotificationChannel(channel)
         }
-        nm.createNotificationChannel(channel)
     }
 
     private fun showNotification(nm: NotificationManager,
@@ -88,13 +90,6 @@ class MediaNotificationManager @Inject constructor(
 
         return notification
     }
-
-    private fun NotificationCompat.Builder.setProgramData(data: ProgramItem, session: SessionDto?) {
-        setContentTitle(session?.title ?: data.title)
-        setSubText(data.subtitle)
-        setContentText(data.scheduleText?.removeSuffix(","))
-    }
-
     private fun updateNotificationIcon(nm: NotificationManager,
                                        data: ProgramItem,
                                        session: SessionDto?,
@@ -108,6 +103,12 @@ class MediaNotificationManager @Inject constructor(
         }
 
         nm.notify(ID_LIVE, notification)
+    }
+
+    private fun NotificationCompat.Builder.setProgramData(data: ProgramItem, session: SessionDto?) {
+        setContentTitle(session?.title ?: data.title)
+        setSubText(data.subtitle)
+        setContentText(data.scheduleText?.removeSuffix(","))
     }
 
     private fun NotificationCompat.Builder.configBaseNotification(largeIcon: Bitmap,

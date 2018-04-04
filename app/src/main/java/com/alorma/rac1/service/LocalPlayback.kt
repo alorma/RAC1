@@ -5,6 +5,7 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.net.Uri
 import android.net.wifi.WifiManager
+import android.os.Build
 import android.support.v4.media.session.PlaybackStateCompat
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.C.CONTENT_TYPE_MUSIC
@@ -15,8 +16,7 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 
-class LocalPlayback(private val context: Context) : Playback {
-
+class LocalPlayback(private val context: Context) : Playback, AudioManager.OnAudioFocusChangeListener {
     companion object {
         // The volume we set the media player to when we lose audio focus, but are
         // allowed to reduce the volume instead of stopping playback.
@@ -38,9 +38,9 @@ class LocalPlayback(private val context: Context) : Playback {
     private var mCallback: Playback.Callback? = null
 
     private var mCurrentAudioFocusState = AUDIO_NO_FOCUS_NO_DUCK
-    private val mAudioManager: AudioManager
+    private val audioManager: AudioManager
 
-    private val mExoPlayer: SimpleExoPlayer by lazy {
+    private val exoPlayer: SimpleExoPlayer by lazy {
         val renders = DefaultRenderersFactory(context)
 
         ExoPlayerFactory.newSimpleInstance(renders, DefaultTrackSelector(), DefaultLoadControl()).apply {
@@ -56,10 +56,10 @@ class LocalPlayback(private val context: Context) : Playback {
     override
     var state: Int
         get() {
-            return when (mExoPlayer.playbackState) {
+            return when (exoPlayer.playbackState) {
                 Player.STATE_IDLE -> PlaybackStateCompat.STATE_PAUSED
                 Player.STATE_BUFFERING -> PlaybackStateCompat.STATE_BUFFERING
-                Player.STATE_READY -> if (mExoPlayer.playWhenReady) {
+                Player.STATE_READY -> if (exoPlayer.playWhenReady) {
                     PlaybackStateCompat.STATE_PLAYING
                 } else {
                     PlaybackStateCompat.STATE_PAUSED
@@ -71,13 +71,13 @@ class LocalPlayback(private val context: Context) : Playback {
         set(state) {}
 
     override val isPlaying: Boolean
-        get() = mPlayOnFocusGain || mExoPlayer.playWhenReady
+        get() = mPlayOnFocusGain || exoPlayer.playWhenReady
 
     init {
         val applicationContext = context.applicationContext
         this.mContext = applicationContext
 
-        this.mAudioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        this.audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         // Create the Wifi lock (this does not acquire the lock, this just creates it)
         this.mWifiLock = (applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
                 .createWifiLock(WifiManager.WIFI_MODE_FULL, "rac1")
@@ -94,13 +94,13 @@ class LocalPlayback(private val context: Context) : Playback {
 
         val mediaSource = ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null)
 
-        mExoPlayer.prepare(mediaSource)
+        exoPlayer.prepare(mediaSource)
         mWifiLock.acquire()
         configurePlayerState()
     }
 
     override fun stop() {
-        mExoPlayer.playWhenReady = false
+        exoPlayer.playWhenReady = false
         giveUpAudioFocus()
         releaseResources(false)
     }
@@ -110,9 +110,36 @@ class LocalPlayback(private val context: Context) : Playback {
     }
 
     private fun tryToGetAudioFocus() {
-        val result = mAudioManager.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).build())
+        val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioManager.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).build())
+        } else {
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        }
 
-        mCurrentAudioFocusState = if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+        mCurrentAudioFocusState = if (result == AudioManager.AUDIOFOCUS_GAIN) {
+            AUDIO_FOCUSED
+        } else {
+            AUDIO_NO_FOCUS_NO_DUCK
+        }
+    }
+
+    override fun onAudioFocusChange(focusChange: Int) {
+        when(focusChange) {
+            AudioManager.AUDIOFOCUS_GAIN -> {
+                exoPlayer.volume = VOLUME_NORMAL
+            }
+            AudioManager.AUDIOFOCUS_LOSS -> {
+                stop()
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                exoPlayer.playWhenReady = false
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                exoPlayer.volume = VOLUME_DUCK
+            }
+        }
+
+        if (focusChange == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             AUDIO_FOCUSED
         } else {
             AUDIO_NO_FOCUS_NO_DUCK
@@ -120,7 +147,12 @@ class LocalPlayback(private val context: Context) : Playback {
     }
 
     private fun giveUpAudioFocus() {
-        val state = mAudioManager.abandonAudioFocusRequest(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).build())
+        val state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioManager.abandonAudioFocusRequest(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setOnAudioFocusChangeListener(this).build())
+        } else {
+            audioManager.abandonAudioFocus(this)
+        }
 
         if (state == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             mCurrentAudioFocusState = AUDIO_NO_FOCUS_NO_DUCK
@@ -138,14 +170,14 @@ class LocalPlayback(private val context: Context) : Playback {
         if (mCurrentAudioFocusState != AUDIO_NO_FOCUS_NO_DUCK) {
             if (mCurrentAudioFocusState == AUDIO_NO_FOCUS_CAN_DUCK) {
                 // We're permitted to play, but only if we 'duck', ie: play softly
-                mExoPlayer.volume = VOLUME_DUCK
+                exoPlayer.volume = VOLUME_DUCK
             } else {
-                mExoPlayer.volume = VOLUME_NORMAL
+                exoPlayer.volume = VOLUME_NORMAL
             }
 
             // If we were playing when we lost focus, we need to resume playing.
             if (mPlayOnFocusGain) {
-                mExoPlayer.playWhenReady = true
+                exoPlayer.playWhenReady = true
                 mPlayOnFocusGain = false
             }
         }
@@ -160,7 +192,7 @@ class LocalPlayback(private val context: Context) : Playback {
     private fun releaseResources(releasePlayer: Boolean) {
         // Stops and releases player (if requested and available).
         if (releasePlayer) {
-            mExoPlayer.release()
+            exoPlayer.release()
             mPlayOnFocusGain = false
         }
 
