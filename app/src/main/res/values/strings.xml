@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Rac1</string>
     <string name="navigation_schedule">Graella</string>
-    <string name="navigation_programs">Programes</string>
+    <string name="navigation_actual">Actual</string>
+    <string name="navigation_playlist">Escoltant</string>
+    <string name="navigation_favorites">Favorits</string>
     <string name="live_radio_title">Rádio en directe</string>
     <string name="live_radio_stop">Parar</string>
     <string name="error_laoding_program_detail">Error carregant %1$s</string>

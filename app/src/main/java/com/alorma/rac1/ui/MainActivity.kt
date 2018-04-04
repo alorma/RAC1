@@ -1,6 +1,7 @@
 package com.alorma.rac1.ui
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         ProgramDetailFragment.DetailCallback, LivePlayerFragment.PlayerCallback {
 
-    private lateinit var fragment: ProgramsFragment
+    private lateinit var programsFragment: ProgramsFragment
     private lateinit var livePlayerFragment: LivePlayerFragment
     private lateinit var nowPlayingFragment: NowPlayingFragment
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fragment = ProgramsFragment().apply {
+        programsFragment = ProgramsFragment().apply {
             listCallback = this@MainActivity
         }
 
@@ -40,13 +41,16 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         supportFragmentManager.beginTransaction().apply {
             add(livePlayerFragment, LivePlayerFragment::class.java.simpleName)
             replace(R.id.nowPlaying, nowPlayingFragment)
-            replace(R.id.container, fragment)
         }.commitNow()
 
         with(bottomBar) {
             configScheduleButton()
+            configInfiniteButton()
             configCenterButton()
-            configProgramsButton()
+            configPlayListButton()
+            configFavListButton()
+
+            showIconOnly()
 
             setSpaceOnClickListener(object : SpaceOnClickListener {
                 override fun onCentreButtonClick() {
@@ -60,7 +64,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
                 override fun onItemClick(itemIndex: Int, itemName: String?) {
                     when (itemIndex) {
                         0 -> openSchedule()
-                        1 -> openPrograms()
+                        else -> openOther()
                     }
                 }
             })
@@ -70,11 +74,13 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
     }
 
     private fun openSchedule() {
-        fragment.loadSchedule()
+        supportFragmentManager.beginTransaction().replace(R.id.container, programsFragment).commit()
     }
 
-    private fun openPrograms() {
-        fragment.loadPrograms()
+    private fun openOther() {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.container, Fragment())
+        }.commitNow()
     }
 
     private fun setStopIcon() {
@@ -96,8 +102,18 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         addSpaceItem(space)
     }
 
-    private fun SpaceNavigationView.configProgramsButton() {
-        val space = getSpace(R.string.navigation_programs, R.drawable.ic_list)
+    private fun SpaceNavigationView.configInfiniteButton() {
+        val space = getSpace(R.string.navigation_actual, R.drawable.ic_infinite)
+        addSpaceItem(space)
+    }
+
+    private fun SpaceNavigationView.configPlayListButton() {
+        val space = getSpace(R.string.navigation_playlist, R.drawable.ic_playlist)
+        addSpaceItem(space)
+    }
+
+    private fun SpaceNavigationView.configFavListButton() {
+        val space = getSpace(R.string.navigation_favorites, R.drawable.ic_star_empty)
         addSpaceItem(space)
     }
 

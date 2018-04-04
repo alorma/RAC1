@@ -62,24 +62,30 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
                 setDrawable(ColorDrawable(ContextCompat.getColor(it, R.color.very_dark_grey)))
             }
         })
+
+        if (adapter.itemCount == 0) {
+            loadSchedule()
+        }
     }
 
-    fun loadSchedule() {
+    private fun loadSchedule() {
         presenter reduce ProgramsAction.LoadSchedule()
     }
 
-    fun loadPrograms() {
+    private fun loadPrograms() {
         presenter reduce ProgramsAction.LoadPrograms()
     }
 
     override fun render(s: ProgramsState) {
         when (s) {
             is ProgramsState.ApplyDiff -> {
-                val first = manager.findFirstVisibleItemPosition()
-                recyclerView.recycledViewPool.clear()
-                adapter.setItems(s.items)
-                s.diffResult.dispatchUpdatesTo(adapter)
-                recyclerView.scrollToPosition(first)
+                recyclerView?.let {
+                    val first = manager.findFirstVisibleItemPosition()
+                    recyclerView.recycledViewPool.clear()
+                    adapter.setItems(s.items)
+                    s.diffResult.dispatchUpdatesTo(adapter)
+                    recyclerView.scrollToPosition(first)
+                }
             }
         }
     }
