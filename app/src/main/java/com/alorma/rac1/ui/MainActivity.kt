@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import com.alorma.rac1.R
 import com.alorma.rac1.domain.ProgramItem
+import com.alorma.rac1.ui.live.LiveFragment
 import com.alorma.rac1.ui.now.NowPlayingFragment
 import com.alorma.rac1.ui.program.ProgramDetailFragment
 import com.alorma.rac1.ui.programs.ProgramsFragment
@@ -20,7 +21,8 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         ProgramDetailFragment.DetailCallback, PlayConnectionFragment.PlayerCallback {
 
     private lateinit var programsFragment: ProgramsFragment
-    private lateinit var PlayConnectionFragment: PlayConnectionFragment
+    private lateinit var liveFragment: LiveFragment
+    private lateinit var playConnectionFragment: PlayConnectionFragment
     private lateinit var nowPlayingFragment: NowPlayingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,29 +33,34 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
             listCallback = this@MainActivity
         }
 
-        PlayConnectionFragment = PlayConnectionFragment().apply {
+        liveFragment = LiveFragment()
+
+        playConnectionFragment = PlayConnectionFragment().apply {
             playerCallback = this@MainActivity
         }
 
         nowPlayingFragment = NowPlayingFragment()
 
         supportFragmentManager.beginTransaction().apply {
-            add(PlayConnectionFragment, PlayConnectionFragment::class.java.simpleName)
+            add(playConnectionFragment, playConnectionFragment::class.java.simpleName)
             replace(R.id.nowPlaying, nowPlayingFragment)
         }.commitNow()
 
         with(bottomBar) {
+            initWithSaveInstanceState(savedInstanceState)
+
             configScheduleButton()
             configInfiniteButton()
             configCenterButton()
             configPlayListButton()
             configFavListButton()
 
+            changeCurrentItem(1)
             showIconOnly()
 
             setSpaceOnClickListener(object : SpaceOnClickListener {
                 override fun onCentreButtonClick() {
-                    PlayConnectionFragment.togglePlay()
+                    playConnectionFragment.togglePlay()
                 }
 
                 override fun onItemReselected(itemIndex: Int, itemName: String?) {
@@ -63,17 +70,22 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
                 override fun onItemClick(itemIndex: Int, itemName: String?) {
                     when (itemIndex) {
                         0 -> openSchedule()
+                        1 -> openLive()
                         else -> openOther()
                     }
                 }
             })
         }
 
-        openSchedule()
+        openLive()
     }
 
     private fun openSchedule() {
         supportFragmentManager.beginTransaction().replace(R.id.container, programsFragment).commit()
+    }
+
+    private fun openLive() {
+        supportFragmentManager.beginTransaction().replace(R.id.container, liveFragment).commit()
     }
 
     private fun openOther() {

@@ -6,6 +6,7 @@ import com.alorma.rac1.di.module.NetworkModule
 import com.alorma.rac1.service.LiveRadioService
 import com.alorma.rac1.ui.PlayConnectionFragment
 import com.alorma.rac1.ui.MainActivity
+import com.alorma.rac1.ui.live.LiveFragment
 import com.alorma.rac1.ui.now.NowPlayingFragment
 import com.alorma.rac1.ui.program.ProgramDetailFragment
 import com.alorma.rac1.ui.programs.ProgramsFragment
@@ -21,6 +22,7 @@ interface ApplicationComponent {
     infix fun inject(programDetailFragment: ProgramDetailFragment)
     infix fun inject(PlayConnectionFragment: PlayConnectionFragment)
     infix fun inject(nowPlayingFragment: NowPlayingFragment)
+    infix fun inject(liveFragment: LiveFragment)
 
     infix fun inject(liveRadioService: LiveRadioService)
 }
