@@ -14,8 +14,11 @@ import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramSection
+import com.alorma.rac1.service.Podcast
+import com.alorma.rac1.service.StreamPlayback
 import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.dsl
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.program_detail_fragment.*
 import javax.inject.Inject
 
@@ -25,6 +28,9 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
     lateinit var presenter: ProgramDetailPresenter
 
     lateinit var program: ProgramItem
+
+    @Inject
+    lateinit var playbackPublisher: PublishSubject<StreamPlayback>
 
     var detailCallback: DetailCallback? = null
 
@@ -36,7 +42,7 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
             sessionBuilder = {
                 SessionAdapter().apply {
                     sessionClick = {
-                        detailCallback?.onSessionCallback(program, it)
+                        playbackPublisher.onNext(Podcast(program, it))
                     }
                 }
             }
@@ -111,6 +117,5 @@ class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramD
     interface DetailCallback {
         fun onProgramDetailBack()
         fun onProgramDetailError(title: String)
-        fun onSessionCallback(programItem: ProgramItem, session: SessionDto)
     }
 }

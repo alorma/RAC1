@@ -1,7 +1,6 @@
 package com.alorma.rac1.ui
 
 import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
 import android.os.RemoteException
 import android.support.v4.app.Fragment
@@ -10,15 +9,16 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.commons.observeOnUI
+import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
-import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
 import com.alorma.rac1.service.*
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-class LivePlayerFragment : Fragment() {
+class PlayConnectionFragment : Fragment() {
 
     @Inject
     lateinit var programsRepository: ProgramsRepository
@@ -33,6 +33,8 @@ class LivePlayerFragment : Fragment() {
                 mediaBrowserCompatConnectionCallback, null)
     }
     private var isPlaying: Boolean = false
+
+    private val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 
     private val mediaCallback: MediaControllerCompat.Callback by lazy {
         object : MediaControllerCompat.Callback() {
@@ -75,6 +77,17 @@ class LivePlayerFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         component inject this
+
+        disposables += playbackPublisher.subscribeOnIO()
+                .observeOnUI()
+                .subscribe({
+                    when(it) {
+                        Stop -> playerCallback.onStopPlayback()
+                        is Play -> playerCallback.onPlayPlayback()
+                    }
+                }, {
+
+                })
     }
 
     fun togglePlay() {
@@ -92,27 +105,8 @@ class LivePlayerFragment : Fragment() {
 
     private fun onLiveLoaded(it: ProgramItem) {
         activity?.let { act ->
-            val mediaController = MediaControllerCompat.getMediaController(act)
             playbackPublisher.onNext(Live(it))
-            val intent = Intent(act, LiveRadioService::class.java)
-            act.startForegroundService(intent)
-            mediaController?.transportControls?.play()
-            playerCallback.onPlayPlayback()
             isPlaying = true
-        }
-    }
-
-    fun togglePlay(programItem: ProgramItem, session: SessionDto) {
-        activity?.let { act ->
-            val mediaController = MediaControllerCompat.getMediaController(act)
-            playbackPublisher.onNext(Podcast(programItem, session))
-            val intent = Intent(act, LiveRadioService::class.java)
-            act.startForegroundService(intent)
-            mediaController?.transportControls?.play()
-            playerCallback.onPlayPlayback()
-            if (!isPlaying) {
-                isPlaying = true
-            }
         }
     }
 
@@ -145,8 +139,8 @@ class LivePlayerFragment : Fragment() {
 
     override fun onStop() {
         activity?.let { act ->
-            MediaControllerCompat.getMediaController(act)
-                    ?.unregisterCallback(mediaCallback)
+            disposables.clear()
+            MediaControllerCompat.getMediaController(act)?.unregisterCallback(mediaCallback)
             mediaBrowserCompat.disconnect()
         }
         super.onStop()

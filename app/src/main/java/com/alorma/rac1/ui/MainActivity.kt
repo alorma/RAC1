@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.alorma.rac1.R
-import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.ui.now.NowPlayingFragment
 import com.alorma.rac1.ui.program.ProgramDetailFragment
@@ -18,10 +17,10 @@ import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
-        ProgramDetailFragment.DetailCallback, LivePlayerFragment.PlayerCallback {
+        ProgramDetailFragment.DetailCallback, PlayConnectionFragment.PlayerCallback {
 
     private lateinit var programsFragment: ProgramsFragment
-    private lateinit var livePlayerFragment: LivePlayerFragment
+    private lateinit var PlayConnectionFragment: PlayConnectionFragment
     private lateinit var nowPlayingFragment: NowPlayingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,14 +31,14 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
             listCallback = this@MainActivity
         }
 
-        livePlayerFragment = LivePlayerFragment().apply {
+        PlayConnectionFragment = PlayConnectionFragment().apply {
             playerCallback = this@MainActivity
         }
 
         nowPlayingFragment = NowPlayingFragment()
 
         supportFragmentManager.beginTransaction().apply {
-            add(livePlayerFragment, LivePlayerFragment::class.java.simpleName)
+            add(PlayConnectionFragment, PlayConnectionFragment::class.java.simpleName)
             replace(R.id.nowPlaying, nowPlayingFragment)
         }.commitNow()
 
@@ -54,7 +53,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
 
             setSpaceOnClickListener(object : SpaceOnClickListener {
                 override fun onCentreButtonClick() {
-                    livePlayerFragment.togglePlay()
+                    PlayConnectionFragment.togglePlay()
                 }
 
                 override fun onItemReselected(itemIndex: Int, itemName: String?) {
@@ -147,10 +146,6 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         val error = resources.getString(R.string.error_laoding_program_detail, title)
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()
-    }
-
-    override fun onSessionCallback(programItem: ProgramItem, session: SessionDto) {
-        livePlayerFragment.togglePlay(programItem, session)
     }
 
     override fun onPlayPlayback() {
