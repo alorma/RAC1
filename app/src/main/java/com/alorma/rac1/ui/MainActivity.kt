@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
     private lateinit var playConnectionFragment: PlayConnectionFragment
     private lateinit var nowPlayingFragment: NowPlayingFragment
 
+    private var showNowPlaying: Boolean = false
+    private var isPlaying: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -72,6 +75,16 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
                         0 -> openSchedule()
                         1 -> openLive()
                         else -> openOther()
+                    }
+
+                    showNowPlaying = itemIndex != 1
+
+                    if (isPlaying) {
+                        nowPlaying.visibility = if (itemIndex == 1) {
+                            View.GONE
+                        } else {
+                            View.VISIBLE
+                        }
                     }
                 }
             })
@@ -160,13 +173,18 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         supportFragmentManager.popBackStack()
     }
 
+
     override fun onPlayPlayback() {
         setStopIcon()
-        nowPlaying.visibility = View.VISIBLE
+        isPlaying = true
+        if (showNowPlaying) {
+            nowPlaying.visibility = View.VISIBLE
+        }
     }
 
     override fun onStopPlayback() {
         setPlayIcon()
+        isPlaying = false
         nowPlaying.visibility = View.GONE
     }
 }
