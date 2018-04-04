@@ -12,6 +12,7 @@ import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
+import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.ui.MainActivity
 import io.reactivex.disposables.CompositeDisposable
@@ -41,6 +42,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     private val mSession: MediaSessionCompat by lazy { MediaSessionCompat(this, "MusicService") }
 
     private lateinit var program: ProgramItem
+    private var session: SessionDto? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -78,11 +80,13 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
             Stop -> playbackManager.handleStopRequest()
             is Play -> {
                 this@LiveRadioService.program = it.programItem
+                this@LiveRadioService.session = null
                 when (it) {
                     is Live -> {
                         playbackManager.handlePlayRequest(LIVE_URL)
                     }
                     is Podcast -> {
+                        this@LiveRadioService.session = it.sessionDto
                         playbackManager.handlePlayRequest(it.sessionDto.path)
                     }
                 }
@@ -135,7 +139,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * Callback method called from PlaybackManager whenever the music is about to play.
      */
     override fun onPlaybackStart() {
-        val notification = mediaNotificationManager.show(mSession.sessionToken, program)
+        val notification = mediaNotificationManager.show(mSession.sessionToken, program, session)
         mSession.isActive = true
 
         startForeground(MediaNotificationManager.ID_LIVE, notification)

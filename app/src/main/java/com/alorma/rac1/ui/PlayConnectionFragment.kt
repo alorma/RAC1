@@ -63,7 +63,6 @@ class PlayConnectionFragment : Fragment() {
         }
 
         override fun onConnectionSuspended() {
-
             // We were connected, but no longer :-(
         }
 
