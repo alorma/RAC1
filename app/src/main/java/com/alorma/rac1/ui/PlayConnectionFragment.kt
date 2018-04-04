@@ -73,6 +73,8 @@ class PlayConnectionFragment : Fragment() {
         }
     }
 
+    private var liveProgram: ProgramItem? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -81,32 +83,32 @@ class PlayConnectionFragment : Fragment() {
         disposables += playbackPublisher.subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
-                    when(it) {
+                    when (it) {
                         Stop -> playerCallback.onStopPlayback()
-                        is Play -> playerCallback.onPlayPlayback()
+                        is Play -> {
+                            isPlaying = true
+                            playerCallback.onPlayPlayback()
+                        }
                     }
                 }, {
 
                 })
+
+        disposables += programsRepository.getNow()
+                .subscribeOnIO()
+                .observeOnUI()
+                .subscribe({
+                    liveProgram = it
+                }, {})
     }
 
     fun togglePlay() {
         if (isPlaying) {
             playbackPublisher.onNext(Stop)
         } else {
-            activity?.let {
-                programsRepository.getNow()
-                        .subscribeOnIO()
-                        .observeOnUI()
-                        .subscribe({ onLiveLoaded(it) }, {})
+            liveProgram?.let {
+                playbackPublisher.onNext(Live(it))
             }
-        }
-    }
-
-    private fun onLiveLoaded(it: ProgramItem) {
-        activity?.let { act ->
-            playbackPublisher.onNext(Live(it))
-            isPlaying = true
         }
     }
 
