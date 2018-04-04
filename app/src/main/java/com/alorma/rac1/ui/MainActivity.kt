@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
             initWithSaveInstanceState(savedInstanceState)
 
             configScheduleButton()
-            configInfiniteButton()
+            configLiveButton()
             configCenterButton()
             configPlayListButton()
             configFavListButton()
@@ -113,8 +113,8 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         addSpaceItem(space)
     }
 
-    private fun SpaceNavigationView.configInfiniteButton() {
-        val space = getSpace(R.string.navigation_actual, R.drawable.ic_infinite)
+    private fun SpaceNavigationView.configLiveButton() {
+        val space = getSpace(R.string.navigation_actual, R.drawable.ic_radio)
         addSpaceItem(space)
     }
 
