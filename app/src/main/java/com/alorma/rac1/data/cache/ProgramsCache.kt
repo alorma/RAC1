@@ -13,7 +13,7 @@ class ProgramsCache @Inject constructor(
 
     fun getNow(): Single<ProgramItem> = now.get().map { it.first() }
     fun saveNow(it: ProgramItem) {
-        schedule.save(listOf(it))
+        now.save(listOf(it))
     }
 
     fun getSchedule(): Single<List<ProgramItem>> = schedule.get()
