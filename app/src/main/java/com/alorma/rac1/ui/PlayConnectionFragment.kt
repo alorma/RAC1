@@ -93,6 +93,17 @@ class PlayConnectionFragment : Fragment() {
 
                 })
 
+        activity?.let { act ->
+            val playbackState = MediaControllerCompat.getMediaController(act)?.playbackState
+            if (playbackState != null) {
+                onStateChanged(playbackState)
+            }
+
+            if (mediaBrowserCompat.isConnected.not()) {
+                mediaBrowserCompat.connect()
+            }
+        }
+
         disposables += programsRepository.getNow()
                 .subscribeOnIO()
                 .observeOnUI()
@@ -125,26 +136,13 @@ class PlayConnectionFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        activity?.let { act ->
-            val playbackState = MediaControllerCompat.getMediaController(act)?.playbackState
-            if (playbackState != null) {
-                onStateChanged(playbackState)
-            }
-
-            mediaBrowserCompat.connect()
-        }
-    }
-
-    override fun onStop() {
+    override fun onDestroy() {
         activity?.let { act ->
             disposables.clear()
             MediaControllerCompat.getMediaController(act)?.unregisterCallback(mediaCallback)
             mediaBrowserCompat.disconnect()
         }
-        super.onStop()
+        super.onDestroy()
     }
 
     interface PlayerCallback {
