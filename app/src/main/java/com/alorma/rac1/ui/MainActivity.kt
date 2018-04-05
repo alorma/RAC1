@@ -5,12 +5,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import com.alorma.rac1.R
 import com.alorma.rac1.domain.ProgramItem
-import com.alorma.rac1.ui.now.NowPlayingFragment
+import com.alorma.rac1.ui.program.LiveProgramFragment
 import com.alorma.rac1.ui.program.ProgramFragment
-import com.alorma.rac1.ui.program.ProgramProdcastFragment
 import com.alorma.rac1.ui.programs.ProgramsFragment
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
@@ -18,15 +16,11 @@ import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
-        ProgramProdcastFragment.DetailCallback, PlayConnectionFragment.PlayerCallback {
+        PlayConnectionFragment.PlayerCallback {
 
     private lateinit var programsFragment: ProgramsFragment
-    private lateinit var liveFragment: ProgramFragment
+    private lateinit var liveFragment: LiveProgramFragment
     private lateinit var playConnectionFragment: PlayConnectionFragment
-    private lateinit var nowPlayingFragment: NowPlayingFragment
-
-    private var showNowPlaying: Boolean = false
-    private var isPlaying: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,17 +30,14 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
             listCallback = this@MainActivity
         }
 
-        liveFragment = ProgramFragment()
+        liveFragment = LiveProgramFragment()
 
         playConnectionFragment = PlayConnectionFragment().apply {
             playerCallback = this@MainActivity
         }
 
-        nowPlayingFragment = NowPlayingFragment()
-
         supportFragmentManager.beginTransaction().apply {
             add(playConnectionFragment, playConnectionFragment::class.java.simpleName)
-            replace(R.id.nowPlaying, nowPlayingFragment)
         }.commitNow()
 
         with(bottomBar) {
@@ -75,16 +66,6 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
                         0 -> openSchedule()
                         1 -> openLive()
                         else -> openOther()
-                    }
-
-                    showNowPlaying = itemIndex != 1
-
-                    if (isPlaying) {
-                        nowPlaying.visibility = if (itemIndex == 1) {
-                            View.GONE
-                        } else {
-                            View.VISIBLE
-                        }
                     }
                 }
             })
@@ -154,8 +135,10 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
 
     override fun onProgramSelected(programItem: ProgramItem) {
         val fragment = ProgramFragment().apply {
-            //program = programItem
-            //detailCallback = this@MainActivity
+            program = programItem
+            backAction = {
+                supportFragmentManager.popBackStack()
+            }
         }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
@@ -163,28 +146,11 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
                 .commit()
     }
 
-    override fun onProgramDetailBack() {
-        supportFragmentManager.popBackStack()
-    }
-
-    override fun onProgramDetailError(title: String) {
-        val error = resources.getString(R.string.error_laoding_program_detail, title)
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
-        supportFragmentManager.popBackStack()
-    }
-
-
     override fun onPlayPlayback() {
         setStopIcon()
-        isPlaying = true
-        if (showNowPlaying) {
-            nowPlaying.visibility = View.VISIBLE
-        }
     }
 
     override fun onStopPlayback() {
         setPlayIcon()
-        isPlaying = false
-        nowPlaying.visibility = View.GONE
     }
 }

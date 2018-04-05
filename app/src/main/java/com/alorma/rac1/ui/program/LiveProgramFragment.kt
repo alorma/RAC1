@@ -13,12 +13,11 @@ import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
-import com.alorma.rac1.ui.common.dsl
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.program_fragment.*
 import javax.inject.Inject
 
-class ProgramFragment : Fragment() {
+class LiveProgramFragment : Fragment() {
 
     private lateinit var infoFragment: ProgramInfoFragment
     private lateinit var podcastFragment: ProgramPodcastFragment
@@ -27,9 +26,6 @@ class ProgramFragment : Fragment() {
 
     @Inject
     lateinit var programsRepository: ProgramsRepository
-
-    var program: ProgramItem? = null
-    lateinit var backAction: () -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +42,6 @@ class ProgramFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (program != null) {
-            toolbar.dsl {
-                back {
-                    action = {
-                        backAction()
-                    }
-                }
-            }
-        }
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -77,17 +63,12 @@ class ProgramFragment : Fragment() {
     }
 
     private fun loadProgram() {
-        if (program == null) {
-            disposable += programsRepository.getNow()
-                    .subscribeOnIO()
-                    .observeOnUI()
-                    .subscribe({
-                        program = it
-                        onProgramSet(it)
-                    }, {})
-        } else {
-            onProgramSet(program)
-        }
+        disposable += programsRepository.getNow()
+                .subscribeOnIO()
+                .observeOnUI()
+                .subscribe({
+                    onProgramSet(it)
+                }, {})
     }
 
     private fun onProgramSet(it: ProgramItem?) {

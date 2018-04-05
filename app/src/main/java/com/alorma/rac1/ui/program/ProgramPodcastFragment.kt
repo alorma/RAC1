@@ -17,22 +17,19 @@ import com.alorma.rac1.domain.ProgramSection
 import com.alorma.rac1.service.Podcast
 import com.alorma.rac1.service.StreamPlayback
 import com.alorma.rac1.ui.common.BaseView
-import com.alorma.rac1.ui.common.dsl
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.program_detail_fragment.*
 import javax.inject.Inject
 
-class ProgramProdcastFragment : Fragment(), BaseView<ProgramDetailAction, ProgramDetailRoute, ProgramDetailState> {
+class ProgramPodcastFragment : Fragment(), BaseView<ProgramDetailAction, ProgramDetailRoute, ProgramDetailState> {
 
     @Inject
     lateinit var presenter: ProgramDetailPresenter
 
-    lateinit var program: ProgramItem
+    var programItem: ProgramItem? = null
 
     @Inject
     lateinit var playbackPublisher: PublishSubject<StreamPlayback>
-
-    var detailCallback: DetailCallback? = null
 
     private val adapter: SectionsAdapter by lazy {
         SectionsAdapter().apply {
@@ -41,8 +38,10 @@ class ProgramProdcastFragment : Fragment(), BaseView<ProgramDetailAction, Progra
             }
             sessionBuilder = {
                 SessionAdapter().apply {
-                    sessionClick = {
-                        playbackPublisher.onNext(Podcast(program, it))
+                    sessionClick = { session ->
+                        programItem?.let { program ->
+                            playbackPublisher.onNext(Podcast(program, session))
+                        }
                     }
                 }
             }
@@ -64,12 +63,10 @@ class ProgramProdcastFragment : Fragment(), BaseView<ProgramDetailAction, Progra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbar.dsl {
-            back { action = { detailCallback?.onProgramDetailBack() } }
-            title = program.title
-            subTitle = program.subtitle
-        }
+        programItem?.let { onLoad(it) }
+    }
 
+    private fun onLoad(programItem: ProgramItem) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = object : LinearLayoutManager(context) {
             override fun supportsPredictiveItemAnimations(): Boolean {
@@ -82,7 +79,7 @@ class ProgramProdcastFragment : Fragment(), BaseView<ProgramDetailAction, Progra
             }
         })
 
-        presenter reduce ProgramDetailAction.Load(program)
+        presenter reduce ProgramDetailAction.Load(programItem)
     }
 
     override fun render(s: ProgramDetailState) {
@@ -112,10 +109,5 @@ class ProgramProdcastFragment : Fragment(), BaseView<ProgramDetailAction, Progra
     override fun onDestroy() {
         presenter.destroy()
         super.onDestroy()
-    }
-
-    interface DetailCallback {
-        fun onProgramDetailBack()
-        fun onProgramDetailError(title: String)
     }
 }
