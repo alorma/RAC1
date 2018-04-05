@@ -22,7 +22,7 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.program_detail_fragment.*
 import javax.inject.Inject
 
-class ProgramDetailFragment : Fragment(), BaseView<ProgramDetailAction, ProgramDetailRoute, ProgramDetailState> {
+class ProgramProdcastFragment : Fragment(), BaseView<ProgramDetailAction, ProgramDetailRoute, ProgramDetailState> {
 
     @Inject
     lateinit var presenter: ProgramDetailPresenter

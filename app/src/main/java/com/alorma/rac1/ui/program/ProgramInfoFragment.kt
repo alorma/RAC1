@@ -1,4 +1,4 @@
-package com.alorma.rac1.ui.live
+package com.alorma.rac1.ui.program
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,10 +14,10 @@ import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
 import com.bumptech.glide.Glide
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.live_fragment.*
+import kotlinx.android.synthetic.main.program_info_fragment.*
 import javax.inject.Inject
 
-class LiveFragment : Fragment() {
+class ProgramInfoFragment : Fragment() {
 
     @Inject
     lateinit var programsRepository: ProgramsRepository
@@ -33,7 +33,7 @@ class LiveFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.live_fragment, null, false)
+        return inflater.inflate(R.layout.program_info_fragment, null, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,10 +55,8 @@ class LiveFragment : Fragment() {
         this.programItem = it
 
         programTitle.text = it.title
-        programSubtitle.text = it.subtitle
-        programDescription.text = it.description
-
         programSchedule.text = it.scheduleText
+        programDescription.text = it.description
 
         programSchedule.visibility = if (it.scheduleText != null) {
             View.VISIBLE

@@ -3,8 +3,8 @@
     <style name="Live.Text.Description">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
         <item name="android:autoSizeTextType">uniform</item>
-        <item name="android:autoSizeMinTextSize">14sp</item>
-        <item name="android:autoSizeMaxTextSize">22sp</item>
+        <item name="android:autoSizeMinTextSize">12sp</item>
+        <item name="android:autoSizeMaxTextSize">16sp</item>
         <item name="android:autoSizeStepGranularity">2sp</item>
     </style>
 </resources>

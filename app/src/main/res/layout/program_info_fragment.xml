@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/programImage"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,8 @@
         android:id="@+id/programTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/white"
@@ -32,27 +32,15 @@
         tools:text="@tools:sample/full_names" />
 
     <TextView
-        android:id="@+id/programSubtitle"
+        android:id="@+id/programSchedule"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/programTitle"
         app:layout_constraintStart_toStartOf="@+id/programTitle"
         app:layout_constraintTop_toBottomOf="@+id/programTitle"
-        tools:text="@tools:sample/cities" />
-
-    <TextView
-        android:id="@+id/programSchedule"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/programSubtitle"
-        app:layout_constraintStart_toStartOf="@+id/programSubtitle"
-        app:layout_constraintTop_toBottomOf="@+id/programSubtitle"
         tools:text="@tools:sample/date/hhmm" />
 
     <TextView
@@ -60,13 +48,11 @@
         style="@style/Live.Text.Description"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:maxWidth="200dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/programImage"
         app:layout_constraintEnd_toEndOf="@+id/programTitle"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/programTitle"
         app:layout_constraintTop_toBottomOf="@+id/programSchedule"
         app:layout_goneMarginTop="36dp"

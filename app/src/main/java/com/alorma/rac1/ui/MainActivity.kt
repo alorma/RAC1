@@ -8,9 +8,9 @@ import android.view.View
 import android.widget.Toast
 import com.alorma.rac1.R
 import com.alorma.rac1.domain.ProgramItem
-import com.alorma.rac1.ui.live.LiveFragment
 import com.alorma.rac1.ui.now.NowPlayingFragment
-import com.alorma.rac1.ui.program.ProgramDetailFragment
+import com.alorma.rac1.ui.program.ProgramFragment
+import com.alorma.rac1.ui.program.ProgramProdcastFragment
 import com.alorma.rac1.ui.programs.ProgramsFragment
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
@@ -18,10 +18,10 @@ import com.luseen.spacenavigation.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
-        ProgramDetailFragment.DetailCallback, PlayConnectionFragment.PlayerCallback {
+        ProgramProdcastFragment.DetailCallback, PlayConnectionFragment.PlayerCallback {
 
     private lateinit var programsFragment: ProgramsFragment
-    private lateinit var liveFragment: LiveFragment
+    private lateinit var liveFragment: ProgramFragment
     private lateinit var playConnectionFragment: PlayConnectionFragment
     private lateinit var nowPlayingFragment: NowPlayingFragment
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
             listCallback = this@MainActivity
         }
 
-        liveFragment = LiveFragment()
+        liveFragment = ProgramFragment()
 
         playConnectionFragment = PlayConnectionFragment().apply {
             playerCallback = this@MainActivity
@@ -153,9 +153,9 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
     }
 
     override fun onProgramSelected(programItem: ProgramItem) {
-        val fragment = ProgramDetailFragment().apply {
-            program = programItem
-            detailCallback = this@MainActivity
+        val fragment = ProgramFragment().apply {
+            //program = programItem
+            //detailCallback = this@MainActivity
         }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
