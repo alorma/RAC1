@@ -3,6 +3,7 @@ package com.alorma.rac1.ui.program
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +14,14 @@ import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
+import io.reactivex.BackpressureStrategy
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.program_fragment.*
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import javax.inject.Inject
 
 class LiveProgramFragment : Fragment() {
@@ -23,6 +30,9 @@ class LiveProgramFragment : Fragment() {
     private lateinit var podcastFragment: ProgramPodcastFragment
 
     private val disposable = CompositeDisposable()
+
+    @Inject
+    lateinit var livePublisher: BehaviorSubject<ProgramItem>
 
     @Inject
     lateinit var programsRepository: ProgramsRepository
@@ -67,11 +77,21 @@ class LiveProgramFragment : Fragment() {
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
+                    connectToLiveUpdate()
                     onProgramSet(it)
                 }, {})
     }
 
-    private fun onProgramSet(it: ProgramItem?) {
+    private fun connectToLiveUpdate() {
+        disposable += livePublisher.toFlowable(BackpressureStrategy.BUFFER)
+                .subscribe({
+                    Log.i("Alorma", it.title)
+                    infoFragment.updateProgram(it)
+                    podcastFragment.updateProgram(it)
+                }, {}, {})
+    }
+
+    private fun onProgramSet(it: ProgramItem) {
         infoFragment.programItem = it
         podcastFragment.programItem = it
         selectInfoTab()

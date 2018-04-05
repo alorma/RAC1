@@ -101,6 +101,12 @@ class ProgramPodcastFragment : Fragment(), BaseView<ProgramDetailAction, Program
 
     }
 
+    fun updateProgram(it: ProgramItem) {
+        this.programItem = it
+        if (isAdded) {
+            onLoad(it)
+        }
+    }
 
     private fun onSectionClick(it: ProgramSection) {
         presenter reduce ProgramDetailAction.LoadSection(it)

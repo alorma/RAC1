@@ -48,4 +48,11 @@ class ProgramInfoFragment : Fragment() {
                 .load(it.images.person)
                 .into(programImage)
     }
+
+    fun updateProgram(it: ProgramItem) {
+        this.programItem = it
+        if (isAdded) {
+            onLoad(it)
+        }
+    }
 }

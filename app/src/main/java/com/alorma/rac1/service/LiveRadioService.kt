@@ -14,9 +14,14 @@ import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
+import com.alorma.rac1.domain.ProgramsRepository
 import com.alorma.rac1.ui.MainActivity
+import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.PlaybackServiceCallback {
@@ -29,10 +34,16 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     }
 
     @Inject
+    lateinit var programsRepository: ProgramsRepository
+
+    @Inject
     lateinit var mediaNotificationManager: MediaNotificationManager
 
     @Inject
     lateinit var playbackManager: LivePlaybackManager
+
+    @Inject
+    lateinit var livePublisher: BehaviorSubject<ProgramItem>
 
     @Inject
     lateinit var playbackPublisher: PublishSubject<StreamPlayback>
@@ -46,9 +57,9 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
 
     override fun onCreate() {
         super.onCreate()
-
         component inject this
 
+        loadCurrentProgram()
         connectPlaybackPublisher()
 
         playbackManager.serviceCallback = this
@@ -65,6 +76,20 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
         mSession.setExtras(Bundle())
 
         playbackManager.updatePlaybackState(null)
+    }
+
+    private fun loadCurrentProgram() {
+        disposable += Flowable.zip(
+                Flowable.interval(5, TimeUnit.SECONDS),
+                programsRepository.getPrograms().flattenAsFlowable { it },
+                BiFunction<Long, ProgramItem, ProgramItem> { _, program -> program }
+        ).subscribeOnIO()
+                .observeOnUI()
+                .subscribe({
+                    livePublisher.onNext(it)
+                }, {}, {
+                    livePublisher.onComplete()
+                })
     }
 
     private fun connectPlaybackPublisher() {
