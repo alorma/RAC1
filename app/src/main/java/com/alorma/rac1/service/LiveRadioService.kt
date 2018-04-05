@@ -81,16 +81,21 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     }
 
     private fun loadCurrentProgram() {
-        disposable += programsRepository.getNow()
+        disposable += Flowable.interval(15, TimeUnit.MINUTES)
+                .flatMapSingle { programsRepository.getNow() }
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
-                    this.currentProgram = it
-                    livePublisher.onNext(it)
-                    if (streamType === Live) {
-                        mediaNotificationManager.update(mSession.sessionToken, it, session)
+                    if (currentProgram?.id == it.id) {
+                        this.currentProgram = it
+                        livePublisher.onNext(it)
+                        if (streamType === Live) {
+                            mediaNotificationManager.update(mSession.sessionToken, it, session)
+                        }
                     }
-                }, {})
+                }, {}, {
+                    livePublisher.onComplete()
+                })
     }
 
     private fun connectPlaybackPublisher() {
