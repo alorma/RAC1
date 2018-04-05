@@ -2,13 +2,11 @@ package com.alorma.rac1.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.ui.program.LiveProgramFragment
-import com.alorma.rac1.ui.program.ProgramFragment
+import com.alorma.rac1.ui.program.ProgramActivity
 import com.alorma.rac1.ui.programs.ProgramsFragment
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
@@ -21,6 +19,8 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
     private lateinit var programsFragment: ProgramsFragment
     private lateinit var liveFragment: LiveProgramFragment
     private lateinit var playConnectionFragment: PlayConnectionFragment
+
+    private var lastFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +42,9 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
 
         with(bottomBar) {
             initWithSaveInstanceState(savedInstanceState)
-
             configScheduleButton()
             configLiveButton()
             configCenterButton()
-            configPlayListButton()
-            configFavListButton()
 
             changeCurrentItem(1)
             showIconOnly()
@@ -65,7 +62,6 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
                     when (itemIndex) {
                         0 -> openSchedule()
                         1 -> openLive()
-                        else -> openOther()
                     }
                 }
             })
@@ -75,31 +71,21 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
     }
 
     private fun openSchedule() {
-        supportFragmentManager.beginTransaction().replace(R.id.container, programsFragment).commit()
+        addFragment(programsFragment)
     }
 
     private fun openLive() {
-        supportFragmentManager.beginTransaction().replace(R.id.container, liveFragment).commit()
+        addFragment(liveFragment)
     }
 
-    private fun openOther() {
+    private fun addFragment(fragment: Fragment, backStack: Boolean = false) {
+        this.lastFragment = fragment
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.container, Fragment())
-        }.commitNow()
-    }
-
-    private fun setStopIcon() {
-        with(bottomBar) {
-            changeCenterButtonIcon(R.drawable.ic_stop)
-            (ContextCompat.getColor(this@MainActivity, R.color.white))
-        }
-    }
-
-    private fun setPlayIcon() {
-        with(bottomBar) {
-            changeCenterButtonIcon(R.drawable.ic_play)
-            (ContextCompat.getColor(this@MainActivity, R.color.white))
-        }
+            replace(R.id.container, fragment)
+            if (backStack) {
+                addToBackStack(null)
+            }
+        }.commit()
     }
 
     private fun SpaceNavigationView.configScheduleButton() {
@@ -109,16 +95,6 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
 
     private fun SpaceNavigationView.configLiveButton() {
         val space = getSpace(R.string.navigation_actual, R.drawable.ic_radio)
-        addSpaceItem(space)
-    }
-
-    private fun SpaceNavigationView.configPlayListButton() {
-        val space = getSpace(R.string.navigation_playlist, R.drawable.ic_playlist)
-        addSpaceItem(space)
-    }
-
-    private fun SpaceNavigationView.configFavListButton() {
-        val space = getSpace(R.string.navigation_favorites, R.drawable.ic_star_empty)
         addSpaceItem(space)
     }
 
@@ -134,23 +110,14 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
     }
 
     override fun onProgramSelected(programItem: ProgramItem) {
-        val fragment = ProgramFragment().apply {
-            program = programItem
-            backAction = {
-                supportFragmentManager.popBackStack()
-            }
-        }
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack(null)
-                .commit()
+        startActivity(ProgramActivity.getIntent(this, programItem.id))
     }
 
     override fun onPlayPlayback() {
-        setStopIcon()
+        bottomBar.changeCenterButtonIcon(R.drawable.ic_stop)
     }
 
     override fun onStopPlayback() {
-        setPlayIcon()
+        bottomBar.changeCenterButtonIcon(R.drawable.ic_play)
     }
 }
