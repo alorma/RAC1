@@ -12,8 +12,12 @@ import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
+import com.alorma.rac1.service.Play
+import com.alorma.rac1.service.Stop
+import com.alorma.rac1.service.StreamPlayback
 import com.alorma.rac1.ui.common.dsl
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.program_fragment.*
 import javax.inject.Inject
 
@@ -21,14 +25,20 @@ class ProgramActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_ID = "extra_id"
-        fun getIntent(context: Context, programId: String): Intent =
+        private const val EXTRA_PLAYING = "extra_playing"
+
+        fun getIntent(context: Context, programId: String, playing: Boolean): Intent =
                 Intent(context, ProgramActivity::class.java).apply {
                     putExtra(EXTRA_ID, programId)
+                    putExtra(EXTRA_PLAYING, playing)
                 }
     }
 
     @Inject
     lateinit var programsRepository: ProgramsRepository
+
+    @Inject
+    lateinit var playbackPublisher: PublishSubject<StreamPlayback>
 
     private lateinit var infoFragment: ProgramInfoFragment
     private lateinit var podcastFragment: ProgramPodcastFragment
@@ -66,8 +76,38 @@ class ProgramActivity : AppCompatActivity() {
                 }
             })
             loadProgram(programId)
+
+            if (intent?.getBooleanExtra(EXTRA_PLAYING, false) == true) {
+                showFab()
+            }
+
+            subscribeToChange()
+
         } ?: finish()
 
+    }
+
+    private fun subscribeToChange() {
+        disposable += playbackPublisher.subscribeOnIO()
+                .observeOnUI()
+                .subscribe({
+                    when (it) {
+                        is Play -> showFab()
+                        Stop -> hideFab()
+                    }
+                }, {})
+
+    }
+
+    private fun showFab() {
+        fab.show()
+        fab.setOnClickListener {
+            playbackPublisher.onNext(Stop)
+        }
+    }
+
+    private fun hideFab() {
+        fab.hide()
     }
 
     private fun loadProgram(programId: String) {

@@ -98,7 +98,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
 
         if (intent.hasExtra(CMD)) {
             if (intent.getStringExtra(CMD) == CMD_STOP) {
-                playbackManager.handleStopRequest()
+                playbackPublisher.onNext(Stop)
             }
         }
 

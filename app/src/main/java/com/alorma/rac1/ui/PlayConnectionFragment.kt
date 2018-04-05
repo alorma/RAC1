@@ -32,7 +32,8 @@ class PlayConnectionFragment : Fragment() {
         MediaBrowserCompat(context, ComponentName(context, LiveRadioService::class.java),
                 mediaBrowserCompatConnectionCallback, null)
     }
-    private var isPlaying: Boolean = false
+
+    var isPlaying: Boolean = false
 
     private val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 

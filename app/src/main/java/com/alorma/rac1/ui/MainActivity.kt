@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
     }
 
     override fun onProgramSelected(programItem: ProgramItem) {
-        startActivity(ProgramActivity.getIntent(this, programItem.id))
+        startActivity(ProgramActivity.getIntent(this, programItem.id, playConnectionFragment.isPlaying))
     }
 
     override fun onPlayPlayback() {
