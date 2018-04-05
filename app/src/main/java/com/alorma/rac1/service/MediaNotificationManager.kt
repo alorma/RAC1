@@ -41,6 +41,12 @@ class MediaNotificationManager @Inject constructor(
         return showNotification(nm, program, session, sessionToken)
     }
 
+    fun update(sessionToken: MediaSessionCompat.Token, program: ProgramItem, session: SessionDto?): Notification {
+        val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        createChannel(nm)
+        return showNotification(nm, program, session, sessionToken)
+    }
+
     fun hide() {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

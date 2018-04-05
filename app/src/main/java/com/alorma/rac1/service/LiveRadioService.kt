@@ -48,11 +48,13 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     @Inject
     lateinit var playbackPublisher: PublishSubject<StreamPlayback>
 
+    private var currentProgram: ProgramItem? = null
+    private var streamType: StreamPlayback? = null
+
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     private val mSession: MediaSessionCompat by lazy { MediaSessionCompat(this, "MusicService") }
 
-    private lateinit var program: ProgramItem
     private var session: SessionDto? = null
 
     override fun onCreate() {
@@ -79,17 +81,16 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     }
 
     private fun loadCurrentProgram() {
-        disposable += Flowable.zip(
-                Flowable.interval(5, TimeUnit.SECONDS),
-                programsRepository.getPrograms().flattenAsFlowable { it },
-                BiFunction<Long, ProgramItem, ProgramItem> { _, program -> program }
-        ).subscribeOnIO()
+        disposable += programsRepository.getNow()
+                .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
+                    this.currentProgram = it
                     livePublisher.onNext(it)
-                }, {}, {
-                    livePublisher.onComplete()
-                })
+                    if (streamType === Live) {
+                        mediaNotificationManager.update(mSession.sessionToken, it, session)
+                    }
+                }, {})
     }
 
     private fun connectPlaybackPublisher() {
@@ -101,16 +102,17 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     }
 
     private fun onStreamPlayback(it: StreamPlayback) {
+        this.streamType = it
         when (it) {
             Stop -> playbackManager.handleStopRequest()
             is Play -> {
-                this@LiveRadioService.program = it.programItem
                 this@LiveRadioService.session = null
                 when (it) {
-                    is Live -> {
+                    Live -> {
                         playbackManager.handlePlayRequest(LIVE_URL)
                     }
                     is Podcast -> {
+                        this@LiveRadioService.currentProgram = it.program
                         this@LiveRadioService.session = it.sessionDto
                         playbackManager.handlePlayRequest(it.sessionDto.path)
                     }
@@ -164,15 +166,17 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
      * Callback method called from PlaybackManager whenever the music is about to play.
      */
     override fun onPlaybackStart() {
-        val notification = mediaNotificationManager.show(mSession.sessionToken, program, session)
-        mSession.isActive = true
+        currentProgram?.let {
+            val notification = mediaNotificationManager.show(mSession.sessionToken, it, session)
+            mSession.isActive = true
 
-        startForeground(MediaNotificationManager.ID_LIVE, notification)
+            startForeground(MediaNotificationManager.ID_LIVE, notification)
 
-        // The service needs to continue running even after the bound client (usually a
-        // MediaController) disconnects, otherwise the music playback will stop.
-        // Calling startService(Intent) will keep the service running until it is explicitly killed.
-        startService(Intent(applicationContext, LiveRadioService::class.java))
+            // The service needs to continue running even after the bound client (usually a
+            // MediaController) disconnects, otherwise the music playback will stop.
+            // Calling startService(Intent) will keep the service running until it is explicitly killed.
+            startService(Intent(applicationContext, LiveRadioService::class.java))
+        }
     }
 
     /**

@@ -85,7 +85,6 @@ class LiveProgramFragment : Fragment() {
     private fun connectToLiveUpdate() {
         disposable += livePublisher.toFlowable(BackpressureStrategy.BUFFER)
                 .subscribe({
-                    Log.i("Alorma", it.title)
                     infoFragment.updateProgram(it)
                     podcastFragment.updateProgram(it)
                 }, {}, {})

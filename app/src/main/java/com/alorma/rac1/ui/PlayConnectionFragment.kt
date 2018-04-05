@@ -118,7 +118,7 @@ class PlayConnectionFragment : Fragment() {
             playbackPublisher.onNext(Stop)
         } else {
             liveProgram?.let {
-                playbackPublisher.onNext(Live(it))
+                playbackPublisher.onNext(Live)
             }
         }
     }
