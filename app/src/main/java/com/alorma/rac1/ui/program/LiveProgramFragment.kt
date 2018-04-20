@@ -65,6 +65,10 @@ class LiveProgramFragment : Fragment() {
             }
         })
         selectInfoTab()
+    }
+
+    override fun onStart() {
+        super.onStart()
         connectToLiveUpdate()
     }
 
