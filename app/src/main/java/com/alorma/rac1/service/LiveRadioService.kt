@@ -18,7 +18,6 @@ import com.alorma.rac1.domain.ProgramsRepository
 import com.alorma.rac1.ui.MainActivity
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
@@ -81,19 +80,22 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     }
 
     private fun loadCurrentProgram() {
-        disposable += Flowable.interval(15, TimeUnit.MINUTES)
-                .flatMapSingle { programsRepository.getNow() }
+        val now = programsRepository.getNow().toFlowable()
+        val interval = Flowable.interval(15, TimeUnit.MINUTES).flatMap { now }
+        disposable += Flowable.concat(now, interval)
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
-                    if (currentProgram?.id == it.id) {
+                    if (currentProgram == null || currentProgram?.id == it.id) {
                         this.currentProgram = it
                         livePublisher.onNext(it)
                         if (streamType === Live) {
                             mediaNotificationManager.update(mSession.sessionToken, it, session)
                         }
                     }
-                }, {}, {
+                }, {
+                    it.printStackTrace()
+                }, {
                     livePublisher.onComplete()
                 })
     }
@@ -113,9 +115,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
             is Play -> {
                 this@LiveRadioService.session = null
                 when (it) {
-                    Live -> {
-                        playbackManager.handlePlayRequest(LIVE_URL)
-                    }
+                    Live -> playbackManager.handlePlayRequest(LIVE_URL)
                     is Podcast -> {
                         this@LiveRadioService.currentProgram = it.program
                         this@LiveRadioService.session = it.sessionDto

@@ -119,9 +119,9 @@ class ProgramActivity : AppCompatActivity() {
                 }, {})
     }
 
-    private fun onProgramSet(it: ProgramItem?) {
-        infoFragment.programItem = it
-        podcastFragment.programItem = it
+    private fun onProgramSet(it: ProgramItem) {
+        infoFragment.updateProgram(it)
+        podcastFragment.updateProgram(it)
         selectInfoTab()
     }
 

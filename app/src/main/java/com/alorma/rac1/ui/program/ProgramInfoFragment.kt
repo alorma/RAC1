@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.program_info_fragment.*
 
 class ProgramInfoFragment : Fragment() {
 
-    var programItem: ProgramItem? = null
+    private var programItem: ProgramItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

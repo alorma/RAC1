@@ -26,7 +26,7 @@ class ProgramPodcastFragment : Fragment(), BaseView<ProgramDetailAction, Program
     @Inject
     lateinit var presenter: ProgramDetailPresenter
 
-    var programItem: ProgramItem? = null
+    private var programItem: ProgramItem? = null
 
     @Inject
     lateinit var playbackPublisher: PublishSubject<StreamPlayback>

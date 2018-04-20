@@ -15,6 +15,7 @@ import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
 import com.alorma.rac1.service.*
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -25,6 +26,9 @@ class PlayConnectionFragment : Fragment() {
 
     @Inject
     lateinit var playbackPublisher: PublishSubject<StreamPlayback>
+
+    @Inject
+    lateinit var livePublisher: BehaviorSubject<ProgramItem>
 
     lateinit var playerCallback: PlayerCallback
 
@@ -105,7 +109,7 @@ class PlayConnectionFragment : Fragment() {
             }
         }
 
-        disposables += programsRepository.getNow()
+        disposables += livePublisher
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
