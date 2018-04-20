@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.commons.observeOnUI
@@ -123,6 +124,11 @@ class ProgramActivity : AppCompatActivity() {
     private fun showPlaying(it: StreamPlayback) {
         if (it is Podcast) {
             programName.text = it.sessionDto.title
+            programTime.max = it.sessionDto.durationSeconds.toInt()
+            programTime.progress = programTime.max / 2
+            programTime.visibility = View.VISIBLE
+        } else {
+            programTime.visibility = View.GONE
         }
         playIcon.setImageResource(R.drawable.ic_stop)
         playIcon.setOnClickListener {
