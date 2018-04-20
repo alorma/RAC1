@@ -1,11 +1,4 @@
 <resources>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <style name="Programs" />
 
     <style name="Programs.Item" />
@@ -67,5 +60,12 @@
 
     <style name="Live.Text.Description">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
+    </style>
+
+    <style name="Player" />
+    <style name="Player.Controls" />
+
+    <style name="Player.Controls.Seek" parent="@style/Widget.AppCompat.SeekBar" >
+        <item name="android:theme">@style/AppTheme.Inverse</item>
     </style>
 </resources>

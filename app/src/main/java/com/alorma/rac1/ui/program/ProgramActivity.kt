@@ -12,13 +12,13 @@ import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
-import com.alorma.rac1.service.Play
-import com.alorma.rac1.service.Stop
-import com.alorma.rac1.service.StreamPlayback
+import com.alorma.rac1.service.*
 import com.alorma.rac1.ui.common.dsl
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.program_fragment.*
+import kotlinx.android.synthetic.main.player_control_fragment.*
+import kotlinx.android.synthetic.main.program_toolbar.*
 import javax.inject.Inject
 
 class ProgramActivity : AppCompatActivity() {
@@ -40,6 +40,11 @@ class ProgramActivity : AppCompatActivity() {
     @Inject
     lateinit var playbackPublisher: PublishSubject<StreamPlayback>
 
+    @Inject
+    lateinit var livePublisher: BehaviorSubject<ProgramItem>
+
+    private var currentStatus: StreamPlayback = Live
+
     private lateinit var infoFragment: ProgramInfoFragment
     private lateinit var podcastFragment: ProgramPodcastFragment
 
@@ -47,7 +52,7 @@ class ProgramActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.program_fragment)
+        setContentView(R.layout.program_activity)
 
         component inject this
 
@@ -78,36 +83,60 @@ class ProgramActivity : AppCompatActivity() {
             loadProgram(programId)
 
             if (intent?.getBooleanExtra(EXTRA_PLAYING, false) == true) {
-                showFab()
+                showPlaying(Stop)
+            } else {
+                showNoPlaying()
             }
 
+            subscribeToLive()
             subscribeToChange()
 
         } ?: finish()
 
     }
 
+    private fun subscribeToLive() {
+        disposable += livePublisher.subscribeOnIO()
+                .observeOnUI()
+                .subscribe({
+                    programName.text = it.title
+                }, {
+
+                })
+    }
+
     private fun subscribeToChange() {
         disposable += playbackPublisher.subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
+                    if (it !== Stop) {
+                        this.currentStatus = it
+                    }
                     when (it) {
-                        is Play -> showFab()
-                        Stop -> hideFab()
+                        is Play -> showPlaying(it)
+                        Stop -> showNoPlaying()
                     }
                 }, {})
 
     }
 
-    private fun showFab() {
-        fab.show()
-        fab.setOnClickListener {
+    private fun showPlaying(it: StreamPlayback) {
+        if (it is Podcast) {
+            programName.text = it.sessionDto.title
+        }
+        playIcon.setImageResource(R.drawable.ic_stop)
+        playIcon.setOnClickListener {
             playbackPublisher.onNext(Stop)
         }
     }
 
-    private fun hideFab() {
-        fab.hide()
+    private fun showNoPlaying() {
+        playIcon.setImageResource(R.drawable.ic_play)
+        playIcon.setOnClickListener {
+            if (currentStatus !== Stop) {
+                playbackPublisher.onNext(currentStatus)
+            }
+        }
     }
 
     private fun loadProgram(programId: String) {

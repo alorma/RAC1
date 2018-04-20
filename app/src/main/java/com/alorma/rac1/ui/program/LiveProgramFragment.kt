@@ -15,8 +15,7 @@ import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.android.synthetic.main.program_fragment.*
-import java.util.concurrent.TimeUnit
+import kotlinx.android.synthetic.main.program_toolbar.*
 import javax.inject.Inject
 
 class LiveProgramFragment : Fragment() {
@@ -42,7 +41,7 @@ class LiveProgramFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.program_fragment, null, false)
+        return inflater.inflate(R.layout.live_program_fragment, null, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,5 +93,4 @@ class LiveProgramFragment : Fragment() {
         disposable.clear()
         super.onStop()
     }
-
 }
