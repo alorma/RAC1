@@ -63,6 +63,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Live.Button.Play">
+        <item name="android:text">@string/play_text</item>
+    </style>
+
     <style name="Live.Text.Title">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
     </style>
@@ -83,4 +87,6 @@
     <style name="Player.Controls.Seek" parent="@style/Widget.AppCompat.SeekBar">
         <item name="android:theme">@style/AppTheme.Inverse</item>
     </style>
+
+    <string name="play_text">REPRODUIR</string>
 </resources>

@@ -2,12 +2,13 @@ package com.alorma.rac1.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.ui.program.LiveProgramFragment
 import com.alorma.rac1.ui.program.ProgramActivity
 import com.alorma.rac1.ui.programs.ProgramsFragment
-import com.luseen.spacenavigation.SpaceItem
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         PlayConnectionFragment.PlayerCallback {
@@ -46,17 +47,15 @@ class MainActivity : AppCompatActivity(), ProgramsFragment.ListCallback,
         supportFragmentManager.beginTransaction().replace(R.id.currentProgram, liveFragment).commit()
     }
 
-    private fun getSpace(title: Int, icon: Int): SpaceItem = SpaceItem(resources.getString(title), icon)
-
     override fun onProgramSelected(programItem: ProgramItem) {
         startActivity(ProgramActivity.getIntent(this, programItem.id, playConnectionFragment.isPlaying))
     }
 
     override fun onPlayPlayback() {
-        //bottomBar.changeCenterButtonIcon(R.drawable.ic_stop)
+        playerControlsLy.visibility = View.VISIBLE
     }
 
     override fun onStopPlayback() {
-        //bottomBar.changeCenterButtonIcon(R.drawable.ic_play)
+        playerControlsLy.visibility = View.GONE
     }
 }
