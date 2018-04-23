@@ -34,15 +34,7 @@ class ProgramInfoFragment : Fragment() {
     }
 
     private fun onLoad(it: ProgramItem) {
-        programTitle.text = it.title
-        programSchedule.text = it.scheduleText
         programDescription.text = it.description
-
-        programSchedule.visibility = if (it.scheduleText != null) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
 
         Glide.with(programImage.context)
                 .load(it.images.person)

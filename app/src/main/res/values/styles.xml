@@ -1,4 +1,5 @@
 <resources>
+
     <style name="Programs" />
 
     <style name="Programs.Item" />
@@ -58,14 +59,28 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Live.Button" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Live.Text.Title">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+    </style>
+
+    <style name="Live.Text.Schedule">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="Live.Text.Description">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
     </style>
 
     <style name="Player" />
+
     <style name="Player.Controls" />
 
-    <style name="Player.Controls.Seek" parent="@style/Widget.AppCompat.SeekBar" >
+    <style name="Player.Controls.Seek" parent="@style/Widget.AppCompat.SeekBar">
         <item name="android:theme">@style/AppTheme.Inverse</item>
     </style>
 </resources>

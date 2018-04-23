@@ -3,7 +3,6 @@ package com.alorma.rac1.ui.program
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.alorma.rac1.R
@@ -65,22 +64,6 @@ class ProgramActivity : AppCompatActivity() {
                 back { action = { finish() } }
             }
 
-            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabReselected(tab: TabLayout.Tab) {
-
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab) {
-
-                }
-
-                override fun onTabSelected(tab: TabLayout.Tab) {
-                    when (tab.position) {
-                        0 -> selectInfoTab()
-                        1 -> selectPodcastTab()
-                    }
-                }
-            })
             loadProgram(programId)
 
             if (intent?.getBooleanExtra(EXTRA_PLAYING, false) == true) {
@@ -158,6 +141,15 @@ class ProgramActivity : AppCompatActivity() {
         infoFragment.updateProgram(it)
         podcastFragment.updateProgram(it)
         selectInfoTab()
+
+        setTitle(it)
+    }
+
+    private fun setTitle(it: ProgramItem) {
+        toolbar.dsl {
+            title = it.title
+        }
+        programSchedule.text = it.scheduleText
     }
 
     private fun selectInfoTab() {

@@ -94,18 +94,7 @@ class ProgramsAdapter(private val onClick: (ProgramItem) -> Unit)
 
         private fun setupDays(itemView: View, schedule: Schedule) {
             itemView.days.visibility = View.VISIBLE
-
-            setupDay(Monday, schedule, itemView.dayMonday)
-            setupDay(Tuesday, schedule, itemView.dayTuesday)
-            setupDay(Wednesday, schedule, itemView.dayWednesday)
-            setupDay(Thursday, schedule, itemView.dayThursday)
-            setupDay(Friday, schedule, itemView.dayFriday)
-            setupDay(Saturday, schedule, itemView.daySaturday)
-            setupDay(Sunday, schedule, itemView.daySunday)
-        }
-
-        private fun setupDay(day: ScheduleDay, schedule: Schedule, textView: TextView) {
-            textView.isEnabled = day in schedule
+            itemView.days.setSchedule(schedule)
         }
     }
 }

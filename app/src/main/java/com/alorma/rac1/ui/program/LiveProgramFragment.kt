@@ -1,7 +1,6 @@
 package com.alorma.rac1.ui.program
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +12,10 @@ import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
+import com.bumptech.glide.Glide
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.android.synthetic.main.program_toolbar.*
+import kotlinx.android.synthetic.main.live_program_fragment.*
 import javax.inject.Inject
 
 class LiveProgramFragment : Fragment() {
@@ -44,28 +44,6 @@ class LiveProgramFragment : Fragment() {
         return inflater.inflate(R.layout.live_program_fragment, null, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 -> selectInfoTab()
-                    1 -> selectPodcastTab()
-                }
-            }
-        })
-        selectInfoTab()
-    }
-
     override fun onStart() {
         super.onStart()
         connectToLiveUpdate()
@@ -76,17 +54,20 @@ class LiveProgramFragment : Fragment() {
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
+                    setTitle(it)
                     infoFragment.updateProgram(it)
                     podcastFragment.updateProgram(it)
                 }, {}, {})
     }
 
-    private fun selectInfoTab() {
-        childFragmentManager.beginTransaction().replace(R.id.content, infoFragment).commit()
-    }
+    private fun setTitle(it: ProgramItem) {
+        programName.text = it.title
 
-    private fun selectPodcastTab() {
-        childFragmentManager.beginTransaction().replace(R.id.content, podcastFragment).commit()
+        Glide.with(programImage.context)
+                .load(it.images.person)
+                .into(programImage)
+
+        programSchedule.text = it.scheduleText
     }
 
     override fun onStop() {

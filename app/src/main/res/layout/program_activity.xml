@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/playerControls"
-        android:layout_below="@+id/toolbar" />
+        android:layout_below="@+id/appBar" />
 
     <include
         android:id="@+id/playerControls"

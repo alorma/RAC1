@@ -21,7 +21,7 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.program_detail_fragment.*
 import javax.inject.Inject
 
-class ProgramPodcastFragment : Fragment(), BaseView<ProgramDetailAction, ProgramDetailRoute, ProgramDetailState> {
+class ProgramPodcastFragment : Fragment(), BaseView<ProgramDetailRoute, ProgramDetailState> {
 
     @Inject
     lateinit var presenter: ProgramDetailPresenter

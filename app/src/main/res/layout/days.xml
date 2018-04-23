@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/daysLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:orientation="horizontal"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
+
+    <TextView
+        android:id="@+id/dayMonday"
+        style="@style/Programs.Item.Schedule.Day.Week"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="Dl" />
+
+    <Space
+        android:layout_width="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dayTuesday"
+        style="@style/Programs.Item.Schedule.Day.Week"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="Dm" />
+
+    <Space
+        android:layout_width="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dayWednesday"
+        style="@style/Programs.Item.Schedule.Day.Week"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="Dc"
+        tools:enabled="false" />
+
+    <Space
+        android:layout_width="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dayThursday"
+        style="@style/Programs.Item.Schedule.Day.Week"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="Dj" />
+
+    <Space
+        android:layout_width="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dayFriday"
+        style="@style/Programs.Item.Schedule.Day.Week"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="Dv" />
+
+    <Space
+        android:layout_width="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/daySaturday"
+        style="@style/Programs.Item.Schedule.Day.Weekend"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="Ds" />
+
+    <Space
+        android:layout_width="4dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/daySunday"
+        style="@style/Programs.Item.Schedule.Day.Weekend"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:text="Dg"
+        tools:enabled="false" />
+
+</LinearLayout>

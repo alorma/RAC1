@@ -4,58 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    tools:layout_editor_absoluteY="25dp">
 
     <ImageView
         android:id="@+id/programImage"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/programTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/full_names" />
-
-    <TextView
-        android:id="@+id/programSchedule"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/programTitle"
-        app:layout_constraintStart_toStartOf="@+id/programTitle"
-        app:layout_constraintTop_toBottomOf="@+id/programTitle"
-        tools:text="@tools:sample/date/hhmm" />
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/programDescription"
         style="@style/Live.Text.Description"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/programImage"
-        app:layout_constraintEnd_toEndOf="@+id/programTitle"
-        app:layout_constraintStart_toStartOf="@+id/programTitle"
-        app:layout_constraintTop_toBottomOf="@+id/programSchedule"
-        app:layout_goneMarginTop="36dp"
+        android:layout_width="344dp"
+        android:layout_height="431dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/programImage"
+        tools:layout_editor_absoluteX="8dp"
         tools:text="@tools:sample/lorem" />
 
 </android.support.constraint.ConstraintLayout>

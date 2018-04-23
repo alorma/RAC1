@@ -14,11 +14,10 @@ import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.ProgramsAdapter
-import com.alorma.rac1.ui.common.dsl
 import kotlinx.android.synthetic.main.programs_fragment.*
 import javax.inject.Inject
 
-class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, ProgramsState> {
+class ProgramsFragment : Fragment(), BaseView<ProgramsRoute, ProgramsState> {
 
     @Inject
     lateinit var presenter: ProgramsPresenter
@@ -46,10 +45,6 @@ class ProgramsFragment : Fragment(), BaseView<ProgramsAction, ProgramsRoute, Pro
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        toolbar.dsl {
-            title = R.string.app_name
-        }
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = object : LinearLayoutManager(context) {
