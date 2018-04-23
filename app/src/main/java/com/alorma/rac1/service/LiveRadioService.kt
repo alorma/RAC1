@@ -86,7 +86,7 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
                 .subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
-                    if (currentProgram == null || currentProgram?.id == it.id) {
+                    if (currentProgram == null || currentProgram?.id != it.id) {
                         this.currentProgram = it
                         livePublisher.onNext(it)
                         if (streamType === Live) {
@@ -111,7 +111,10 @@ class LiveRadioService : MediaBrowserServiceCompat(), LivePlaybackManager.Playba
     private fun onStreamPlayback(it: StreamPlayback) {
         this.streamType = it
         when (it) {
-            Stop -> playbackManager.handleStopRequest()
+            Stop -> {
+                disposable.clear()
+                playbackManager.handleStopRequest()
+            }
             is Play -> {
                 this@LiveRadioService.session = null
                 when (it) {
