@@ -9,22 +9,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.Rac1Application.Companion.component
-import com.alorma.rac1.commons.observeOnUI
-import com.alorma.rac1.commons.plusAssign
-import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
-import com.alorma.rac1.service.*
+import com.alorma.rac1.service.Podcast
 import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.ProgramsAdapter
 import com.alorma.rac1.ui.main.MainAction
 import com.alorma.rac1.ui.main.MainPresenter
 import com.alorma.rac1.ui.main.MainRoute
 import com.alorma.rac1.ui.main.MainState
-import com.alorma.rac1.ui.program.LiveProgramFragment
 import com.alorma.rac1.ui.program.ProgramActivity
-import io.reactivex.disposables.CompositeDisposable
+import com.bumptech.glide.Glide
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.player_control_fragment.*
 import javax.inject.Inject
@@ -37,15 +32,7 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
     @Inject
     lateinit var actions: MainAction
 
-    private lateinit var liveFragment: LiveProgramFragment
     private lateinit var playConnectionFragment: PlayConnectionFragment
-    private val disposable = CompositeDisposable()
-
-    private var currentStatus: StreamPlayback = Live
-    private var currentLiveProgram: ProgramItem? = null
-
-    @Inject
-    lateinit var playbackPublisher: PublishSubject<StreamPlayback>
 
     @Inject
     lateinit var livePublisher: BehaviorSubject<ProgramItem>
@@ -60,11 +47,14 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         component inject this
+        addConnectionFragment()
+        initView()
+        presenter init this
+        presenter reduce actions.load()
+    }
 
-        liveFragment = LiveProgramFragment()
-
+    private fun addConnectionFragment() {
         playConnectionFragment = PlayConnectionFragment().apply {
             playerCallback = this@MainActivity
         }
@@ -72,17 +62,6 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
         supportFragmentManager.beginTransaction().apply {
             add(playConnectionFragment, playConnectionFragment::class.java.simpleName)
         }.commitNow()
-
-        initView()
-
-        presenter init this
-
-        presenter reduce actions.load()
-
-        openLive()
-
-        subscribeToLive()
-        subscribeToChange()
     }
 
     private fun initView() {
@@ -97,12 +76,49 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
         })
     }
 
-    private fun openLive() {
-        supportFragmentManager.beginTransaction().replace(R.id.currentProgram, liveFragment).commit()
+    override fun render(s: MainState) {
+        when (s) {
+            is MainState.SuccessSchedule -> {
+                recyclerView?.let {
+                    val first = manager.findFirstVisibleItemPosition()
+                    recyclerView.recycledViewPool.clear()
+                    adapter.setItems(s.items)
+                    s.diffResult.dispatchUpdatesTo(adapter)
+                    recyclerView.scrollToPosition(first)
+                }
+            }
+            is MainState.SuccessLive -> {
+                liveProgramName.text = s.program.title
+                liveProgramSchedule.text = s.program.scheduleText
+
+                Glide.with(liveProgramImage.context)
+                        .load(s.program.images.person)
+                        .into(liveProgramImage)
+
+                livePlayButton.setOnClickListener { presenter reduce actions.playLive() }
+            }
+            is MainState.PlayingStatus -> {
+                livePlayButton.visibility = View.GONE
+                if (s is MainState.PlayingStatus.PlayingPodcast) {
+                    programName.text = s.sessionDto.title
+                    programTime.max = s.sessionDto.durationSeconds.toInt()
+                    programTime.progress = programTime.max / 2
+                    programTime.visibility = View.VISIBLE
+                } else {
+                    programTime.visibility = View.GONE
+                    programName.text = s.program.title
+                }
+            }
+        }
     }
 
-    fun onProgramSelected(programItem: ProgramItem) {
-        startActivity(ProgramActivity.getIntent(this, programItem.id, playConnectionFragment.isPlaying))
+    override fun navigate(r: MainRoute) {
+        when (r) {
+            is MainRoute.OpenProgramDetail -> {
+                startActivity(ProgramActivity.getIntent(this, r.program.id,
+                        playConnectionFragment.isPlaying))
+            }
+        }
     }
 
     override fun onPlayPlayback() {
@@ -112,6 +128,11 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
     override fun onStopPlayback() {
         playerControlsLy.visibility = View.GONE
     }
+
+    /* TODO Move to presenter
+
+    private var currentStatus: StreamPlayback = Live
+    private var currentLiveProgram: ProgramItem? = null
 
     private fun subscribeToLive() {
         disposable += livePublisher.subscribeOnIO()
@@ -124,20 +145,6 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
                 }, {
 
                 })
-    }
-
-    private fun subscribeToChange() {
-        disposable += playbackPublisher.subscribeOnIO()
-                .observeOnUI()
-                .subscribe({
-                    if (it !== Stop) {
-                        this.currentStatus = it
-                    }
-                    when (it) {
-                        is Play -> showPlaying(it)
-                        Stop -> showNoPlaying()
-                    }
-                }, {})
     }
 
     private fun showPlaying(it: StreamPlayback) {
@@ -166,27 +173,5 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
             }
         }
     }
-
-    override fun render(s: MainState) {
-        when (s) {
-            is MainState.SuccessSchedule -> {
-                recyclerView?.let {
-                    val first = manager.findFirstVisibleItemPosition()
-                    recyclerView.recycledViewPool.clear()
-                    adapter.setItems(s.items)
-                    s.diffResult.dispatchUpdatesTo(adapter)
-                    recyclerView.scrollToPosition(first)
-                }
-            }
-        }
-    }
-
-    override fun navigate(r: MainRoute) {
-        when (r) {
-            is MainRoute.OpenProgramDetail -> {
-                startActivity(ProgramActivity.getIntent(this, r.program.id,
-                        playConnectionFragment.isPlaying))
-            }
-        }
-    }
+    */
 }

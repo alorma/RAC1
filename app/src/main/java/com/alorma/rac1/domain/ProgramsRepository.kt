@@ -19,6 +19,7 @@ class ProgramsRepository @Inject constructor(
                                 .map { programMapper.map(it.program) }
                                 .doOnSuccess { cache.saveNow(it) }
                     }
+                    .retry(3)
 
     fun getSchedule(): Single<List<ProgramItem>> =
             cache.getSchedule()
