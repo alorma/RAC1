@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alorma.rac1.R
 import com.alorma.rac1.Rac1Application.Companion.component
-import com.alorma.rac1.domain.ProgramItem
-import com.alorma.rac1.service.Podcast
 import com.alorma.rac1.ui.common.BaseView
 import com.alorma.rac1.ui.common.ProgramsAdapter
 import com.alorma.rac1.ui.main.MainAction
@@ -19,12 +17,11 @@ import com.alorma.rac1.ui.main.MainRoute
 import com.alorma.rac1.ui.main.MainState
 import com.alorma.rac1.ui.program.ProgramActivity
 import com.bumptech.glide.Glide
-import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.player_control_fragment.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback, BaseView<MainRoute, MainState> {
+class MainActivity : AppCompatActivity(), BaseView<MainRoute, MainState> {
 
     @Inject
     lateinit var presenter: MainPresenter
@@ -32,17 +29,12 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
     @Inject
     lateinit var actions: MainAction
 
-    private lateinit var playConnectionFragment: PlayConnectionFragment
-
-    @Inject
-    lateinit var livePublisher: BehaviorSubject<ProgramItem>
-
     private val adapter: ProgramsAdapter by lazy {
         ProgramsAdapter {
             presenter reduce actions.onProgramSelected(it)
         }
     }
-    lateinit var manager: LinearLayoutManager
+    private lateinit var manager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,12 +47,8 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
     }
 
     private fun addConnectionFragment() {
-        playConnectionFragment = PlayConnectionFragment().apply {
-            playerCallback = this@MainActivity
-        }
-
         supportFragmentManager.beginTransaction().apply {
-            add(playConnectionFragment, playConnectionFragment::class.java.simpleName)
+            add(PlayConnectionFragment(), PlayConnectionFragment::class.java.simpleName)
         }.commitNow()
     }
 
@@ -98,6 +86,7 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
                 livePlayButton.setOnClickListener { presenter reduce actions.playLive() }
             }
             is MainState.PlayingStatus -> {
+                playerControlsLy.visibility = View.VISIBLE
                 livePlayButton.visibility = View.GONE
                 if (s is MainState.PlayingStatus.PlayingPodcast) {
                     programName.text = s.sessionDto.title
@@ -108,6 +97,16 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
                     programTime.visibility = View.GONE
                     programName.text = s.program.title
                 }
+                playIcon.setImageResource(R.drawable.ic_stop)
+                playIcon.setOnClickListener {
+                    presenter reduce actions.stop()
+                }
+            }
+            is MainState.Stop -> {
+                playIcon.setImageResource(R.drawable.ic_play)
+                playIcon.setOnClickListener {
+                    presenter reduce actions.play()
+                }
             }
         }
     }
@@ -115,63 +114,8 @@ class MainActivity : AppCompatActivity(), PlayConnectionFragment.PlayerCallback,
     override fun navigate(r: MainRoute) {
         when (r) {
             is MainRoute.OpenProgramDetail -> {
-                startActivity(ProgramActivity.getIntent(this, r.program.id,
-                        playConnectionFragment.isPlaying))
+                startActivity(ProgramActivity.getIntent(this, r.program.id, r.isPlaying))
             }
         }
     }
-
-    override fun onPlayPlayback() {
-        playerControlsLy.visibility = View.VISIBLE
-    }
-
-    override fun onStopPlayback() {
-        playerControlsLy.visibility = View.GONE
-    }
-
-    /* TODO Move to presenter
-
-    private var currentStatus: StreamPlayback = Live
-    private var currentLiveProgram: ProgramItem? = null
-
-    private fun subscribeToLive() {
-        disposable += livePublisher.subscribeOnIO()
-                .observeOnUI()
-                .subscribe({
-                    this.currentLiveProgram = it
-                    if (currentStatus === Live) {
-                        programName.text = it.title
-                    }
-                }, {
-
-                })
-    }
-
-    private fun showPlaying(it: StreamPlayback) {
-        if (it is Podcast) {
-            programName.text = it.sessionDto.title
-            programTime.max = it.sessionDto.durationSeconds.toInt()
-            programTime.progress = programTime.max / 2
-            programTime.visibility = View.VISIBLE
-        } else if (currentLiveProgram != null) {
-            programTime.visibility = View.GONE
-            currentLiveProgram?.let {
-                programName.text = it.title
-            }
-        }
-        playIcon.setImageResource(R.drawable.ic_stop)
-        playIcon.setOnClickListener {
-            playbackPublisher.onNext(Stop)
-        }
-    }
-
-    private fun showNoPlaying() {
-        playIcon.setImageResource(R.drawable.ic_play)
-        playIcon.setOnClickListener {
-            if (currentStatus !== Stop) {
-                playbackPublisher.onNext(currentStatus)
-            }
-        }
-    }
-    */
 }

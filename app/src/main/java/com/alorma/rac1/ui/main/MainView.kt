@@ -14,11 +14,15 @@ import javax.inject.Inject
 open class MainAction @Inject constructor() : Action() {
     object Load : MainAction()
     object PlayLive : MainAction()
+    object Play : MainAction()
+    object Stop : MainAction()
     data class ProgramSelected(val program: ProgramItem) : MainAction()
 
     fun load(): MainAction = Load
     fun onProgramSelected(program: ProgramItem): MainAction = ProgramSelected(program)
+    fun play(): MainAction = Play
     fun playLive(): MainAction = PlayLive
+    fun stop(): MainAction = Stop
 }
 
 open class MainState @Inject constructor() : State() {
@@ -31,6 +35,7 @@ open class MainState @Inject constructor() : State() {
         data class PlayingLive(override val program: ProgramItem) : PlayingStatus(program)
         data class PlayingPodcast(override val program: ProgramItem, val sessionDto: SessionDto) : PlayingStatus(program)
     }
+    object Stop: MainState()
 
     fun scheduledPrograms(items: List<ProgramItem>, diffResult: DiffUtil.DiffResult): MainState = SuccessSchedule(items, diffResult)
 
@@ -40,11 +45,14 @@ open class MainState @Inject constructor() : State() {
         Live -> PlayingStatus.PlayingLive(currentLiveProgram)
         is Podcast -> PlayingStatus.PlayingPodcast(it.program, it.sessionDto)
     }
+
+    fun stop(): MainState = Stop
 }
 
 open class MainRoute @Inject constructor() : Route() {
 
-    data class OpenProgramDetail(val program: ProgramItem) : MainRoute()
+    data class OpenProgramDetail(val program: ProgramItem, val isPlaying: Boolean) : MainRoute()
 
-    fun programDetail(program: ProgramItem): MainRoute = OpenProgramDetail(program)
+    fun programDetail(program: ProgramItem, isPlaying: Boolean): MainRoute
+            = OpenProgramDetail(program, isPlaying)
 }

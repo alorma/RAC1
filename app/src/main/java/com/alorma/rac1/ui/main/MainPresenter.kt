@@ -3,48 +3,53 @@ package com.alorma.rac1.ui.main
 import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
+import com.alorma.rac1.data.net.SessionDto
 import com.alorma.rac1.domain.ProgramItem
-import com.alorma.rac1.domain.usecase.GetNow
 import com.alorma.rac1.domain.usecase.GetSchedulePrograms
-import com.alorma.rac1.service.Live
-import com.alorma.rac1.service.Play
-import com.alorma.rac1.service.Stop
-import com.alorma.rac1.service.StreamPlayback
+import com.alorma.rac1.service.*
 import com.alorma.rac1.ui.common.BasePresenter
 import com.alorma.rac1.ui.common.diffDSL
 import io.reactivex.Single
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-class MainPresenter @Inject constructor(private val getNow: GetNow,
-                                        private val getSchedule: GetSchedulePrograms,
+class MainPresenter @Inject constructor(private val getSchedule: GetSchedulePrograms,
                                         private val states: MainState,
                                         private val routes: MainRoute,
+                                        private val livePublisher: BehaviorSubject<ProgramItem>,
                                         private val playbackPublisher: PublishSubject<StreamPlayback>) :
         BasePresenter<MainAction, MainRoute, MainState>() {
 
     private var currentStatus: StreamPlayback = Live
-    private lateinit var currentLiveProgram: ProgramItem
+    private lateinit var currentProgram: ProgramItem
+    private var currentSession: SessionDto? = null
+
     private val items = mutableListOf<ProgramItem>()
 
     override fun reduce(a: MainAction) {
         when (a) {
             MainAction.Load -> load()
+            MainAction.Play -> {
+                playbackPublisher.onNext(currentSession?.let {
+                    Podcast(currentProgram, it)
+                } ?: Live)
+            }
             MainAction.PlayLive -> playbackPublisher.onNext(Live)
-            is MainAction.ProgramSelected -> navigate(routes.programDetail(a.program))
+            MainAction.Stop -> playbackPublisher.onNext(Stop)
+            is MainAction.ProgramSelected -> navigate(routes.programDetail(a.program, currentStatus !== Stop))
         }
     }
-
 
     private fun load() {
         subscribeToChange()
 
         loadItems(getSchedule.execute())
 
-        disposable += getNow.execute()
+        disposable += livePublisher.subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
-                    this.currentLiveProgram = it
+                    this.currentProgram = it
                     render(states.live(it))
                 }, {
 
@@ -75,8 +80,14 @@ class MainPresenter @Inject constructor(private val getNow: GetNow,
                         this.currentStatus = it
                     }
                     when (it) {
-                        is Play -> render(states.playing(it, currentLiveProgram))
-                        //Stop -> showNoPlaying()
+                        is Play -> {
+                            if (it is Podcast) {
+                                this.currentProgram = it.program
+                                this.currentSession = it.sessionDto
+                            }
+                            render(states.playing(it, currentProgram))
+                        }
+                        is Stop -> render(states.stop())
                     }
                 }, {})
     }

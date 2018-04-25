@@ -6,14 +6,14 @@ import android.os.RemoteException
 import android.support.v4.app.Fragment
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import com.alorma.rac1.Rac1Application.Companion.component
 import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
 import com.alorma.rac1.domain.ProgramsRepository
-import com.alorma.rac1.service.*
+import com.alorma.rac1.service.LiveRadioService
+import com.alorma.rac1.service.StreamPlayback
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -30,8 +30,6 @@ class PlayConnectionFragment : Fragment() {
     @Inject
     lateinit var livePublisher: BehaviorSubject<ProgramItem>
 
-    lateinit var playerCallback: PlayerCallback
-
     private val mediaBrowserCompat: MediaBrowserCompat by lazy {
         MediaBrowserCompat(context, ComponentName(context, LiveRadioService::class.java),
                 mediaBrowserCompatConnectionCallback, null)
@@ -41,22 +39,13 @@ class PlayConnectionFragment : Fragment() {
 
     private val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 
-    private val mediaCallback: MediaControllerCompat.Callback by lazy {
-        object : MediaControllerCompat.Callback() {
-            override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
-                super.onPlaybackStateChanged(state)
-
-                onStateChanged(state)
-            }
-        }
-    }
+    private val mediaCallback: MediaControllerCompat.Callback by lazy { object : MediaControllerCompat.Callback() {} }
 
     private val mediaBrowserCompatConnectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
         override fun onConnected() {
             try {
                 activity?.let { act ->
                     MediaControllerCompat(act, mediaBrowserCompat.sessionToken).apply {
-                        onStateChanged(playbackState)
                         registerCallback(mediaCallback)
                         MediaControllerCompat.setMediaController(act, this)
                     }
@@ -84,26 +73,7 @@ class PlayConnectionFragment : Fragment() {
 
         component inject this
 
-        disposables += playbackPublisher.subscribeOnIO()
-                .observeOnUI()
-                .subscribe({
-                    when (it) {
-                        Stop -> playerCallback.onStopPlayback()
-                        is Play -> {
-                            isPlaying = true
-                            playerCallback.onPlayPlayback()
-                        }
-                    }
-                }, {
-
-                })
-
-        activity?.let { act ->
-            val playbackState = MediaControllerCompat.getMediaController(act)?.playbackState
-            if (playbackState != null) {
-                onStateChanged(playbackState)
-            }
-
+        activity?.let {
             if (mediaBrowserCompat.isConnected.not()) {
                 mediaBrowserCompat.connect()
             }
@@ -117,30 +87,6 @@ class PlayConnectionFragment : Fragment() {
                 }, {})
     }
 
-    fun togglePlay() {
-        if (isPlaying) {
-            playbackPublisher.onNext(Stop)
-        } else {
-            liveProgram?.let {
-                playbackPublisher.onNext(Live)
-            }
-        }
-    }
-
-    private fun onStateChanged(state: PlaybackStateCompat) {
-        when (state.state) {
-            PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> {
-                isPlaying = false
-                playerCallback.onStopPlayback()
-            }
-            PlaybackStateCompat.STATE_ERROR -> {
-            }
-            else -> {
-                playerCallback.onPlayPlayback()
-            }
-        }
-    }
-
     override fun onDestroy() {
         activity?.let { act ->
             disposables.clear()
@@ -149,10 +95,4 @@ class PlayConnectionFragment : Fragment() {
         }
         super.onDestroy()
     }
-
-    interface PlayerCallback {
-        fun onPlayPlayback()
-        fun onStopPlayback()
-    }
-
 }
