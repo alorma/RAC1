@@ -10,7 +10,6 @@ import com.alorma.rac1.ui.program.LiveProgramFragment
 import com.alorma.rac1.ui.program.ProgramActivity
 import com.alorma.rac1.ui.program.ProgramInfoFragment
 import com.alorma.rac1.ui.program.ProgramPodcastFragment
-import com.alorma.rac1.ui.programs.ProgramsFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -20,7 +19,6 @@ interface ApplicationComponent {
     infix fun inject(activity: MainActivity)
     infix fun inject(liveFragment: ProgramActivity)
 
-    infix fun inject(programsFragment: ProgramsFragment)
     infix fun inject(liveFragment: LiveProgramFragment)
     infix fun inject(programInfoFragment: ProgramInfoFragment)
     infix fun inject(programDetailFragment: ProgramPodcastFragment)

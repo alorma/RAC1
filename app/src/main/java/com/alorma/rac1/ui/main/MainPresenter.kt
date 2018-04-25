@@ -1,35 +1,33 @@
-package com.alorma.rac1.ui.programs
+package com.alorma.rac1.ui.main
 
 import com.alorma.rac1.commons.observeOnUI
 import com.alorma.rac1.commons.plusAssign
 import com.alorma.rac1.commons.subscribeOnIO
 import com.alorma.rac1.domain.ProgramItem
-import com.alorma.rac1.domain.ProgramsRepository
+import com.alorma.rac1.domain.usecase.GetNow
+import com.alorma.rac1.domain.usecase.GetSchedulePrograms
 import com.alorma.rac1.ui.common.BasePresenter
 import com.alorma.rac1.ui.common.diffDSL
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ProgramsPresenter @Inject constructor(
-        private val programsRepository: ProgramsRepository)
-    : BasePresenter<ProgramsAction, ProgramsRoute, ProgramsState>() {
+class MainPresenter @Inject constructor(private val getNow: GetNow,
+                                        private val getSchedule: GetSchedulePrograms,
+                                        private val states: MainState,
+                                        private val routes: MainRoute) :
+        BasePresenter<MainAction, MainRoute, MainState>() {
 
     private val items = mutableListOf<ProgramItem>()
 
-    override infix fun reduce(a: ProgramsAction) {
+    override fun reduce(a: MainAction) {
         when (a) {
-            is ProgramsAction.LoadSchedule -> loadSchedules()
-            is ProgramsAction.LoadPrograms -> loadPrograms()
-            is ProgramsAction.ProgramSelected -> navigate(ProgramsRoute.OpenProgramDetail(a.it))
+            MainAction.Load -> load()
+            is MainAction.ProgramSelected -> navigate(routes.programDetail(a.program))
         }
     }
 
-    private fun loadSchedules() {
-        loadItems(programsRepository.getSchedule())
-    }
-
-    private fun loadPrograms() {
-        loadItems(programsRepository.getPrograms())
+    private fun load() {
+        loadItems(getSchedule.execute())
     }
 
     private fun loadItems(single: Single<List<ProgramItem>>) {
@@ -42,7 +40,7 @@ class ProgramsPresenter @Inject constructor(
         }.subscribeOnIO()
                 .observeOnUI()
                 .subscribe({
-                    render(ProgramsState.ApplyDiff(it.first, it.second))
+                    render(states.applyDiff(it.first, it.second))
                 }, {
                     it.printStackTrace()
                 })
