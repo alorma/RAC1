@@ -7,4 +7,7 @@ interface Rac1Api {
 
     @GET("now")
     suspend fun now(): Response<NowResponse>
+
+    @GET("programs")
+    suspend fun programs(): Response<ProgramsResponse>
 }

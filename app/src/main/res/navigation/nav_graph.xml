@@ -8,6 +8,17 @@
     <fragment
         android:id="@+id/nowFragment"
         android:name="com.alorma.rac.now.NowFragment"
-        android:label="DiscountsListFragment"
+        android:label="Actualment"
         tools:layout="@layout/fragment_now" />
+
+    <fragment
+        android:id="@+id/programsFragment"
+        android:name="com.alorma.rac.programs.ProgramsFragment"
+        android:label="Programs"
+        tools:layout="@layout/fragment_programs" />
+
+    <action
+        android:id="@+id/openPrograms"
+        app:destination="@+id/programsFragment"
+        app:popUpTo="@+id/nowFragment" />
 </navigation>
