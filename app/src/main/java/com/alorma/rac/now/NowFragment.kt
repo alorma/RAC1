@@ -30,7 +30,7 @@ class NowFragment : BaseFragment() {
         nowViewModel.lifecycle = viewLifecycleOwner
 
         nowViewModel.now.observeNotNull(viewLifecycleOwner) {
-            requireActivity().title = it.title
+
         }
     }
 }
