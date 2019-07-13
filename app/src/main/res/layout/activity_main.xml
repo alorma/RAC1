@@ -13,19 +13,13 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_gravity="bottom"
-        app:fabAlignmentMode="center"
-        app:menu="@menu/main_menu" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottomAppBar"
-        app:srcCompat="@drawable/ic_play" />
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="16dp"
+        app:icon="@drawable/ic_play"
+        android:text="@string/listen_status_stop"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

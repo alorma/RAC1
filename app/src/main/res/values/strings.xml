@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Rac1</string>
+    <string name="app_name" translatable="false">Rac1</string>
+    <string name="listen_status_stop">Play</string>
+    <string name="listen_status_play">Stop</string>
 </resources>

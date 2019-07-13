@@ -2,11 +2,9 @@ package com.alorma.rac
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import com.alorma.rac.extension.observeNotNull
 import com.alorma.rac.listening.ListeningStatus
 import com.alorma.rac.listening.ListeningViewModel
-import com.alorma.rac.programs.ProgramsFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,28 +20,18 @@ class MainActivity : AppCompatActivity() {
         listening.status.observeNotNull(this) {
             when (it) {
                 ListeningStatus.Nothing -> {
-                    fab.setImageResource(R.drawable.ic_play)
+                    fab.setIconResource(R.drawable.ic_play)
+                    fab.setText(R.string.listen_status_stop)
                 }
                 is ListeningStatus.Playing -> {
-                    fab.setImageResource(R.drawable.ic_stop)
+                    fab.setIconResource(R.drawable.ic_stop)
+                    fab.setText(R.string.listen_status_play)
                 }
             }
         }
 
         fab.setOnClickListener {
             listening.onStreamActionClick()
-        }
-
-        bottomAppBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_programs -> {
-                    val openPrograms = ProgramsFragmentDirections.openPrograms()
-                    findNavController(R.id.nav_host_fragment).navigate(openPrograms)
-                    true
-                }
-                else ->
-                    false
-            }
         }
     }
 }
