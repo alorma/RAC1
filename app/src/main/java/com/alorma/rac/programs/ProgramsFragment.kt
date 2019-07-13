@@ -1,6 +1,7 @@
 package com.alorma.rac.programs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,9 @@ class ProgramsFragment : BaseFragment() {
 
         programsViewModel.programs.observeNotNull(viewLifecycleOwner) {
             adapter.items = it
+            it.forEach {
+                Log.i("Alorma", it.title)
+            }
         }
     }
 }

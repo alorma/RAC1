@@ -10,7 +10,8 @@ class NowViewModel(private val rac1Api: Rac1Api) : BaseViewModel() {
 
     val now: LiveData<Program> = liveData {
         rac1Api.now().body()?.result?.program?.let {
-            emit(it)
+            val program = it.copy(schedule = it.schedule.split(",").last())
+            emit(program)
         }
     }
 
