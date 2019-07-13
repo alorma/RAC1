@@ -10,13 +10,14 @@ class ListeningViewModel : BaseViewModel() {
     val status: LiveData<ListeningStatus>
         get() = _status
 
-    init {
-        _status.postValue(ListeningStatus.Nothing)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        _status.postValue(ListeningStatus.Playing.Now)
+    fun onStreamActionClick() {
+        _status.value?.let {
+            val newStatus = when (it) {
+                ListeningStatus.Nothing -> ListeningStatus.Playing.Now
+                is ListeningStatus.Playing -> ListeningStatus.Nothing
+            }
+            _status.postValue(newStatus)
+        } ?: _status.postValue(ListeningStatus.Playing.Now)
     }
 
 }
