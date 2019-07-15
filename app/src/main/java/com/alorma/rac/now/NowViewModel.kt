@@ -12,9 +12,8 @@ class NowViewModel(private val rac1Api: Rac1Api) : BaseViewModel() {
         rac1Api.now().body()?.result?.program?.let {
             val schedule = it.schedule
                 .split(",")
-                .map { it.trim() }
-                .filter { it.isNotEmpty() }
-                .last()
+                .map { part -> part.trim() }
+                .last { part -> part.isNotEmpty() }
 
             val program = it.copy(schedule = schedule)
             emit(program)
