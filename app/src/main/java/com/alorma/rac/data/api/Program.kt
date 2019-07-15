@@ -9,6 +9,6 @@ data class Program(
     val socialNetworks: SocialNetworks,
     val images: Images,
     val email: String?,
-    val url: String,
+    val url: String?,
     val sections: List<Section>
 )
