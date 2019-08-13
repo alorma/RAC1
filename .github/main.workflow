@@ -1,4 +1,4 @@
-workflow "Sleep" {
+workflow "Sleep workflow" {
   on = "push"
   resolves = "Sleep5"
 }
