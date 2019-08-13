@@ -1,4 +1,4 @@
-workflow "Build, Test and Distribute" {
+workflow "Sleep" {
   on = "push"
   resolves = "Sleep5"
 }
