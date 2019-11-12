@@ -11,6 +11,8 @@ class RadioApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+
+
         startKoin {
             androidContext(this@RadioApplication)
             modules(listOf(uiModule, networkModule))
