@@ -5,10 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alorma.rac.R
 import com.alorma.rac.core.BaseFragment
-import com.alorma.rac.extension.observeNotNull
 import kotlinx.android.synthetic.main.fragment_programs.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,7 +32,7 @@ class ProgramsFragment : BaseFragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
 
-        programsViewModel.programs.observeNotNull(viewLifecycleOwner) {
+        programsViewModel.programs.observe(viewLifecycleOwner) {
             adapter.items = it
             it.forEach {
                 Log.i("Alorma", it.title)

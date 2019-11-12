@@ -2,7 +2,7 @@ package com.alorma.rac
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.alorma.rac.extension.observeNotNull
+import androidx.lifecycle.observe
 import com.alorma.rac.listening.ListeningStatus
 import com.alorma.rac.listening.ListeningViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         listening.lifecycle = this
-        listening.status.observeNotNull(this) {
+        listening.status.observe(this) {
             when (it) {
                 ListeningStatus.Nothing -> {
                     fab.setIconResource(R.drawable.ic_play)

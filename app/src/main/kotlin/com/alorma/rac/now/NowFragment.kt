@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.observe
 import com.alorma.rac.R
 import com.alorma.rac.core.BaseFragment
-import com.alorma.rac.extension.observeNotNull
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_now.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,7 +28,7 @@ class NowFragment : BaseFragment() {
 
         nowViewModel.lifecycle = viewLifecycleOwner
 
-        nowViewModel.now.observeNotNull(viewLifecycleOwner) {
+        nowViewModel.now.observe(viewLifecycleOwner) {
             programTitle.text = it.title.trim()
             programSubtitle.text = it.subtitle.trim()
             programHours.text = it.schedule.trim()
