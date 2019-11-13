@@ -1,8 +1,11 @@
 package com.alorma.rac.di
 
-import com.alorma.rac.core.AppAudioTrack
+import androidx.preference.PreferenceManager
+import com.alorma.rac.core.AppAudioTrackProvider
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val coreModule = module {
-    factory<AppAudioTrack> { AppAudioTrack.Rac105 }
+    factory { PreferenceManager.getDefaultSharedPreferences(androidContext()) }
+    factory { AppAudioTrackProvider(get()) }
 }

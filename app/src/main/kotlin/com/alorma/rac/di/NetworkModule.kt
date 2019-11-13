@@ -1,8 +1,7 @@
 package com.alorma.rac.di
 
-import com.alorma.rac.core.AppAudioTrack
+import com.alorma.rac.core.AppAudioTrackProvider
 import com.alorma.rac.data.api.RacAudioApi
-import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -24,7 +23,8 @@ val networkModule = module {
 
     factory {
         get<Retrofit> {
-            val track = get<AppAudioTrack>()
+            val trackProvider = get<AppAudioTrackProvider>()
+            val track = trackProvider.audioTrack()
             parametersOf("https://api.audioteca.${track.name}.cat/api/app/v1/")
         }.create(RacAudioApi::class.java)
     }
