@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.alorma.rac"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -112,14 +112,13 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     implementation "com.github.bumptech.glide:okhttp3-integration:4.9.0"
 
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+
     implementation 'net.danlew:android.joda:2.10.2'
 
     implementation "com.gabrielittner.threetenbp:lazythreetenbp:0.7.0"
     implementation "org.threeten:threetenbp:1.4.0:no-tzdb"
     implementation 'com.github.sergiandreplace:androiddatetimetextprovider:1.0.0'
-
-    // https://androidexample365.com/a-simple-solution-for-implementing-backdrop-for-android/
-    implementation 'ru.semper-viventem.backdrop:backdrop:0.1.7'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
