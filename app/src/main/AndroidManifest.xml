@@ -15,7 +15,18 @@
         android:theme="@style/Rac1Theme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".ui.Rac1Activity"
+            android:label="Rac 1">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.Rac105Activity"
+            android:label="Rac 105">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
