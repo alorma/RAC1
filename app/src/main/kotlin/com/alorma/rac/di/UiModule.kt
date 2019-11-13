@@ -1,5 +1,7 @@
 package com.alorma.rac.di
 
+import androidx.appcompat.app.AppCompatActivity
+import com.alorma.rac.core.AppThemeSwitcher
 import com.alorma.rac.listening.ListeningViewModel
 import com.alorma.rac.now.NowViewModel
 import com.alorma.rac.programs.ProgramsViewModel
@@ -10,4 +12,5 @@ val uiModule = module {
     viewModel { ListeningViewModel() }
     viewModel { NowViewModel(get()) }
     viewModel { ProgramsViewModel(get()) }
+    factory { (activity: AppCompatActivity) -> AppThemeSwitcher(activity, get()) }
 }

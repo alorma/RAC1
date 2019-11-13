@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import com.alorma.rac.listening.ListeningStatus
 import com.alorma.rac.listening.ListeningViewModel
+import com.alorma.rac.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val listening: ListeningViewModel by viewModel()
 

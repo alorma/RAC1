@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="BaseAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorSurface">#ff0000</item>
+        <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.Colored</item>
+    </style>
+
+    <style name="Rac1Theme" parent="BaseAppTheme">
+        <item name="colorPrimary">#f44336</item>
+        <item name="colorPrimarySurface">#f44336</item>
+        <item name="colorPrimaryVariant">#ff7961</item>
+        <item name="colorPrimaryDark">#ba000d</item>
+
+        <item name="colorSecondary">#9e9e9e</item>
+        <item name="colorSecondaryVariant">#cfcfcf</item>
+
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorOnSecondary">#000000</item>
+    </style>
+
+    <style name="Rac105Theme" parent="BaseAppTheme">
+        <item name="colorPrimary">#9c27b0</item>
+        <item name="colorPrimarySurface">#9c27b0</item>
+        <item name="colorPrimaryVariant">#d05ce3</item>
+        <item name="colorPrimaryDark">#6a0080</item>
+
+        <item name="colorSecondary">#efebe9</item>
+        <item name="colorSecondaryVariant">#ffffff</item>
+
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorOnSecondary">#000000</item>
+    </style>
+
+</resources>
