@@ -1,6 +1,7 @@
 package com.alorma.rac
 
 import android.app.Application
+import com.alorma.rac.di.coreModule
 import com.alorma.rac.di.networkModule
 import com.alorma.rac.di.uiModule
 import com.gabrielittner.threetenbp.LazyThreeTen
@@ -19,7 +20,13 @@ class RadioApplication : Application() {
 
         startKoin {
             androidContext(this@RadioApplication)
-            modules(listOf(uiModule, networkModule))
+            modules(
+                listOf(
+                    coreModule,
+                    networkModule,
+                    uiModule
+                )
+            )
         }
     }
 }
