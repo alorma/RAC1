@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.DayNight" parent="AppTheme" />
+
+    <style name="AppTheme.Dark" parent="AppTheme">
+        <item name="colorSecondary">#000000</item>
+        <item name="colorSecondaryVariant">#000000</item>
+        <item name="colorOnPrimarySurface">#000000</item>
+
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <item name="colorPrimarySurfaceVariant">?attr/colorPrimaryVariant</item>
+    </style>
+
+</resources>

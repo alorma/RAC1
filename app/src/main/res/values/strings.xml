@@ -2,4 +2,6 @@
     <string name="app_name" translatable="false">Rac1</string>
     <string name="listen_status_stop">Play</string>
     <string name="listen_status_play">Stop</string>
+    <string name="live_title">En directe</string>
+    <string name="programs_title">Programes</string>
 </resources>

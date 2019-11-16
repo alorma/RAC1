@@ -1,40 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <fragment
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/listen_status_stop"
-            app:icon="@drawable/ic_play" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    android:layout_height="match_parent">
 
     <fragment
-        android:id="@+id/lessons_sheet"
-        android:name="com.alorma.rac.programs.ProgramsFragment"
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_programs" />
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
-</FrameLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/listen_status_stop"
+        app:layout_anchor="@id/bottomAppBar"
+        app:srcCompat="@drawable/ic_play"
+        app:tint="?colorPrimaryDark" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="center"
+        app:fabCradleMargin="8dp"
+        app:fabCradleRoundedCornerRadius="32dp">
+
+        <TextView
+            android:id="@+id/liveTypeContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp"
+            android:drawableStart="@drawable/ic_arrow_drop_up"
+            android:drawablePadding="8dp"
+            android:drawableTint="?colorOnPrimarySurface"
+            android:foreground="@drawable/bottom_app_bar_title_foreground"
+            android:padding="8dp"
+            android:text="@string/live_title"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?colorOnPrimarySurface" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

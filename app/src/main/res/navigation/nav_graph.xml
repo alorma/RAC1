@@ -9,16 +9,16 @@
         android:id="@+id/nowFragment"
         android:name="com.alorma.rac.now.NowFragment"
         android:label="Actualment"
-        tools:layout="@layout/fragment_now" />
+        tools:layout="@layout/fragment_now">
+        <action
+            android:id="@+id/action_nowFragment_to_programsFragment"
+            app:destination="@id/programsFragment" />
+    </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/programsFragment"
         android:name="com.alorma.rac.programs.ProgramsFragment"
         android:label="Programs"
         tools:layout="@layout/fragment_programs" />
 
-    <action
-        android:id="@+id/openPrograms"
-        app:destination="@+id/programsFragment"
-        app:popUpTo="@+id/nowFragment" />
 </navigation>

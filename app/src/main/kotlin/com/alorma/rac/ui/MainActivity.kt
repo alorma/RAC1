@@ -2,7 +2,9 @@ package com.alorma.rac.ui
 
 import android.os.Bundle
 import androidx.lifecycle.observe
+import androidx.navigation.findNavController
 import com.alorma.rac.R
+import com.alorma.rac.extension.onClick
 import com.alorma.rac.listening.ListeningStatus
 import com.alorma.rac.listening.ListeningViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,20 +20,26 @@ abstract class MainActivity : BaseActivity() {
 
         listening.lifecycle = this
         listening.status.observe(this) {
-            when (it) {
-                ListeningStatus.Nothing -> {
-                    fab.setIconResource(R.drawable.ic_play)
-                    fab.setText(R.string.listen_status_stop)
-                }
-                is ListeningStatus.Playing -> {
-                    fab.setIconResource(R.drawable.ic_stop)
-                    fab.setText(R.string.listen_status_play)
-                }
+            val icon = when (it) {
+                ListeningStatus.Nothing -> R.drawable.ic_play
+                is ListeningStatus.Playing -> R.drawable.ic_stop
             }
+            fab.setImageResource(icon)
         }
 
-        fab.setOnClickListener {
+        fab.onClick {
             listening.onStreamActionClick()
         }
+
+        openPrograms()
+
+        liveTypeContainer.onClick {
+            openPrograms()
+        }
+    }
+
+    private fun openPrograms() {
+        findNavController(R.id.nav_host_fragment)
+            .navigate(R.id.action_nowFragment_to_programsFragment)
     }
 }
