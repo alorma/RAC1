@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.alorma.rac.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -27,7 +27,7 @@ class ProgramsFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recycler.layoutManager = LinearLayoutManager(requireContext())
+        recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         recycler.adapter = adapter
 
         programsViewModel.programs.observe(viewLifecycleOwner) {

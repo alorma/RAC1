@@ -31,8 +31,6 @@ abstract class MainActivity : BaseActivity() {
             listening.onStreamActionClick()
         }
 
-        openPrograms()
-
         liveTypeContainer.onClick {
             openPrograms()
         }
