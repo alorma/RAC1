@@ -55,7 +55,11 @@ class ProgramsFragment : BrowseSupportFragment() {
 
     private fun connectData() {
         nowViewModel.now.observe(viewLifecycleOwner) { program ->
-            nowRowAdapter.add(program)
+            if (nowRowAdapter.unmodifiableList<Any>().isEmpty()) {
+                nowRowAdapter.add(program)
+            } else {
+                nowRowAdapter.replace(0, program)
+            }
         }
 
         programsViewModel.programs.observe(viewLifecycleOwner) { programsList ->
