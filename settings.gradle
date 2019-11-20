@@ -1,4 +1,4 @@
 rootProject.name='Rac1'
 include ':app_base'
-include ':mobile'
+//include ':mobile'
 include ':tv'
