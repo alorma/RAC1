@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals name="joda_time_android_abbrev_in_num_days">
+        <item msgid="2178576254385739855" quantity="one">"վաղը"</item>
+        <item msgid="2973062968038355991" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> օրից"</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_in_num_hours">
+        <item msgid="3274708118124045246" quantity="one">"1 ժամից"</item>
+        <item msgid="3705373766798013406" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> ժամից"</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_in_num_minutes">
+        <item msgid="562786149928284878" quantity="one">"1 րոպեից"</item>
+        <item msgid="4216113292706568726" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> րոպեից"</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_in_num_seconds">
+        <item msgid="5842225370795066299" quantity="one">"1 վրկ-ից"</item>
+        <item msgid="5495880108825805108" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> վրկ-ից"</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_days_ago">
+        <item msgid="8463161711492680309" quantity="one">"երեկ"</item>
+        <item msgid="3453342639616481191" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> օր առաջ"</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_hours_ago">
+        <item msgid="4796212039724722116" quantity="one">"1 ժամ առաջ"</item>
+        <item msgid="6889970745748538901" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> ժամ առաջ"</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_minutes_ago">
+        <item msgid="6361490147113871545" quantity="one">"1 րոպե առաջ"</item>
+        <item msgid="851164968597150710" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> րոպե առաջ"</item>
+    </plurals>
+    <plurals name="joda_time_android_abbrev_num_seconds_ago">
+        <item msgid="1849036840200069118" quantity="one">"1 վրկ առաջ"</item>
+        <item msgid="3699169366650930415" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> վրկ. առաջ"</item>
+    </plurals>
+    <plurals name="joda_time_android_duration_hours">
+        <item msgid="8917467491248809972" quantity="one">"1 ժամ"</item>
+        <item msgid="3863962854246773930" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> ժամ"</item>
+    </plurals>
+    <plurals name="joda_time_android_duration_minutes">
+        <item msgid="4915414002546085617" quantity="one">"1 րոպե"</item>
+        <item msgid="3165187169224908775" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> րոպե"</item>
+    </plurals>
+    <plurals name="joda_time_android_duration_seconds">
+        <item msgid="6962015528372969481" quantity="one">"1 վայրկյան"</item>
+        <item msgid="1886107766577166786" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> վայրկյան"</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_days">
+        <item msgid="5413088743009839518" quantity="one">"վաղը"</item>
+        <item msgid="5109449375100953247" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> օրից"</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_hours">
+        <item msgid="7164353342477769999" quantity="one">"1 ժամից"</item>
+        <item msgid="547290677353727389" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> ժամից"</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_minutes">
+        <item msgid="8793095251325200395" quantity="one">"1 րոպեից"</item>
+        <item msgid="3330713936399448749" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> րոպեից"</item>
+    </plurals>
+    <plurals name="joda_time_android_in_num_seconds">
+        <item msgid="2729745560954905102" quantity="one">"1 վայրկյանից"</item>
+        <item msgid="1241926116443974687" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> վայրկյանից"</item>
+    </plurals>
+    <plurals name="joda_time_android_num_days_ago">
+        <item msgid="861358534398115820" quantity="one">"երեկ"</item>
+        <item msgid="2479586466153314633" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> օր առաջ"</item>
+    </plurals>
+    <plurals name="joda_time_android_num_hours_ago">
+        <item msgid="9150797944610821849" quantity="one">"1 ժամ առաջ"</item>
+        <item msgid="2467273239587587569" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> ժամ առաջ"</item>
+    </plurals>
+    <plurals name="joda_time_android_num_minutes_ago">
+        <item msgid="3306787433088810191" quantity="one">"1 րոպե առաջ"</item>
+        <item msgid="2176942008915455116" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> րոպե առաջ"</item>
+    </plurals>
+    <plurals name="joda_time_android_num_seconds_ago">
+        <item msgid="4869870056547896011" quantity="one">"1 վայրկյան առաջ"</item>
+        <item msgid="3903706804349556379" quantity="other">"<ns1:g id="COUNT">%d</ns1:g> վայրկյան առաջ"</item>
+    </plurals>
+    <string msgid="7903180715631665059" name="abc_action_bar_home_description">"Անցնել գլխավոր էջ"</string>
+    <string msgid="6794660482873516081" name="abc_action_bar_up_description">"Անցնել վերև"</string>
+    <string msgid="1155814932213556626" name="abc_action_menu_overflow_description">"Այլ ընտրանքներ"</string>
+    <string msgid="2571498368472823490" name="abc_action_mode_done">"Պատրաստ է"</string>
+    <string msgid="3732416590524162402" name="abc_activity_chooser_view_see_all">"Տեսնել բոլորը"</string>
+    <string msgid="1798588241954930982" name="abc_activitychooserview_choose_application">"Ընտրել հավելված"</string>
+    <string msgid="3403923230105792483" name="abc_capital_off">"ԱՆՋԱՏԵԼ"</string>
+    <string msgid="7831734969929204599" name="abc_capital_on">"ՄԻԱՑՆԵԼ"</string>
+    <string msgid="5725160506500770567" name="abc_menu_alt_shortcut_label">"Alt+"</string>
+    <string msgid="944415252197684443" name="abc_menu_ctrl_shortcut_label">"Ctrl+"</string>
+    <string msgid="129742188101734366" name="abc_menu_delete_shortcut_label">"Delete"</string>
+    <string msgid="6840127756824236027" name="abc_menu_enter_shortcut_label">"Enter"</string>
+    <string msgid="4974283687810130415" name="abc_menu_function_shortcut_label">"Function+"</string>
+    <string msgid="8046416353848716905" name="abc_menu_meta_shortcut_label">"Meta+"</string>
+    <string msgid="3271697756921353410" name="abc_menu_shift_shortcut_label">"Shift+"</string>
+    <string msgid="2304645930658438191" name="abc_menu_space_shortcut_label">"բացատ"</string>
+    <string msgid="8327365089695024394" name="abc_menu_sym_shortcut_label">"Sym+"</string>
+    <string msgid="3570106412128999382" name="abc_prepend_shortcut_label">"Menu+"</string>
+    <string msgid="940844115270746197" name="abc_search_hint">"Որոնում…"</string>
+    <string msgid="1769270744562318534" name="abc_searchview_description_clear">"Ջնջել հարցումը"</string>
+    <string msgid="908784302972860853" name="abc_searchview_description_query">"Որոնման հարցում"</string>
+    <string msgid="5466662225065974044" name="abc_searchview_description_search">"Որոնել"</string>
+    <string msgid="8203855622131699655" name="abc_searchview_description_submit">"Ուղարկել հարցումը"</string>
+    <string msgid="3478748990613108725" name="abc_searchview_description_voice">"Ձայնային որոնում"</string>
+    <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Կիսվել…"</string>
+    <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Կիսվել <ns1:g id="APPLICATION_NAME">%s</ns1:g> հավելվածի միջոցով"</string>
+    <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Ծալել"</string>
+    <string msgid="3209159573327985035" name="copy">"Պատճենել"</string>
+    <string msgid="1234962710353108940" name="expand_button_title">"Լրացուցիչ"</string>
+    <string msgid="9093949757757445117" name="joda_time_android_preposition_for_date">"<ns1:g id="DATE">%s</ns1:g>-ին"</string>
+    <string msgid="5506831244263083793" name="joda_time_android_preposition_for_time">"ժամը <ns1:g id="TIME">%s</ns1:g>-ին"</string>
+    <string msgid="1818557177829411417" name="joda_time_android_relative_time">"<ns1:g id="DATE">%1$s</ns1:g>, <ns1:g id="TIME">%2$s</ns1:g>"</string>
+    <string msgid="2721825378927619928" name="lb_control_display_fast_forward_multiplier">"%1$dX"</string>
+    <string msgid="6173753802428649303" name="lb_control_display_rewind_multiplier">"%1$dX"</string>
+    <string msgid="1122271825827282965" name="lb_guidedaction_continue_title">"Շարունակել"</string>
+    <string msgid="7747913934287176843" name="lb_guidedaction_finish_title">"Ավարտել"</string>
+    <string msgid="8748646000835486516" name="lb_media_player_error">"Մեդիա նվագարկիչի սխալի կոդ` %1$d (լրացուցիչ %2$d)"</string>
+    <string msgid="8126335323963415494" name="lb_navigation_menu_contentDescription">"Նավարկման ընտրացանկ"</string>
+    <string msgid="4213611627196077555" name="lb_onboarding_accessibility_next">"Հաջորդը"</string>
+    <string msgid="7674487829030291492" name="lb_onboarding_get_started">"ՍԿՍԵL"</string>
+    <string msgid="5508271941331836786" name="lb_playback_controls_closed_captioning_disable">"Անջատել ենթագրերը"</string>
+    <string msgid="3934392140182327163" name="lb_playback_controls_closed_captioning_enable">"Միացնել ենթագրերը"</string>
+    <string msgid="8966769845721269304" name="lb_playback_controls_fast_forward">"Առաջ գնալ"</string>
+    <string msgid="801276177839339511" name="lb_playback_controls_fast_forward_multiplier">"Առաջ գնալ՝ %1$dX"</string>
+    <string msgid="619396299825306757" name="lb_playback_controls_hidden">"Մեդիայի կառավարման տարրերը թաքցված են։ Ցուցադրելու համար սեղմեք D-pad-ը:"</string>
+    <string msgid="3000046054608531995" name="lb_playback_controls_high_quality_disable">"Անջատել բարձր որակը"</string>
+    <string msgid="1862669142355962638" name="lb_playback_controls_high_quality_enable">"Միացնել բարձր որակը"</string>
+    <string msgid="2827883329510404797" name="lb_playback_controls_more_actions">"Այլ գործողություններ"</string>
+    <string msgid="1769131316742618433" name="lb_playback_controls_pause">"Ընդհատել"</string>
+    <string msgid="8800305194045609275" name="lb_playback_controls_picture_in_picture">"Միացնել «Նկար նկարի մեջ» ռեժիմը"</string>
+    <string msgid="1590369760862605402" name="lb_playback_controls_play">"Նվագարկել"</string>
+    <string msgid="5164826436271322261" name="lb_playback_controls_repeat_all">"Կրկնել բոլորը"</string>
+    <string msgid="5812341701962930499" name="lb_playback_controls_repeat_none">"Չկրկնել"</string>
+    <string msgid="7675097479246139440" name="lb_playback_controls_repeat_one">"Կրկնել մեկը"</string>
+    <string msgid="1412664391757869774" name="lb_playback_controls_rewind">"Հետ գնալ"</string>
+    <string msgid="8651612807713092781" name="lb_playback_controls_rewind_multiplier">"Հետ գնալ՝ %1$dX"</string>
+    <string msgid="7794717158616536936" name="lb_playback_controls_shown">"Մեդիայի կառավարման տարրերը ցուցադրված են"</string>
+    <string msgid="8182435535948303910" name="lb_playback_controls_shuffle_disable">"Անջատել խառը նվագարկումը"</string>
+    <string msgid="7809089255981448519" name="lb_playback_controls_shuffle_enable">"Միացնել խառը նվագարկումը"</string>
+    <string msgid="4877009494447817003" name="lb_playback_controls_skip_next">"Անցնել հաջորդին"</string>
+    <string msgid="3147124289285911980" name="lb_playback_controls_skip_previous">"Անցնել նախորդին"</string>
+    <string msgid="5075744418630733006" name="lb_playback_controls_thumb_down">"Չեղարկել «Չեմ հավանում»-ը"</string>
+    <string msgid="2847309435442474470" name="lb_playback_controls_thumb_down_outline">"Սեղմել «Չեմ հավանում»"</string>
+    <string msgid="8332816524260995892" name="lb_playback_controls_thumb_up">"Չեղարկել «Հավանում եմ»-ը"</string>
+    <string msgid="1038344559734334272" name="lb_playback_controls_thumb_up_outline">"Սեղմել «Հավանում եմ»"</string>
+    <string msgid="6549544638083578695" name="lb_playback_time_separator">"/"</string>
+    <string msgid="4819380969103509861" name="lb_search_bar_hint">"Որոնում"</string>
+    <string msgid="2795474673510974502" name="lb_search_bar_hint_speech">"Խոսեք՝ որոնելու համար"</string>
+    <string msgid="7453744869467668159" name="lb_search_bar_hint_with_title">"Որոնեք <ns1:g id="SEARCH_CONTEXT">%1$s</ns1:g>"</string>
+    <string msgid="5851694095153624617" name="lb_search_bar_hint_with_title_speech">"Խոսեք՝ <ns1:g id="SEARCH_CONTEXT">%1$s</ns1:g> որոնելու համար"</string>
+    <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Անցնել վերև"</string>
+    <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Բացել նավարկման դարակը"</string>
+    <string msgid="478774118347071097" name="not_set">"Կարգավորված չէ"</string>
+    <string msgid="7534843523462177008" name="orb_search_action">"Որոնում"</string>
+    <string msgid="7961817945132860002" name="preference_copied">"«<ns1:g id="SUMMARY">%1$s</ns1:g>». պատճենվեց սեղմատախտակին:"</string>
+    <string msgid="730395136688082741" name="search_menu_title">"Որոնել"</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string msgid="5190123168583152844" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string msgid="5138405918326871307" name="v7_preference_off">"ԱՆՋԱՏԱԾ"</string>
+    <string msgid="27351710992731591" name="v7_preference_on">"ՄԻԱՑՎԱԾ"</string>
+</resources>

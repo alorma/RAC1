@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/bernat.borras/Desktop/RAC1/mobile/build/intermediates/incremental/mergeDebugResources/merged.dir/values-large-land-v4/values-large-land-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/ff51405274c35f61ab94ec2e8cc57d05/jetified-bottomsheets-3.1.1/res/values-large-land-v4/values-large-land-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "45",
+                        "endOffsets": "96"
+                    }
+                }
+            ]
+        }
+    ]
+}

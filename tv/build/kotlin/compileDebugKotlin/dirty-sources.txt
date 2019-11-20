@@ -1,0 +1,4 @@
+/Users/bernat.borras/Desktop/RAC1/tv/src/main/kotlin/com/alorma/rac/tv/MainActivity.kt
+/Users/bernat.borras/Desktop/RAC1/tv/src/main/kotlin/com/alorma/rac/tv/BaseActivity.kt
+/Users/bernat.borras/Desktop/RAC1/tv/src/main/kotlin/com/alorma/rac/tv/Rac1Activity.kt
+/Users/bernat.borras/Desktop/RAC1/tv/src/main/kotlin/com/alorma/rac/tv/Rac105Activity.kt

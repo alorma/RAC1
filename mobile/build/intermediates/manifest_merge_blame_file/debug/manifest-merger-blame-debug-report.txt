@@ -1,0 +1,92 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.alorma.rac.mobile.debug"
+4    android:versionCode="1"
+5    android:versionName="1.0-Dev" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+8-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:6:5-67
+11-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:6:22-64
+12
+13    <application
+13-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:8:5-37:19
+14        android:name="com.alorma.rac.RadioApplication"
+14-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:9:9-41
+15        android:allowBackup="true"
+15-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:10:9-35
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.2.0-beta02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/0ed31c46ed1c95d3232cd0815c5c5154/core-1.2.0-beta02/AndroidManifest.xml:24:18-86
+17        android:debuggable="true"
+18        android:extractNativeLibs="false"
+19        android:icon="@mipmap/ic_launcher"
+19-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:11:9-43
+20        android:label="@string/app_name"
+20-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:12:9-41
+21        android:roundIcon="@mipmap/ic_launcher_round"
+21-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:13:9-54
+22        android:supportsRtl="true"
+22-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:14:9-35
+23        android:theme="@style/Rac1Theme" >
+23-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:15:9-41
+24        <activity
+24-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:18:9-26:20
+25            android:name="com.alorma.rac.tv.Rac1Activity"
+25-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:19:13-58
+26            android:label="Rac 1" >
+26-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:20:13-34
+27            <intent-filter>
+27-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:21:13-25:29
+28                <action android:name="android.intent.action.MAIN" />
+28-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:22:17-69
+28-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:22:25-66
+29
+30                <category android:name="android.intent.category.LAUNCHER" />
+30-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:24:17-77
+30-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:24:27-74
+31            </intent-filter>
+32        </activity>
+33        <activity
+33-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:27:9-35:20
+34            android:name="com.alorma.rac.tv.Rac105Activity"
+34-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:28:13-60
+35            android:label="Rac 105" >
+35-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:29:13-36
+36            <intent-filter>
+36-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:21:13-25:29
+37                <action android:name="android.intent.action.MAIN" />
+37-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:22:17-69
+37-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:22:25-66
+38
+39                <category android:name="android.intent.category.LAUNCHER" />
+39-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:24:17-77
+39-->/Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:24:27-74
+40            </intent-filter>
+41        </activity>
+42
+43        <provider
+43-->[io.coil-kt:coil:0.8.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/8b657f0a7424f4eb6c344a3a37ddbb5c/jetified-coil-0.8.0/AndroidManifest.xml:10:9-13:40
+44            android:name="coil.util.CoilContentProvider"
+44-->[io.coil-kt:coil:0.8.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/8b657f0a7424f4eb6c344a3a37ddbb5c/jetified-coil-0.8.0/AndroidManifest.xml:11:13-57
+45            android:authorities="com.alorma.rac.mobile.debug.coil"
+45-->[io.coil-kt:coil:0.8.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/8b657f0a7424f4eb6c344a3a37ddbb5c/jetified-coil-0.8.0/AndroidManifest.xml:12:13-56
+46            android:exported="false" />
+46-->[io.coil-kt:coil:0.8.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/8b657f0a7424f4eb6c344a3a37ddbb5c/jetified-coil-0.8.0/AndroidManifest.xml:13:13-37
+47        <provider
+47-->[androidx.lifecycle:lifecycle-process:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/b3ba5396f8506ad2a43b5f73dd15b6b1/jetified-lifecycle-process-2.2.0-rc02/AndroidManifest.xml:25:9-29:43
+48            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+48-->[androidx.lifecycle:lifecycle-process:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/b3ba5396f8506ad2a43b5f73dd15b6b1/jetified-lifecycle-process-2.2.0-rc02/AndroidManifest.xml:26:13-79
+49            android:authorities="com.alorma.rac.mobile.debug.lifecycle-process"
+49-->[androidx.lifecycle:lifecycle-process:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/b3ba5396f8506ad2a43b5f73dd15b6b1/jetified-lifecycle-process-2.2.0-rc02/AndroidManifest.xml:27:13-69
+50            android:exported="false"
+50-->[androidx.lifecycle:lifecycle-process:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/b3ba5396f8506ad2a43b5f73dd15b6b1/jetified-lifecycle-process-2.2.0-rc02/AndroidManifest.xml:28:13-37
+51            android:multiprocess="true" />
+51-->[androidx.lifecycle:lifecycle-process:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/b3ba5396f8506ad2a43b5f73dd15b6b1/jetified-lifecycle-process-2.2.0-rc02/AndroidManifest.xml:29:13-40
+52    </application>
+53
+54</manifest>
