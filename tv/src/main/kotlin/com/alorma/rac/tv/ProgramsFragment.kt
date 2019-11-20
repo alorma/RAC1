@@ -1,13 +1,12 @@
 package com.alorma.rac.tv
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
-import androidx.leanback.widget.ArrayObjectAdapter
-import androidx.leanback.widget.HeaderItem
-import androidx.leanback.widget.ListRow
-import androidx.leanback.widget.ListRowPresenter
+import androidx.leanback.widget.*
 import androidx.lifecycle.observe
+import com.alorma.rac.data.api.Program
 import com.alorma.rac.now.NowViewModel
 import com.alorma.rac.programs.ProgramsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,6 +50,17 @@ class ProgramsFragment : BrowseSupportFragment() {
         rowsAdapter.add(1, ListRow(programsHeader, programsRowAdapter))
 
         adapter = rowsAdapter
+
+        onItemViewClickedListener =
+            OnItemViewClickedListener { _, item, _, _ ->
+                (item as? Program)?.let { program ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Program: ${program.title}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
     }
 
     private fun connectData() {
