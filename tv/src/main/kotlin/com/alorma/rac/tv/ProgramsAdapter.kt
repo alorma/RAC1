@@ -1,16 +1,11 @@
 package com.alorma.rac.tv
 
-import android.graphics.drawable.Drawable
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import androidx.lifecycle.Lifecycle
 import coil.api.load
-import coil.size.PixelSize
 import com.alorma.rac.data.api.Program
-import com.alorma.rac.extension.dp
-import kotlin.properties.Delegates
 
 /**
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -19,16 +14,7 @@ import kotlin.properties.Delegates
 class ProgramsAdapter(
     private val lifecycle: Lifecycle
 ) : Presenter() {
-    private var mDefaultCardImage: Drawable? = null
-    private var sSelectedBackgroundColor: Int by Delegates.notNull()
-    private var sDefaultBackgroundColor: Int by Delegates.notNull()
-
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
-        sDefaultBackgroundColor = ContextCompat.getColor(parent.context, R.color.default_background)
-        sSelectedBackgroundColor =
-            ContextCompat.getColor(parent.context, R.color.selected_background)
-        mDefaultCardImage = ContextCompat.getDrawable(parent.context, R.drawable.movie)
-
         val cardView = ImageCardView(parent.context)
 
         cardView.isFocusable = true
@@ -42,10 +28,10 @@ class ProgramsAdapter(
         val program = item as Program
         cardView.titleText = program.title
         cardView.contentText = program.subtitle
+        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
 
         cardView.mainImageView.load(program.images.program) {
             lifecycle(lifecycle)
-            size(PixelSize(CARD_WIDTH.dp, CARD_HEIGHT.dp))
         }
     }
 
