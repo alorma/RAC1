@@ -14,7 +14,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.threeten.bp.format.DateTimeTextProvider
 
-class RadioApplication : Application() {
+abstract class RadioApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

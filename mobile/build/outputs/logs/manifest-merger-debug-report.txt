@@ -4,14 +4,14 @@ ADDED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:2:1-39:12
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:2:1-39:12
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:2:1-39:12
-MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-23:12
+MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.databinding:databinding-adapters:3.6.0-beta04] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/ce5615b7c33adbe94e5c12490dfa9534/databinding-adapters-3.6.0-beta04/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.databinding:databinding-runtime:3.6.0-beta04] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/174be5f61aad930b2c1fa82c06a39228/databinding-runtime-3.6.0-beta04/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.databinding:viewbinding:3.6.0-beta04] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/5cfddd03c48ad1912e16e419d277c97c/jetified-viewbinding-3.6.0-beta04/AndroidManifest.xml:17:1-22:12
 MERGED from [com.afollestad.material-dialogs:bottomsheets:3.1.1] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/ff51405274c35f61ab94ec2e8cc57d05/jetified-bottomsheets-3.1.1/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.navigation:navigation-ui-ktx:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f784687bb826dcf88310a2172cd3c571/navigation-ui-ktx-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/c8cee6ab403c63c8daa6f811584cb053/navigation-ui-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.material:material:1.2.0-alpha01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cc1b2f05b8f1c678cde870cd021f9346/material-1.2.0-alpha01/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.material:material:1.2.0-alpha02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a3131233b43b4dd9827dadb6894a73ef/material-1.2.0-alpha02/AndroidManifest.xml:17:1-24:12
 MERGED from [org.koin:koin-androidx-viewmodel:2.0.1] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/45633344ccdbda1b6820507233fce1cd/jetified-koin-androidx-viewmodel-2.0.1/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/015ce1d8b5f2d174c65a0b3d3a110d24/lifecycle-extensions-2.2.0-rc02/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.navigation:navigation-fragment-ktx:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/dc13809786d664c615b1bf8309b1af79/navigation-fragment-ktx-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
@@ -32,22 +32,20 @@ MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/bernat.borras/.gradle/ca
 MERGED from [io.coil-kt:coil:0.8.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/8b657f0a7424f4eb6c344a3a37ddbb5c/jetified-coil-0.8.0/AndroidManifest.xml:2:1-16:12
 MERGED from [io.coil-kt:coil-base:0.8.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/bcda72a10c7bc16778969498428e4aa4/jetified-coil-base-0.8.0/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.core:core-ktx:1.2.0-beta02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/52c92c86db920a9858f510e70e6f0704/jetified-core-ktx-1.2.0-beta02/AndroidManifest.xml:2:1-9:12
-MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta05] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/d2e26adc67b9575ecdace55f6452f5c1/jetified-viewpager2-1.0.0-beta05/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/85dc19290ee60559e77136a64ee59345/jetified-viewpager2-1.0.0-rc01/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-fragment:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/601c6f0767a9bbf1bb34be5032d25cf5/navigation-fragment-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment:1.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/d5f6e978c45f2538aab41b238cb7150a/fragment-1.2.0-rc02/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a770cef6863fb361f5f703a0af2e05c7/dynamicanimation-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/33a2ae5b61d82773e172ed4d49daa1a1/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/304d39ac3d3b8f9036b5d6cf1e5925dc/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/bca4352b42b925791660edfc96c4e65a/coordinatorlayout-1.1.0-beta01/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cf460a66fe483accd57ff1ae46dc9e01/coordinatorlayout-1.1.0-rc01/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.transition:transition:1.2.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/4f1da2d2ae04bab63f6aeb789649fc2e/transition-1.2.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/3812fe05c59d8418e5b0ba56ba3412c8/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/8a4d85b8224567b504b72a5c60e8abf5/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-runtime:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/7ce0411d7be9769c3b0ce0eb66aef975/navigation-runtime-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.1.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/4cb4bcbf06792a854d8010e7f1c5957c/jetified-activity-1.1.0-rc02/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/11c8cb37a7e14bc82d6cf71ec294a93f/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/72f7c4dbab19f8d33c0419d54f1bc1b7/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/836a2d977efb81ccd8e7c7766f92f5e5/loader-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta05] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f5de6e810b56e1c324ef825b7088be65/recyclerview-1.1.0-beta05/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/77d1b2398a15ea5a5b970249aa8851bb/recyclerview-1.1.0-rc01/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a041cf13fda1deb6d111057e0980d15f/customview-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/5c851f9b582fd9fea3dc3ead089d3b1a/navigation-common-ktx-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-common:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/4ff7c55d1e4be5e406ae62f218dd144b/navigation-common-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
@@ -72,9 +70,6 @@ MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/bernat.borras/.g
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/1bbfc0974912f26d0d0800c9a1db04d0/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/beef9c7965a4546db119562cefa69b18/lifecycle-viewmodel-2.2.0-rc02/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/0a06ba65504418b586a741ca561e844d/exifinterface-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f3e0824ed6a968ff45d9389e424aa328/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/9a6eb1a3b067c12ba05d14927ad85b98/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.print:print:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/41c12963f236e87696d557fe77f93afd/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/1f2448e9742a2f1b1d68a9adc54ec75d/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:2:1-39:12
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:2:1-39:12
@@ -97,16 +92,14 @@ INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.
 		ADDED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
 ADDED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:6:5-67
-MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-67
-MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-67
+MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-67
+MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-67
 	android:name
 		ADDED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:6:22-64
 application
 ADDED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml:8:5-37:19
-MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-21:19
-MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-21:19
-MERGED from [com.google.android.material:material:1.2.0-alpha01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cc1b2f05b8f1c678cde870cd021f9346/material-1.2.0-alpha01/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.material:material:1.2.0-alpha01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cc1b2f05b8f1c678cde870cd021f9346/material-1.2.0-alpha01/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.2.0-alpha02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a3131233b43b4dd9827dadb6894a73ef/material-1.2.0-alpha02/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.2.0-alpha02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a3131233b43b4dd9827dadb6894a73ef/material-1.2.0-alpha02/AndroidManifest.xml:22:5-20
 MERGED from [org.koin:koin-androidx-viewmodel:2.0.1] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/45633344ccdbda1b6820507233fce1cd/jetified-koin-androidx-viewmodel-2.0.1/AndroidManifest.xml:7:5-20
 MERGED from [org.koin:koin-androidx-viewmodel:2.0.1] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/45633344ccdbda1b6820507233fce1cd/jetified-koin-androidx-viewmodel-2.0.1/AndroidManifest.xml:7:5-20
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/015ce1d8b5f2d174c65a0b3d3a110d24/lifecycle-extensions-2.2.0-rc02/AndroidManifest.xml:24:5-25:19
@@ -169,8 +162,8 @@ uses-sdk
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml
-MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-8:41
-MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-8:41
+MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:app_base] /Users/bernat.borras/Desktop/RAC1/app_base/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.databinding:databinding-adapters:3.6.0-beta04] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/ce5615b7c33adbe94e5c12490dfa9534/databinding-adapters-3.6.0-beta04/AndroidManifest.xml:22:5-44
 MERGED from [androidx.databinding:databinding-adapters:3.6.0-beta04] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/ce5615b7c33adbe94e5c12490dfa9534/databinding-adapters-3.6.0-beta04/AndroidManifest.xml:22:5-44
 MERGED from [androidx.databinding:databinding-runtime:3.6.0-beta04] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/174be5f61aad930b2c1fa82c06a39228/databinding-runtime-3.6.0-beta04/AndroidManifest.xml:22:5-44
@@ -183,8 +176,8 @@ MERGED from [androidx.navigation:navigation-ui-ktx:2.2.0-rc02] /Users/bernat.bor
 MERGED from [androidx.navigation:navigation-ui-ktx:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f784687bb826dcf88310a2172cd3c571/navigation-ui-ktx-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-ui:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/c8cee6ab403c63c8daa6f811584cb053/navigation-ui-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-ui:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/c8cee6ab403c63c8daa6f811584cb053/navigation-ui-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.material:material:1.2.0-alpha01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cc1b2f05b8f1c678cde870cd021f9346/material-1.2.0-alpha01/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.material:material:1.2.0-alpha01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cc1b2f05b8f1c678cde870cd021f9346/material-1.2.0-alpha01/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.2.0-alpha02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a3131233b43b4dd9827dadb6894a73ef/material-1.2.0-alpha02/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.2.0-alpha02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a3131233b43b4dd9827dadb6894a73ef/material-1.2.0-alpha02/AndroidManifest.xml:20:5-44
 MERGED from [org.koin:koin-androidx-viewmodel:2.0.1] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/45633344ccdbda1b6820507233fce1cd/jetified-koin-androidx-viewmodel-2.0.1/AndroidManifest.xml:5:5-44
 MERGED from [org.koin:koin-androidx-viewmodel:2.0.1] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/45633344ccdbda1b6820507233fce1cd/jetified-koin-androidx-viewmodel-2.0.1/AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/015ce1d8b5f2d174c65a0b3d3a110d24/lifecycle-extensions-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
@@ -225,20 +218,18 @@ MERGED from [io.coil-kt:coil-base:0.8.0] /Users/bernat.borras/.gradle/caches/tra
 MERGED from [io.coil-kt:coil-base:0.8.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/bcda72a10c7bc16778969498428e4aa4/jetified-coil-base-0.8.0/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.core:core-ktx:1.2.0-beta02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/52c92c86db920a9858f510e70e6f0704/jetified-core-ktx-1.2.0-beta02/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.core:core-ktx:1.2.0-beta02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/52c92c86db920a9858f510e70e6f0704/jetified-core-ktx-1.2.0-beta02/AndroidManifest.xml:5:5-7:41
-MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta05] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/d2e26adc67b9575ecdace55f6452f5c1/jetified-viewpager2-1.0.0-beta05/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta05] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/d2e26adc67b9575ecdace55f6452f5c1/jetified-viewpager2-1.0.0-beta05/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/85dc19290ee60559e77136a64ee59345/jetified-viewpager2-1.0.0-rc01/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/85dc19290ee60559e77136a64ee59345/jetified-viewpager2-1.0.0-rc01/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-fragment:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/601c6f0767a9bbf1bb34be5032d25cf5/navigation-fragment-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-fragment:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/601c6f0767a9bbf1bb34be5032d25cf5/navigation-fragment-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/d5f6e978c45f2538aab41b238cb7150a/fragment-1.2.0-rc02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/d5f6e978c45f2538aab41b238cb7150a/fragment-1.2.0-rc02/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a770cef6863fb361f5f703a0af2e05c7/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a770cef6863fb361f5f703a0af2e05c7/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/33a2ae5b61d82773e172ed4d49daa1a1/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/33a2ae5b61d82773e172ed4d49daa1a1/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/304d39ac3d3b8f9036b5d6cf1e5925dc/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/304d39ac3d3b8f9036b5d6cf1e5925dc/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/bca4352b42b925791660edfc96c4e65a/coordinatorlayout-1.1.0-beta01/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/bca4352b42b925791660edfc96c4e65a/coordinatorlayout-1.1.0-beta01/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cf460a66fe483accd57ff1ae46dc9e01/coordinatorlayout-1.1.0-rc01/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/cf460a66fe483accd57ff1ae46dc9e01/coordinatorlayout-1.1.0-rc01/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/4f1da2d2ae04bab63f6aeb789649fc2e/transition-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/4f1da2d2ae04bab63f6aeb789649fc2e/transition-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/3812fe05c59d8418e5b0ba56ba3412c8/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
@@ -251,12 +242,10 @@ MERGED from [androidx.activity:activity:1.1.0-rc02] /Users/bernat.borras/.gradle
 MERGED from [androidx.activity:activity:1.1.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/4cb4bcbf06792a854d8010e7f1c5957c/jetified-activity-1.1.0-rc02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/11c8cb37a7e14bc82d6cf71ec294a93f/viewpager-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/11c8cb37a7e14bc82d6cf71ec294a93f/viewpager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/72f7c4dbab19f8d33c0419d54f1bc1b7/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/72f7c4dbab19f8d33c0419d54f1bc1b7/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/836a2d977efb81ccd8e7c7766f92f5e5/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/836a2d977efb81ccd8e7c7766f92f5e5/loader-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta05] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f5de6e810b56e1c324ef825b7088be65/recyclerview-1.1.0-beta05/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta05] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f5de6e810b56e1c324ef825b7088be65/recyclerview-1.1.0-beta05/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/77d1b2398a15ea5a5b970249aa8851bb/recyclerview-1.1.0-rc01/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-rc01] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/77d1b2398a15ea5a5b970249aa8851bb/recyclerview-1.1.0-rc01/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a041cf13fda1deb6d111057e0980d15f/customview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/a041cf13fda1deb6d111057e0980d15f/customview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.navigation:navigation-common-ktx:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/5c851f9b582fd9fea3dc3ead089d3b1a/navigation-common-ktx-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
@@ -305,12 +294,6 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0-rc02] /Users/bernat.bo
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0-rc02] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/beef9c7965a4546db119562cefa69b18/lifecycle-viewmodel-2.2.0-rc02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/0a06ba65504418b586a741ca561e844d/exifinterface-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/0a06ba65504418b586a741ca561e844d/exifinterface-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f3e0824ed6a968ff45d9389e424aa328/documentfile-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/f3e0824ed6a968ff45d9389e424aa328/documentfile-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/9a6eb1a3b067c12ba05d14927ad85b98/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/9a6eb1a3b067c12ba05d14927ad85b98/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/41c12963f236e87696d557fe77f93afd/print-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/41c12963f236e87696d557fe77f93afd/print-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/1f2448e9742a2f1b1d68a9adc54ec75d/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/bernat.borras/.gradle/caches/transforms-2/files-2.1/1f2448e9742a2f1b1d68a9adc54ec75d/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 INJECTED from /Users/bernat.borras/Desktop/RAC1/mobile/src/main/AndroidManifest.xml

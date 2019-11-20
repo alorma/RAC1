@@ -304,10 +304,12 @@
         <enum name="invisible" value="4"/>
         <enum name="gone" value="8"/>
     </attr>
+    <attr format="reference" name="popupMenuBackground"/>
     <attr format="float" name="progress"/>
     <attr format="reference" name="recyclerViewStyle"/>
     <attr format="color" name="rippleColor"/>
     <attr format="color|reference" name="scrimBackground"/>
+    <attr format="boolean" name="selectionRequired"/>
     <attr format="reference" name="shapeAppearanceLargeComponent"/>
     <attr format="reference" name="shapeAppearanceMediumComponent"/>
     <attr format="reference" name="shapeAppearanceSmallComponent"/>
@@ -1150,13 +1152,13 @@
     <string description="a11y string read on selection change to indicate the new selection [CHAR_LIMIT=NONE]" name="mtrl_picker_announce_current_selection">Current selection: %1$s</string>
     <string description="Button text to indicate that the widget will ignore the user&apos;s selection [CHAR_LIMIT=16]" name="mtrl_picker_cancel" translatable="false">@android:string/cancel</string>
     <string description="Button text to indicate that the widget will save the user&apos;s selection [CHAR_LIMIT=16]" name="mtrl_picker_confirm">@android:string/ok</string>
-    <string description="The format for how a date will be shown to the user, with the year included [CHAR_LIMIT=16]" name="mtrl_picker_date_format">MMM dd, yyyy</string>
-    <string description="The format for how a date will be shown to the user, without the year included [CHAR_LIMIT=16]" name="mtrl_picker_date_format_without_year">MMM dd</string>
     <string description="A single date [CHAR_LIMIT=60]" name="mtrl_picker_date_header_selected">%1$s</string>
     <string description="Indicates that the user must take the action of picking a date within the calendar [CHAR_LIMIT=60]" name="mtrl_picker_date_header_title">Select a Date</string>
     <string description="Placeholder for a single date [CHAR_LIMIT=60]" name="mtrl_picker_date_header_unselected">Selected date</string>
     <string description="a11y string to indicate this is a header for a column of days for one day of the week (e.g., Monday) [CHAR_LIMIT=NONE]" name="mtrl_picker_day_of_week_column_header">Column of days: %1$s</string>
-    <string description="Indicates that the user entered date cannot be parsed because its format is wrong. The user should instead use the format after the colon. Includes a line break [CHAR_LIMIT=54]" name="mtrl_picker_invalid_format">Invalid format.\nUse: %1$s</string>
+    <string description="Indicates that the user entered date cannot be parsed because its format is wrong. [CHAR_LIMIT=36]" name="mtrl_picker_invalid_format">Invalid format.</string>
+    <string description="Tells a user what an example valid entry looks like. [CHAR_LIMIT=18]" name="mtrl_picker_invalid_format_example">Example: %1$s</string>
+    <string description="Tells a user what format is expected for their date entry. [CHAR_LIMIT=18]" name="mtrl_picker_invalid_format_use">Use: %1$s</string>
     <string description="Notifies the user that the two entered dates do not represent a valid range of dates [CHAR_LIMIT=36]" name="mtrl_picker_invalid_range">Invalid range.</string>
     <string description="a11y string that informs the user that tapping this button will switch the year [CHAR_LIMIT=NONE]" name="mtrl_picker_navigate_to_year_description">Navigate to year %1$s</string>
     <string description="Notifies the user that the entered date is outside the allowed range [CHAR_LIMIT=36]" name="mtrl_picker_out_of_range">Out of range: %1$s</string>
@@ -1166,10 +1168,12 @@
     <string description="Indicates that the user must take the action of picking dates within the calendar to form a range [CHAR_LIMIT=60]" name="mtrl_picker_range_header_title">Select a Date Range</string>
     <string description="Placeholders for two dates separated by a dash representing a range [CHAR_LIMIT=60]" name="mtrl_picker_range_header_unselected">Start date – End date</string>
     <string description="Confirms the selection [CHAR_LIMIT=12]" name="mtrl_picker_save">Save</string>
-    <string description="The format for how the user should enter a date via text input [CHAR_LIMIT=16]" name="mtrl_picker_text_input_date_format">MM/dd/yyyy</string>
     <string description="Label for a single date selected by the user [CHAR_LIMIT=60]" name="mtrl_picker_text_input_date_hint">Date</string>
     <string description="Label for the end date in a range selected by the user [CHAR_LIMIT=60]" name="mtrl_picker_text_input_date_range_end_hint">End date</string>
     <string description="Label for the start date in a range selected by the user [CHAR_LIMIT=60]" name="mtrl_picker_text_input_date_range_start_hint">Start date</string>
+    <string description="A 1 character abbreviation for day. It will be part of a string such as dd/mm/yyyy or mm/dd/yyyy or y.mm.dd. [CHAR_LIMIT=2]" name="mtrl_picker_text_input_day_abbr">d</string>
+    <string description="A 1 character abbreviation for month. It will be part of a string such as dd/mm/yyyy or mm/dd/yyyy or y.mm.dd. [CHAR_LIMIT=2]" name="mtrl_picker_text_input_month_abbr">m</string>
+    <string description="A 1 character abbreviation for year. It will be part of a string such as dd/mm/yyyy or mm/dd/yyyy or y.mm.dd. [CHAR_LIMIT=2]" name="mtrl_picker_text_input_year_abbr">y</string>
     <string description="a11y string to indicate this button changes the input mode to a calendar [CHAR_LIMIT=NONE]" name="mtrl_picker_toggle_to_calendar_input_mode">Switch to calendar input mode</string>
     <string description="a11y string to indicate this button switches the user to choosing a day [CHAR_LIMIT=NONE]" name="mtrl_picker_toggle_to_day_selection">Tap to switch to selecting a day</string>
     <string description="a11y string to indicate this button changes the input mode to a text field [CHAR_LIMIT=NONE]" name="mtrl_picker_toggle_to_text_input_mode">Switch to text input mode</string>
@@ -1560,7 +1564,6 @@
     <style name="Base.Theme.MaterialComponents.Light" parent="Base.V14.Theme.MaterialComponents.Light"/>
     <style name="Base.Theme.MaterialComponents.Light.Bridge" parent="Base.V14.Theme.MaterialComponents.Light.Bridge"/>
     <style name="Base.Theme.MaterialComponents.Light.DarkActionBar" parent="Base.Theme.MaterialComponents.Light">
-    <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
     <item name="actionBarWidgetTheme">@null</item>
     <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
 
@@ -1671,19 +1674,21 @@
     <item name="android:colorBackground">@color/design_dark_default_color_background</item>
     <item name="colorError">@color/design_dark_default_color_error</item>
 
+    <!-- Action bar -->
     <item name="actionBarSize">@dimen/mtrl_toolbar_default_height</item>
+    <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+    <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Surface</item>
+    <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
+    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
 
     <!-- Widget styles -->
     <item name="android:contextPopupMenuStyle" ns2:targetApi="n">
-      @style/Widget.MaterialComponents.PopupMenu.ContextMenu.Dark
+      @style/Widget.MaterialComponents.PopupMenu.ContextMenu
     </item>
-    <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Surface</item>
-    <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
-    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow.Dark</item>
     <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     <item name="checkboxStyle">@style/Widget.MaterialComponents.CompoundButton.CheckBox</item>
-    <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.PopupMenu.ListPopupWindow.Dark</item>
-    <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Dark</item>
+    <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.PopupMenu.ListPopupWindow</item>
+    <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
     <item name="radioButtonStyle">@style/Widget.MaterialComponents.CompoundButton.RadioButton</item>
     <item name="switchStyle">@style/Widget.MaterialComponents.CompoundButton.Switch</item>
     <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar</item>
@@ -1720,6 +1725,7 @@
     <item name="colorOnPrimarySurface">?attr/colorOnSurface</item>
 
     <item name="scrimBackground">@color/mtrl_scrim_color</item>
+    <item name="popupMenuBackground">@drawable/mtrl_popupmenu_background_dark</item>
 
     <item name="minTouchTargetSize">@dimen/mtrl_min_touch_target_size</item>
 
@@ -1786,20 +1792,22 @@
     <item name="android:colorBackground">@color/design_dark_default_color_background</item>
     <item name="colorError">@color/design_dark_default_color_error</item>
 
+    <!-- Action bar -->
     <item name="actionBarSize">@dimen/mtrl_toolbar_default_height</item>
+    <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+    <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Surface</item>
+    <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
+    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
 
     <!-- Widget styles -->
     <item name="android:contextPopupMenuStyle" ns2:targetApi="n">
-      @style/Widget.MaterialComponents.PopupMenu.ContextMenu.Dark
+      @style/Widget.MaterialComponents.PopupMenu.ContextMenu
     </item>
-    <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Surface</item>
-    <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
-    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow.Dark</item>
     <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     <item name="buttonBarButtonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush</item>
     <item name="checkboxStyle">@style/Widget.MaterialComponents.CompoundButton.CheckBox</item>
-    <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.PopupMenu.ListPopupWindow.Dark</item>
-    <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Dark</item>
+    <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.PopupMenu.ListPopupWindow</item>
+    <item name="popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
     <item name="radioButtonStyle">@style/Widget.MaterialComponents.CompoundButton.RadioButton</item>
     <item name="switchStyle">@style/Widget.MaterialComponents.CompoundButton.Switch</item>
     <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar</item>
@@ -1827,6 +1835,7 @@
     <item name="colorOnPrimarySurface">?attr/colorOnSurface</item>
 
     <item name="scrimBackground">@color/mtrl_scrim_color</item>
+    <item name="popupMenuBackground">@drawable/mtrl_popupmenu_background_dark</item>
 
     <item name="minTouchTargetSize">@dimen/mtrl_min_touch_target_size</item>
 
@@ -1893,14 +1902,16 @@
     <item name="android:colorBackground">@color/design_default_color_background</item>
     <item name="colorError">@color/design_default_color_error</item>
 
+    <!-- Action bar -->
     <item name="actionBarSize">@dimen/mtrl_toolbar_default_height</item>
+    <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
+    <item name="actionBarStyle">@style/Widget.MaterialComponents.Light.ActionBar.Solid</item>
+    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
 
     <!-- Widget styles -->
     <item name="android:contextPopupMenuStyle" ns2:targetApi="n">
       @style/Widget.MaterialComponents.PopupMenu.ContextMenu
     </item>
-    <item name="actionBarStyle">@style/Widget.MaterialComponents.Light.ActionBar.Solid</item>
-    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
     <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     <item name="checkboxStyle">@style/Widget.MaterialComponents.CompoundButton.CheckBox</item>
     <item name="listPopupWindowStyle">@style/Widget.MaterialComponents.PopupMenu.ListPopupWindow</item>
@@ -1941,6 +1952,7 @@
     <item name="colorOnPrimarySurface">?attr/colorOnPrimary</item>
 
     <item name="scrimBackground">@color/mtrl_scrim_color</item>
+    <item name="popupMenuBackground">@drawable/mtrl_popupmenu_background</item>
 
     <item name="minTouchTargetSize">@dimen/mtrl_min_touch_target_size</item>
 
@@ -2012,6 +2024,7 @@
     <item name="colorOnPrimarySurface">?attr/colorOnPrimary</item>
 
     <item name="scrimBackground">@color/mtrl_scrim_color</item>
+    <item name="popupMenuBackground">@drawable/mtrl_popupmenu_background</item>
 
     <!-- Type styles -->
     <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1</item>
@@ -2055,14 +2068,16 @@
     <item name="android:colorBackground">@color/design_default_color_background</item>
     <item name="colorError">@color/design_default_color_error</item>
 
+    <!-- Action bar -->
     <item name="actionBarSize">@dimen/mtrl_toolbar_default_height</item>
+    <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
+    <item name="actionBarStyle">@style/Widget.MaterialComponents.Light.ActionBar.Solid</item>
+    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
 
     <!-- Widget styles -->
     <item name="android:contextPopupMenuStyle" ns2:targetApi="n">
       @style/Widget.MaterialComponents.PopupMenu.ContextMenu
     </item>
-    <item name="actionBarStyle">@style/Widget.MaterialComponents.Light.ActionBar.Solid</item>
-    <item name="actionOverflowMenuStyle">@style/Widget.MaterialComponents.PopupMenu.Overflow</item>
     <item name="borderlessButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     <item name="buttonBarButtonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush</item>
     <item name="checkboxStyle">@style/Widget.MaterialComponents.CompoundButton.CheckBox</item>
@@ -2095,6 +2110,7 @@
     <item name="colorOnPrimarySurface">?attr/colorOnPrimary</item>
 
     <item name="scrimBackground">@color/mtrl_scrim_color</item>
+    <item name="popupMenuBackground">@drawable/mtrl_popupmenu_background</item>
 
     <item name="minTouchTargetSize">@dimen/mtrl_min_touch_target_size</item>
 
@@ -3000,6 +3016,18 @@
     <style name="Base.Widget.MaterialComponents.PopupMenu.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow"/>
     <style name="Base.Widget.MaterialComponents.PopupMenu.Overflow" parent="Widget.AppCompat.PopupMenu.Overflow">
     <item name="android:dropDownVerticalOffset">1px</item>
+  </style>
+    <style name="Base.Widget.MaterialComponents.Slider" parent="android:Widget">
+    <item name="activeTrackColor">@color/material_slider_active_track_color</item>
+    <item name="inactiveTrackColor">@color/material_slider_inactive_track_color</item>
+    <item name="thumbColor">@color/material_slider_thumb_color</item>
+    <item name="haloColor">@color/material_slider_halo_color</item>
+    <item name="activeTickColor">@color/material_slider_active_tick_marks_color</item>
+    <item name="inactiveTickColor">@color/material_slider_inactive_tick_marks_color</item>
+    <item name="labelColor">?attr/colorOnPrimary</item>
+    <item name="thumbRadius">@dimen/mtrl_slider_thumb_radius</item>
+    <item name="haloRadius">@dimen/mtrl_slider_halo_radius</item>
+    <item name="thumbElevation">@dimen/mtrl_slider_thumb_elevation</item>
   </style>
     <style name="Base.Widget.MaterialComponents.TextInputEditText" parent="Widget.AppCompat.EditText">
     <item name="android:background">@null</item>
@@ -4215,8 +4243,6 @@
     <item name="android:textColorSecondary">@color/material_on_primary_emphasis_medium</item>
     <item name="actionMenuTextColor">?attr/colorOnPrimary</item>
     <item name="colorControlNormal">?attr/colorOnPrimary</item>
-    <!-- Counteracts the effect of setting textColorPrimary for popup menus. -->
-    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     <!-- Used to tint the ActionMode background and preserve the underline. -->
     <item name="android:colorBackground">?attr/colorPrimary</item>
   </style>
@@ -4225,8 +4251,6 @@
     <item name="android:textColorSecondary">@color/material_on_surface_emphasis_medium</item>
     <item name="actionMenuTextColor">@color/material_on_surface_emphasis_medium</item>
     <item name="colorControlNormal">@color/material_on_surface_emphasis_medium</item>
-    <!-- Counteracts the effect of setting textColorPrimary for popup menus. -->
-    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     <!-- Used to tint the ActionMode background and preserve the underline. -->
     <item name="android:colorBackground">?attr/colorSurface</item>
   </style>
@@ -4620,6 +4644,7 @@
     <item name="android:minHeight">@dimen/mtrl_bottomappbar_height</item>
     <item name="maxButtonHeight">@dimen/mtrl_bottomappbar_height</item>
     <item name="elevation">8dp</item>
+    <item name="paddingBottomSystemWindowInsets">true</item>
   </style>
     <style name="Widget.MaterialComponents.BottomAppBar.Colored" parent="Widget.MaterialComponents.BottomAppBar">
     <item name="backgroundTint">?attr/colorPrimary</item>
@@ -5004,23 +5029,9 @@
   </style>
     <style name="Widget.MaterialComponents.PopupMenu" parent="Base.Widget.MaterialComponents.PopupMenu"/>
     <style name="Widget.MaterialComponents.PopupMenu.ContextMenu" parent="Base.Widget.MaterialComponents.PopupMenu.ContextMenu"/>
-    <style name="Widget.MaterialComponents.PopupMenu.ContextMenu.Dark"/>
-    <style name="Widget.MaterialComponents.PopupMenu.Dark"/>
     <style name="Widget.MaterialComponents.PopupMenu.ListPopupWindow" parent="Base.Widget.MaterialComponents.PopupMenu.ListPopupWindow"/>
-    <style name="Widget.MaterialComponents.PopupMenu.ListPopupWindow.Dark"/>
     <style name="Widget.MaterialComponents.PopupMenu.Overflow" parent="Base.Widget.MaterialComponents.PopupMenu.Overflow"/>
-    <style name="Widget.MaterialComponents.PopupMenu.Overflow.Dark"/>
-    <style name="Widget.MaterialComponents.Slider" parent="android:Widget">
-    <item name="activeTrackColor">@color/material_slider_active_track_color</item>
-    <item name="inactiveTrackColor">@color/material_slider_inactive_track_color</item>
-    <item name="thumbColor">@color/material_slider_thumb_color</item>
-    <item name="activeTickColor">@color/material_slider_active_tick_marks_color</item>
-    <item name="inactiveTickColor">@color/material_slider_inactive_tick_marks_color</item>
-    <item name="labelColor">?attr/colorOnPrimary</item>
-    <item name="thumbRadius">@dimen/mtrl_slider_thumb_radius</item>
-    <item name="haloRadius">@dimen/mtrl_slider_halo_radius</item>
-    <item name="thumbElevation">@dimen/mtrl_slider_thumb_elevation</item>
-  </style>
+    <style name="Widget.MaterialComponents.Slider" parent="Base.Widget.MaterialComponents.Slider"/>
     <style name="Widget.MaterialComponents.Snackbar" parent="Widget.Design.Snackbar">
     <!-- Null out the background here so the programmatically defined default Snackbar background
          will be used, which supports the Material color theming attributes. -->
@@ -6024,6 +6035,8 @@
     <attr format="dimension" name="fabCradleVerticalOffset"/>
     <!-- Whether the BottomAppBar should hide when a NestedScrollView is scrolled. -->
     <attr format="boolean" name="hideOnScroll"/>
+    <!-- Whether the BottomAppBar should apply padding to be above the bottom window insets. -->
+    <attr name="paddingBottomSystemWindowInsets"/>
   </declare-styleable>
     <declare-styleable name="BottomNavigationView">
     <!-- Background tint for the BottomNavigationView. -->
@@ -6300,6 +6313,9 @@
     <!-- Whether only a single chip in this group is allowed to be checked at any time. By default,
          this is false and multiple chips in this group are allowed to be checked at once. -->
     <attr name="singleSelection"/>
+    <!-- Whether we prevent all child chips from being deselected.
+         It's false by default. -->
+    <attr name="selectionRequired"/>
     <!-- The id of the child chip that should be checked by default within this chip group. -->
     <attr format="reference" name="checkedChip"/>
 
@@ -6850,6 +6866,11 @@
         <attr name="android:color"/>
     </declare-styleable>
     <declare-styleable name="ImageFilterView"><attr format="reference" name="altSrc"/><attr format="float" name="saturation"/><attr format="float" name="brightness"/><attr format="float" name="warmth"/><attr format="float" name="contrast"/><attr format="float" name="crossfade"/><attr format="dimension" name="round"/><attr format="boolean" name="overlay"/><attr format="float" name="roundPercent"/></declare-styleable>
+    <declare-styleable name="Insets">
+    <!-- Just adding the parameter that we need for now. We can add others if we need them, but
+         ideally we'll be able to use https://github.com/chrisbanes/insetter once it's ready. -->
+    <attr format="boolean" name="paddingBottomSystemWindowInsets"/>
+  </declare-styleable>
     <declare-styleable name="KeyAttribute"><attr name="framePosition"/><attr name="motionTarget"/><attr name="transitionEasing"/><attr name="curveFit"/><attr name="motionProgress"/><attr name="android:visibility"/><attr name="android:alpha"/><attr name="android:elevation"/><attr name="android:rotation"/><attr name="android:rotationX"/><attr name="android:rotationY"/><attr name="transitionPathRotate"/><attr name="android:scaleX"/><attr name="android:scaleY"/><attr name="android:translationX"/><attr name="android:translationY"/><attr name="android:translationZ"/></declare-styleable>
     <declare-styleable name="KeyCycle"><attr name="motionTarget"/><attr name="curveFit"/><attr name="framePosition"/><attr name="transitionEasing"/><attr name="motionProgress"/><attr name="waveShape"/><attr name="wavePeriod"/><attr name="waveOffset"/><attr name="waveVariesBy"/><attr name="transitionPathRotate"/><attr name="android:alpha"/><attr name="android:elevation"/><attr name="android:rotation"/><attr name="android:rotationX"/><attr name="android:rotationY"/><attr name="android:scaleX"/><attr name="android:scaleY"/><attr name="android:translationX"/><attr name="android:translationY"/><attr name="android:translationZ"/></declare-styleable>
     <declare-styleable name="KeyFrame"/>
@@ -7730,6 +7751,8 @@
     <attr format="color" name="inactiveTrackColor"/>
     <!-- The color of the slider's thumb. -->
     <attr format="color" name="thumbColor"/>
+    <!-- The color of the slider's halo. -->
+    <attr format="color" name="haloColor"/>
     <!-- The color of the slider's tick marks. Only used when the slider is in discrete mode. -->
     <attr format="color" name="tickColor"/>
     <!-- The color of the slider's tick marks for the active portion of the track. Only used when
@@ -8064,11 +8087,14 @@
         <attr name="fontVariationSettings"/>
     </declare-styleable>
     <declare-styleable name="TextInputLayout">
-    <!-- The text color for input text. -->
-    <attr name="android:textColorHint"/>
-
+    <!-- Whether the layout is enabled -->
+    <attr name="android:enabled"/>
     <!-- The hint to display in the floating label. -->
     <attr name="android:hint"/>
+    <!-- The text color for the hint when the text field is not activated (such
+         as for the resting and disabled states). -->
+    <attr name="android:textColorHint"/>
+
     <!-- Whether the layout's floating label functionality is enabled. -->
     <attr format="boolean" name="hintEnabled"/>
     <!-- Whether to animate hint state changes. -->
@@ -8096,6 +8122,10 @@
     <!-- Text color for any error message displayed.
          If set, this takes precedence over errorTextAppearance. -->
     <attr format="color" name="errorTextColor"/>
+    <!-- Text to set as the content description for the error view.
+         Should be set when the error message has special characters that a
+         screen reader is not able to announce properly. -->
+    <attr format="string" name="errorContentDescription"/>
     <!-- End icon to be shown when an error is displayed. -->
     <attr format="reference" name="errorIconDrawable"/>
     <!-- Tint color to use for the error icon. -->
@@ -8140,12 +8170,12 @@
     <!-- Text color of the prefix text displayed in the text input area.
          If set, this takes precedence over prefixTextAppearance. -->
     <attr format="color" name="prefixTextColor"/>
-    <!-- The text to display as prefix text in the text input area. -->
+    <!-- The text to display as suffix text in the text input area. -->
     <attr format="string" name="suffixText"/>
-    <!-- TextAppearance of the prefix text displayed in the text input area. -->
+    <!-- TextAppearance of the suffix text displayed in the text input area. -->
     <attr format="reference" name="suffixTextAppearance"/>
-    <!-- Text color of the prefix text displayed in the text input area.
-         If set, this takes precedence over prefixTextAppearance. -->
+    <!-- Text color of the suffix text displayed in the text input area.
+         If set, this takes precedence over suffixTextAppearance. -->
     <attr format="color" name="suffixTextColor"/>
 
     <!-- Drawable to use for the start icon. -->
@@ -8238,7 +8268,9 @@
          is being displayed. If not set, it defaults to errorTextColor if on
          error state, or to counterOverflowTextColor if on overflow state. -->
     <attr format="color" name="boxStrokeErrorColor"/>
-    <!-- The color to use for the box's background color when in filled box mode. -->
+    <!-- The color to use for the box's background color when in filled box mode.
+         If a non-stateful color resource is specified, default colors will be used for the hover
+         and disabled states.  -->
     <attr format="color" name="boxBackgroundColor"/>
     <!-- The value to use for the box's stroke when in outline box mode, or for the underline stroke
          in filled mode. -->
