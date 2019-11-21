@@ -13,6 +13,6 @@ val uiModule = module {
     viewModel { ListeningViewModel() }
     viewModel { NowViewModel(get()) }
     viewModel { ProgramsViewModel(get()) }
-    viewModel { ProgramViewModel() }
+    viewModel { (programId: String) -> ProgramViewModel(programId, get()) }
     factory { (activity: AppCompatActivity) -> AppThemeSwitcher(activity, get()) }
 }

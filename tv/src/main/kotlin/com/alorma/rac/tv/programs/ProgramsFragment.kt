@@ -1,7 +1,6 @@
 package com.alorma.rac.tv.programs
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
@@ -68,7 +67,8 @@ class ProgramsFragment : BrowseSupportFragment() {
     }
 
     private fun onProgramClick(program: Program) {
-        intentFactory.program.buildIntent(requireContext(), program)
+        val intent = intentFactory.program.buildIntent(requireContext(), program)
+        startActivity(intent)
     }
 
     private fun connectData() {
