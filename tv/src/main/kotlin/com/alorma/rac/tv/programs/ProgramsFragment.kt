@@ -1,4 +1,4 @@
-package com.alorma.rac.tv
+package com.alorma.rac.tv.programs
 
 import android.os.Bundle
 import android.widget.Toast
@@ -9,9 +9,14 @@ import androidx.lifecycle.observe
 import com.alorma.rac.data.api.Program
 import com.alorma.rac.now.NowViewModel
 import com.alorma.rac.programs.ProgramsViewModel
+import com.alorma.rac.tv.R
+import com.alorma.rac.tv.base.IntentFactory
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProgramsFragment : BrowseSupportFragment() {
+
+    private val intentFactory: IntentFactory by inject()
 
     private val nowViewModel: NowViewModel by viewModel()
     private val programsViewModel: ProgramsViewModel by viewModel()
@@ -37,7 +42,10 @@ class ProgramsFragment : BrowseSupportFragment() {
     }
 
     private fun configureColors() {
-        val color = ContextCompat.getColor(requireContext(), R.color.fastlane_background)
+        val color = ContextCompat.getColor(
+            requireContext(),
+            R.color.fastlane_background
+        )
         brandColor = color
         searchAffordanceColor = color
     }
@@ -54,13 +62,13 @@ class ProgramsFragment : BrowseSupportFragment() {
         onItemViewClickedListener =
             OnItemViewClickedListener { _, item, _, _ ->
                 (item as? Program)?.let { program ->
-                    Toast.makeText(
-                        requireContext(),
-                        "Program: ${program.title}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    onProgramClick(program)
                 }
             }
+    }
+
+    private fun onProgramClick(program: Program) {
+        intentFactory.program.buildIntent(requireContext(), program)
     }
 
     private fun connectData() {

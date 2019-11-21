@@ -12,6 +12,7 @@ import com.sergiandreplace.androiddatetimetextprovider.AndroidDateTimeTextProvid
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.threeten.bp.format.DateTimeTextProvider
 
 abstract class RadioApplication : Application() {
@@ -39,8 +40,10 @@ abstract class RadioApplication : Application() {
                     coreModule,
                     networkModule,
                     uiModule
-                )
+                ) + koinModules()
             )
         }
     }
+
+    open fun koinModules(): List<Module> = emptyList()
 }

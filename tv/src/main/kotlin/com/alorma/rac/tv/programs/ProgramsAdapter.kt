@@ -1,4 +1,4 @@
-package com.alorma.rac.tv
+package com.alorma.rac.tv.programs
 
 import android.view.ViewGroup
 import androidx.leanback.widget.ImageCardView
@@ -28,7 +28,10 @@ class ProgramsAdapter(
         val program = item as Program
         cardView.titleText = program.title
         cardView.contentText = program.subtitle
-        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
+        cardView.setMainImageDimensions(
+            CARD_WIDTH,
+            CARD_HEIGHT
+        )
 
         cardView.mainImageView.load(program.images.program) {
             lifecycle(lifecycle)

@@ -4,6 +4,6 @@
     android:id="@+id/main_browse_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.alorma.rac.tv.ProgramsFragment"
-    tools:context=".MainActivity"
+    android:name="com.alorma.rac.tv.programs.ProgramsFragment"
+    tools:context=".programs.ProgramsActivity"
     tools:deviceIds="tv" />
