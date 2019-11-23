@@ -1,6 +1,7 @@
 package com.alorma.rac.tv.program
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.app.DetailsSupportFragmentBackgroundController
@@ -35,7 +36,6 @@ class ProgramFragment : DetailsSupportFragment() {
         detailsBackground.solidColor =
             ContextCompat.getColor(requireContext(), R.color.fastlane_background)
 
-
         buildAdapter()
 
         programViewModel.program.observe(viewLifecycleOwner) { program ->
@@ -56,9 +56,30 @@ class ProgramFragment : DetailsSupportFragment() {
     }
 
     private fun setupDetailsOverviewRow(program: Program) {
-        val row = DetailsOverviewRow(program)
+        val row = DetailsOverviewRow(program).apply {
+            actionsAdapter = ArrayObjectAdapter().apply {
+                val listenAction = Action(0, "Escoltar")
+                add(listenAction)
+                setOnItemViewClickedListener { itemViewHolder,
+                                               item,
+                                               rowViewHolder,
+                                               row ->
+
+                    if (item is Action) {
+                        if (item.id == 0L) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Escoltar ${program.title}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                }
+            }
+        }
         rowsAdapter.add(row)
-        
+
         val listRowAdapter = ArrayObjectAdapter(ProgramSectionsPresenter(program, lifecycle))
         program.sections.forEach { listRowAdapter.add(it) }
         val header = HeaderItem(0, resources.getString(R.string.program_action_sections))
