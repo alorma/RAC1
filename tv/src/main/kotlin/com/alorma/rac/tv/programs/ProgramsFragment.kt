@@ -21,10 +21,10 @@ class ProgramsFragment : BrowseSupportFragment() {
     private val programsViewModel: ProgramsViewModel by viewModel()
 
     private val nowRowAdapter by lazy {
-        ArrayObjectAdapter(ProgramsAdapter(lifecycle))
+        ArrayObjectAdapter(ProgramsPresenter(lifecycle))
     }
     private val programsRowAdapter by lazy {
-        ArrayObjectAdapter(ProgramsAdapter(lifecycle))
+        ArrayObjectAdapter(ProgramsPresenter(lifecycle))
     }
 
     private val rowsAdapter: ArrayObjectAdapter = ArrayObjectAdapter(ListRowPresenter())

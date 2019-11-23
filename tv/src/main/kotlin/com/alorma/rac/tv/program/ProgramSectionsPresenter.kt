@@ -1,4 +1,4 @@
-package com.alorma.rac.tv.programs
+package com.alorma.rac.tv.program
 
 import android.view.ViewGroup
 import androidx.leanback.widget.ImageCardView
@@ -6,15 +6,14 @@ import androidx.leanback.widget.Presenter
 import androidx.lifecycle.Lifecycle
 import coil.api.load
 import com.alorma.rac.data.api.Program
+import com.alorma.rac.data.api.Section
 
-/**
- * A CardPresenter is used to generate Views and bind Objects to them on demand.
- * It contains an ImageCardView.
- */
-class ProgramsAdapter(
+class ProgramSectionsPresenter(
+    private val program: Program,
     private val lifecycle: Lifecycle
 ) : Presenter() {
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup): Presenter.ViewHolder {
         val cardView = ImageCardView(parent.context)
 
         cardView.isFocusable = true
@@ -22,12 +21,11 @@ class ProgramsAdapter(
         return ViewHolder(cardView)
     }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
+    override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
         val cardView = viewHolder.view as ImageCardView
 
-        val program = item as Program
-        cardView.titleText = program.title
-        cardView.contentText = program.subtitle
+        val section = item as Section
+        cardView.titleText = section.title
         cardView.setMainImageDimensions(
             CARD_WIDTH,
             CARD_HEIGHT

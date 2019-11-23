@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">tv</string>
+    <string name="app_name" translatable="false">Rac1</string>
     <string name="program_action_sections">Seccions</string>
 </resources>

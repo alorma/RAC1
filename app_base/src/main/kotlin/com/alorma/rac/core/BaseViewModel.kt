@@ -1,18 +1,5 @@
 package com.alorma.rac.core
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
 
-open class BaseViewModel : ViewModel(), LifecycleObserver {
-
-    var lifecycle: LifecycleOwner? = null
-        set(value) {
-            value?.lifecycle?.addObserver(this)
-            field = value
-        }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    open fun onStart() {
-
-    }
-
-}
+open class BaseViewModel : ViewModel()
