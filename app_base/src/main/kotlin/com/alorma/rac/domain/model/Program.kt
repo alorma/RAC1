@@ -10,5 +10,6 @@ data class Program(
     val images: Images?,
     val email: String?,
     val url: String?,
-    val sections: List<Section> = emptyList()
+    val sections: List<Section> = emptyList(),
+    val now: Boolean = false
 )

@@ -15,5 +15,6 @@ data class ProgramEntity(
     @Embedded(prefix = "socialNetworks") val socialNetworks: SocialNetworksEntity?,
     @Embedded(prefix = "images") val images: ImagesEntity?,
     @ColumnInfo(name = "email") val email: String?,
-    @ColumnInfo(name = "url") val url: String?
+    @ColumnInfo(name = "url") val url: String?,
+    @ColumnInfo(name = "now") val isNow: Boolean = false
 )

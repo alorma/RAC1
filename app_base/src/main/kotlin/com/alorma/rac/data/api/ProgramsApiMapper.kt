@@ -17,13 +17,24 @@ class ProgramsApiMapper {
             title = it.title,
             subtitle = it.subtitle,
             description = it.description,
-            schedule = it.schedule,
+            schedule = mapSchedule(it),
             socialNetworks = it.socialNetworks?.let { mapSocialNetworks(it) },
             images = it.images?.let { mapImages(it) },
             email = it.email,
             url = it.url,
             sections = mapSections(it.sections)
         )
+    }
+
+    private fun mapSchedule(it: ProgramApiModel): String? {
+        return try {
+            it.schedule
+                ?.split(",")
+                ?.map { part -> part.trim() }
+                ?.last { part -> part.isNotEmpty() }
+        } catch (e: Exception) {
+            it.schedule
+        }
     }
 
     private fun mapSocialNetworks(it: SocialNetworksApiModel): SocialNetworks = SocialNetworks(

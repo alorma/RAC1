@@ -10,7 +10,7 @@ class ProgramsDbMapper {
         map(it)
     }
 
-    private fun map(it: ProgramEntity): Program {
+    fun map(it: ProgramEntity): Program {
         return Program(
             id = it.id,
             title = it.title,
@@ -20,7 +20,8 @@ class ProgramsDbMapper {
             socialNetworks = it.socialNetworks?.let { mapSocialNetworks(it) },
             images = it.images?.let { mapImages(it) },
             email = it.email,
-            url = it.url
+            url = it.url,
+            now = it.isNow
         )
     }
 
@@ -43,18 +44,21 @@ class ProgramsDbMapper {
 
     fun mapToEntity(programs: List<Program>): List<ProgramEntity> =
         programs.map { program: Program ->
-            ProgramEntity(
-                id = program.id,
-                title = program.title,
-                subtitle = program.subtitle,
-                description = program.description,
-                schedule = program.schedule,
-                socialNetworks = program.socialNetworks?.let { mapSocialNetworksEntity(it) },
-                images = program.images?.let { mapImagesEntity(it) },
-                email = program.email,
-                url = program.url
-            )
+            mapToEntity(program)
         }
+
+    fun mapToEntity(program: Program): ProgramEntity = ProgramEntity(
+        id = program.id,
+        title = program.title,
+        subtitle = program.subtitle,
+        description = program.description,
+        schedule = program.schedule,
+        socialNetworks = program.socialNetworks?.let { mapSocialNetworksEntity(it) },
+        images = program.images?.let { mapImagesEntity(it) },
+        email = program.email,
+        url = program.url,
+        isNow = program.now
+    )
 
     private fun mapSocialNetworksEntity(socialNetworks: SocialNetworks): SocialNetworksEntity =
         SocialNetworksEntity(

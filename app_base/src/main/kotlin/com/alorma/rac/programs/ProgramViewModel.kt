@@ -12,8 +12,7 @@ class ProgramViewModel(
 ) : BaseViewModel() {
 
     val programApiModel: LiveData<ProgramApiModel> = liveData {
-        radioApi.programs().body()
-            ?.result
+        radioApi.programs().result
             ?.firstOrNull { it.id == programId }
             ?.let { emit(it) }
     }

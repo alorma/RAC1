@@ -1,11 +1,14 @@
 package com.alorma.rac
 
 import android.app.Application
-import androidx.work.*
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import coil.Coil
 import coil.ImageLoader
 import coil.util.CoilUtils
 import com.alorma.rac.di.*
+import com.alorma.rac.domain.model.domainModule
 import com.alorma.rac.work.UpdateProgramsWork
 import com.gabrielittner.threetenbp.LazyThreeTen
 import com.sergiandreplace.androiddatetimetextprovider.AndroidDateTimeTextProvider
@@ -45,6 +48,7 @@ abstract class RadioApplication : Application() {
                     networkModule,
                     databaseModule,
                     dataModule,
+                    domainModule,
                     uiModule
                 ) + koinModules()
             )
@@ -54,13 +58,6 @@ abstract class RadioApplication : Application() {
     }
 
     private fun scheduleApiWork() {
-        val oneTine = OneTimeWorkRequestBuilder<UpdateProgramsWork>().build()
-        workManager.enqueueUniqueWork(
-            "Single sync",
-            ExistingWorkPolicy.KEEP,
-            oneTine
-        )
-
         val periodic = PeriodicWorkRequestBuilder<UpdateProgramsWork>(15L, TimeUnit.MINUTES).build()
         workManager.enqueueUniquePeriodicWork(
             "Periodic sync",

@@ -10,6 +10,6 @@ import org.koin.dsl.module
 val uiModule = module {
     viewModel { ListeningViewModel() }
     viewModel { NowViewModel(get()) }
-    viewModel { ProgramsViewModel(get(), get()) }
+    viewModel { ProgramsViewModel(get()) }
     viewModel { (programId: String) -> ProgramViewModel(programId, get()) }
 }

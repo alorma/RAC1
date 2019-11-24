@@ -1,17 +1,34 @@
 package com.alorma.rac.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProgramsDao {
 
     @Query("SELECT * FROM programs")
-    fun allProgramsF(): Flow<List<ProgramEntity>>
+    fun allPrograms(): Flow<List<ProgramEntity>>
+
+    @Query("SELECT * FROM programs")
+    fun allProgramsSync(): List<ProgramEntity>
+
+    @Query("SELECT * FROM programs WHERE now = 1")
+    fun now(): Flow<ProgramEntity?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveProgram(program: ProgramEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun savePrograms(programs: List<ProgramEntity>)
+
+    @Update(entity = ProgramEntity::class)
+    suspend fun updateNow(updateNow: UpdateNow)
+
+    @Transaction
+    suspend fun updateNow(it: ProgramEntity) {
+        allProgramsSync().map { UpdateNow(it.id, false) }.forEach {
+            updateNow(it)
+        }
+        saveProgram(it.copy(isNow = true))
+    }
 }
