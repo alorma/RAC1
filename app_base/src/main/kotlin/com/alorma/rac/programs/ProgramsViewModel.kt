@@ -3,14 +3,20 @@ package com.alorma.rac.programs
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.alorma.rac.core.BaseViewModel
-import com.alorma.rac.data.api.Program
-import com.alorma.rac.data.api.RacAudioApi
+import com.alorma.rac.data.db.ProgramsDao
+import com.alorma.rac.data.db.ProgramsDbMapper
+import com.alorma.rac.domain.model.Program
 
-class ProgramsViewModel(private val racAudioApi: RacAudioApi) : BaseViewModel() {
+class ProgramsViewModel(
+    private val programsDao: ProgramsDao,
+    private val dbMapper: ProgramsDbMapper
+) : BaseViewModel() {
 
     val programs: LiveData<List<Program>> = liveData {
-        racAudioApi.programs().body()?.result?.let {
-            emit(it)
-        }
+
+        val allProgramsEntities = programsDao.allPrograms()
+        val programs = dbMapper.map(allProgramsEntities)
+        emit(programs)
+
     }
 }

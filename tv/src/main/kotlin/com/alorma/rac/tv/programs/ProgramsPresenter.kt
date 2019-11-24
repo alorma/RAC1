@@ -5,7 +5,7 @@ import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import androidx.lifecycle.Lifecycle
 import coil.api.load
-import com.alorma.rac.data.api.Program
+import com.alorma.rac.domain.model.Program
 
 /**
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -33,9 +33,12 @@ class ProgramsPresenter(
             CARD_HEIGHT
         )
 
-        cardView.mainImageView.load(program.images.program) {
-            lifecycle(lifecycle)
+        program.images?.program?.let {
+            cardView.mainImageView.load(it) {
+                lifecycle(lifecycle)
+            }
         }
+
     }
 
     override fun onUnbindViewHolder(viewHolder: ViewHolder) {
@@ -46,7 +49,7 @@ class ProgramsPresenter(
     }
 
     companion object {
-        private val CARD_WIDTH = 313
-        private val CARD_HEIGHT = 176
+        private const val CARD_WIDTH = 313
+        private const val CARD_HEIGHT = 176
     }
 }

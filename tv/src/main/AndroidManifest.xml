@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".program.ProgramActivity" />
+        <activity android:name=".programApiModel.ProgramActivity" />
     </application>
 
 </manifest>

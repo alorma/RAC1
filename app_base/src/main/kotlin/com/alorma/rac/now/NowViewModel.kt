@@ -3,13 +3,13 @@ package com.alorma.rac.now
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.alorma.rac.core.BaseViewModel
-import com.alorma.rac.data.api.Program
-import com.alorma.rac.data.api.RacAudioApi
+import com.alorma.rac.data.api.ProgramApiModel
+import com.alorma.rac.data.api.RadioApi
 
-class NowViewModel(private val racAudioApi: RacAudioApi) : BaseViewModel() {
+class NowViewModel(private val radioApi: RadioApi) : BaseViewModel() {
 
-    val now: LiveData<Program> = liveData {
-        racAudioApi.now().body()?.result?.program?.let {
+    val now: LiveData<ProgramApiModel> = liveData {
+        radioApi.now().body()?.result?.programApiModel?.let {
             val schedule = it.schedule
                 ?.split(",")
                 ?.map { part -> part.trim() }

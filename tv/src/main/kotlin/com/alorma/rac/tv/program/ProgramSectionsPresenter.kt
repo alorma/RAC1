@@ -5,11 +5,11 @@ import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import androidx.lifecycle.Lifecycle
 import coil.api.load
-import com.alorma.rac.data.api.Program
-import com.alorma.rac.data.api.Section
+import com.alorma.rac.data.api.ProgramApiModel
+import com.alorma.rac.data.api.SectionApiModel
 
 class ProgramSectionsPresenter(
-    private val program: Program,
+    private val programApiModel: ProgramApiModel,
     private val lifecycle: Lifecycle
 ) : Presenter() {
 
@@ -24,15 +24,17 @@ class ProgramSectionsPresenter(
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
         val cardView = viewHolder.view as ImageCardView
 
-        val section = item as Section
+        val section = item as SectionApiModel
         cardView.titleText = section.title
         cardView.setMainImageDimensions(
             CARD_WIDTH,
             CARD_HEIGHT
         )
 
-        cardView.mainImageView.load(program.images.program) {
-            lifecycle(lifecycle)
+        programApiModel.images?.program?.let { image ->
+            cardView.mainImageView.load(image) {
+                lifecycle(lifecycle)
+            }
         }
     }
 

@@ -2,7 +2,7 @@ package com.alorma.rac.data.api
 
 import com.google.gson.annotations.SerializedName
 
-data class Images(
+data class ImagesApiModel(
     val app: String?,
     val itunes: String?,
     val share: String?,

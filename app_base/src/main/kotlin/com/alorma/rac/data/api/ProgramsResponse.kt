@@ -1,3 +1,3 @@
 package com.alorma.rac.data.api
 
-class ProgramsResponse : BaseResponse<List<Program>>()
+class ProgramsResponse : BaseResponse<List<ProgramApiModel>>()

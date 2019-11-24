@@ -1,4 +1,4 @@
-package com.alorma.rac.data.api
+package com.alorma.rac.domain.model
 
 data class SocialNetworks(
     val twitter: String?,

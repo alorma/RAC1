@@ -5,7 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.observe
-import com.alorma.rac.data.api.Program
+import com.alorma.rac.domain.model.Program
 import com.alorma.rac.now.NowViewModel
 import com.alorma.rac.programs.ProgramsViewModel
 import com.alorma.rac.tv.R

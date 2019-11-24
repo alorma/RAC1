@@ -10,6 +10,15 @@ android {
     defaultConfig {
         minSdkVersion 23
         targetSdkVersion 29
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
     }
 
     packagingOptions {
@@ -101,10 +110,19 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.5'
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
     api "com.squareup.okhttp3:okhttp:4.2.1"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
+
+    def room_version = "2.2.2"
+    api "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    api "androidx.room:room-ktx:$room_version"
 
     api "io.coil-kt:coil:0.8.0"
 
     api 'net.danlew:android.joda:2.10.2'
+
+    def work_version = "2.2.0"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 
     api "com.gabrielittner.threetenbp:lazythreetenbp:0.7.0"
     api "org.threeten:threetenbp:1.4.0:no-tzdb"

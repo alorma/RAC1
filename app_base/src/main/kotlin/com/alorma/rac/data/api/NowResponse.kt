@@ -1,5 +1,5 @@
 package com.alorma.rac.data.api
 
-data class Now(val program: Program)
+data class NowApiModel(val programApiModel: ProgramApiModel)
 
-class NowResponse : BaseResponse<Now>()
+class NowResponse : BaseResponse<NowApiModel>()
