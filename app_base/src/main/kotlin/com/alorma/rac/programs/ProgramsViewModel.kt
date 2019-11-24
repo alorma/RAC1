@@ -6,6 +6,7 @@ import com.alorma.rac.core.BaseViewModel
 import com.alorma.rac.data.db.ProgramsDao
 import com.alorma.rac.data.db.ProgramsDbMapper
 import com.alorma.rac.domain.model.Program
+import kotlinx.coroutines.flow.collect
 
 class ProgramsViewModel(
     private val programsDao: ProgramsDao,
@@ -13,10 +14,10 @@ class ProgramsViewModel(
 ) : BaseViewModel() {
 
     val programs: LiveData<List<Program>> = liveData {
-
-        val allProgramsEntities = programsDao.allPrograms()
-        val programs = dbMapper.map(allProgramsEntities)
-        emit(programs)
+        programsDao.allProgramsF().collect {
+            val programs = dbMapper.map(it)
+            emit(programs)
+        }
 
     }
 }

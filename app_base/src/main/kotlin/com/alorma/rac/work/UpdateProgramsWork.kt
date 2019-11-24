@@ -1,7 +1,6 @@
 package com.alorma.rac.work
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.alorma.rac.data.api.ProgramsApiMapper
@@ -21,10 +20,7 @@ class UpdateProgramsWork(context: Context, params: WorkerParameters) :
     private val dbMapper: ProgramsDbMapper by inject()
 
     override suspend fun doWork(): Result {
-        Log.i("Alorma-TV", "Downloads programs")
-
         val programs = radioApi.programs().body()?.result?.let {
-            Log.i("Alorma-TV", it.toString())
             programsApiMapper.map(it)
         }
 
