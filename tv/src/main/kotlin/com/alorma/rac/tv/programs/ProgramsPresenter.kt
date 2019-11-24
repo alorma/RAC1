@@ -4,8 +4,13 @@ import android.view.ViewGroup
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import androidx.lifecycle.Lifecycle
+import coil.Coil
 import coil.api.load
+import coil.size.OriginalSize
+import coil.size.PixelSize
 import com.alorma.rac.domain.model.Program
+import com.alorma.rac.extension.dp
+import com.alorma.rac.tv.R
 
 /**
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -35,10 +40,19 @@ class ProgramsPresenter(
 
         program.images?.program?.let {
             cardView.mainImageView.load(it) {
+                size(PixelSize(CARD_WIDTH.dp, CARD_HEIGHT.dp))
                 lifecycle(lifecycle)
             }
         }
 
+        if (program.now) {
+            Coil.load(cardView.context, R.drawable.ic_now) {
+                size(OriginalSize)
+                target { cardView.badgeImage = it }
+            }
+        } else {
+            cardView.badgeImage = null
+        }
     }
 
     override fun onUnbindViewHolder(viewHolder: ViewHolder) {
