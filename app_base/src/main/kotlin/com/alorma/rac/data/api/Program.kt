@@ -5,7 +5,7 @@ data class Program(
     val title: String,
     val subtitle: String,
     val description: String,
-    val schedule: String,
+    val schedule: String?,
     val socialNetworks: SocialNetworks,
     val images: Images,
     val email: String?,
