@@ -12,6 +12,9 @@ interface ProgramsDao {
     @Query("SELECT * FROM programs")
     fun allProgramsSync(): List<ProgramEntity>
 
+    @Query("SELECT * FROM programs WHERE id = :id")
+    fun getProgramById(id: String): Flow<ProgramEntity>
+
     @Query("SELECT * FROM programs WHERE now = 1")
     fun now(): Flow<ProgramEntity?>
 

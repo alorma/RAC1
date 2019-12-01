@@ -14,6 +14,12 @@ class ProgramsDbDataSource(
         }
     }
 
+    fun getProgram(programId: String): Flow<Program> {
+        return dao.getProgramById(programId).map {
+            mapper.map(it)
+        }
+    }
+
     fun getNow(): Flow<Program?> {
         return dao.now().map {
             it?.let {

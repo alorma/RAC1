@@ -15,7 +15,7 @@
 package com.alorma.rac.tv.program
 
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
-import com.alorma.rac.data.api.ProgramApiModel
+import com.alorma.rac.domain.model.Program
 
 class ProgramDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
 
@@ -23,7 +23,7 @@ class ProgramDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
         viewHolder: AbstractDetailsDescriptionPresenter.ViewHolder,
         item: Any
     ) {
-        val movie = item as ProgramApiModel
+        val movie = item as Program
 
         viewHolder.title.text = movie.title
         viewHolder.subtitle.text = movie.schedule

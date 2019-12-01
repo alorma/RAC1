@@ -5,11 +5,11 @@ import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import androidx.lifecycle.Lifecycle
 import coil.api.load
-import com.alorma.rac.data.api.ProgramApiModel
 import com.alorma.rac.data.api.SectionApiModel
+import com.alorma.rac.domain.model.Program
 
 class ProgramSectionsPresenter(
-    private val programApiModel: ProgramApiModel,
+    private val program: Program,
     private val lifecycle: Lifecycle
 ) : Presenter() {
 
@@ -31,7 +31,7 @@ class ProgramSectionsPresenter(
             CARD_HEIGHT
         )
 
-        programApiModel.images?.program?.let { image ->
+        program.images?.program?.let { image ->
             cardView.mainImageView.load(image) {
                 lifecycle(lifecycle)
             }

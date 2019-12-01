@@ -6,7 +6,7 @@ import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.app.DetailsSupportFragmentBackgroundController
 import androidx.leanback.widget.*
 import androidx.lifecycle.observe
-import com.alorma.rac.data.api.ProgramApiModel
+import com.alorma.rac.domain.model.Program
 import com.alorma.rac.programs.ProgramViewModel
 import com.alorma.rac.tv.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,7 +36,7 @@ class ProgramFragment : DetailsSupportFragment() {
 
         buildAdapter()
 
-        programViewModel.programApiModel.observe(viewLifecycleOwner) { program ->
+        programViewModel.program.observe(viewLifecycleOwner) { program ->
             setupDetailsOverviewRow(program)
         }
     }
@@ -53,18 +53,13 @@ class ProgramFragment : DetailsSupportFragment() {
         adapter = rowsAdapter
     }
 
-    private fun setupDetailsOverviewRow(programApiModel: ProgramApiModel) {
-        setupBackground(programApiModel)
-        setupDetail(programApiModel)
-        setupSections(programApiModel)
+    private fun setupDetailsOverviewRow(program: Program) {
+        setupDetail(program)
+        setupSections(program)
     }
 
-    private fun setupBackground(programApiModel: ProgramApiModel) {
-
-    }
-
-    private fun setupDetail(programApiModel: ProgramApiModel) {
-        val row = DetailsOverviewRow(programApiModel).apply {
+    private fun setupDetail(program: Program) {
+        val row = DetailsOverviewRow(program).apply {
             actionsAdapter = ArrayObjectAdapter().apply {
                 val listenAction = Action(0, "Escoltar")
                 add(listenAction)
@@ -81,10 +76,10 @@ class ProgramFragment : DetailsSupportFragment() {
         rowsAdapter.add(row)
     }
 
-    private fun setupSections(programApiModel: ProgramApiModel) {
-        programApiModel.sections.forEachIndexed { i, section ->
+    private fun setupSections(program: Program) {
+        program.sections.forEachIndexed { i, section ->
             val header = HeaderItem(i.toLong(), section.title)
-            val listRowAdapter = ArrayObjectAdapter(ProgramSectionsPresenter(programApiModel, lifecycle))
+            val listRowAdapter = ArrayObjectAdapter(ProgramSectionsPresenter(program, lifecycle))
 
             val sectionsRow = ListRow(header, listRowAdapter)
             rowsAdapter.add(sectionsRow)

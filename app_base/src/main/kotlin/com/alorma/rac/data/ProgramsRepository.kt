@@ -18,6 +18,8 @@ class ProgramsRepository(
         dbDataSource.savePrograms(savePrograms)
     }
 
+    suspend fun getProgram(programId: String): Flow<Program> = dbDataSource.getProgram(programId)
+
     suspend fun getNow(): Flow<Program?> {
         return dbDataSource.getNow()
     }
