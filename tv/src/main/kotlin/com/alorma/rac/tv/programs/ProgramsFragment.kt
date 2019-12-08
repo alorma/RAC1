@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
+import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.observe
 import com.alorma.rac.domain.model.Program
 import com.alorma.rac.now.NowViewModel
@@ -72,14 +73,15 @@ class ProgramsFragment : BrowseSupportFragment() {
     }
 
     private fun connectData() {
-        nowViewModel.now.observe(viewLifecycleOwner) { program ->
-            nowRowAdapter.clear()
-            if (nowRowAdapter.unmodifiableList<Any>().isEmpty()) {
-                nowRowAdapter.add(program)
-            } else {
-                nowRowAdapter.replace(0, program)
+        nowViewModel.now.distinctUntilChanged()
+            .observe(viewLifecycleOwner) { program ->
+                nowRowAdapter.clear()
+                if (nowRowAdapter.unmodifiableList<Any>().isEmpty()) {
+                    nowRowAdapter.add(program)
+                } else {
+                    nowRowAdapter.replace(0, program)
+                }
             }
-        }
 
         programsViewModel.programs.observe(viewLifecycleOwner) { programsList ->
             programsRowAdapter.clear()
