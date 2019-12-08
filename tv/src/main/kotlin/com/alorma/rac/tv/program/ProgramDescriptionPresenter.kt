@@ -25,8 +25,8 @@ class ProgramDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
     ) {
         val movie = item as Program
 
-        viewHolder.title.text = movie.title
-        viewHolder.subtitle.text = movie.schedule
-        viewHolder.body.text = movie.description
+        viewHolder.title.text = movie.title.trim()
+        viewHolder.subtitle.text = movie.schedule?.trim()
+        viewHolder.body.text = movie.description?.trim()
     }
 }

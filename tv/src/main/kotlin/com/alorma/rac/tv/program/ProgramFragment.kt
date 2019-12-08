@@ -1,6 +1,7 @@
 package com.alorma.rac.tv.program
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.app.DetailsSupportFragmentBackgroundController
@@ -8,6 +9,7 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.observe
 import com.alorma.rac.domain.model.Program
+import com.alorma.rac.domain.model.Section
 import com.alorma.rac.extension.plus
 import com.alorma.rac.programs.ProgramViewModel
 import com.alorma.rac.tv.R
@@ -63,10 +65,17 @@ class ProgramFragment : DetailsSupportFragment() {
 
             actionsAdapter = createActionsAdapter(
                 *allSections.toTypedArray()
-            ) {
-                when (it.id) {
-                    0L -> goToListen(program.id)
-                    1L -> goToSections(program.id)
+            ) { action ->
+                when (action.id) {
+                    -1L -> goToListen(program.id)
+                    else -> {
+                        val section = program.sections.firstOrNull {
+                            getSectionActionId(it) == action.id
+                        }
+                        section?.let {
+                            goToSections(program.id, it.id)
+                        }
+                    }
                 }
             }
         }
@@ -76,7 +85,7 @@ class ProgramFragment : DetailsSupportFragment() {
 
     private fun getProgramSections(program: Program): List<Pair<Long, String>> {
         val sections = program.sections.map {
-            it.id.hashCode().toLong() to it.title
+            getSectionActionId(it) to it.title
         }
 
         return if (program.now) {
@@ -87,11 +96,13 @@ class ProgramFragment : DetailsSupportFragment() {
         }
     }
 
-    private fun goToListen(id: String) {
+    private fun getSectionActionId(it: Section) = it.id.hashCode().toLong()
 
+    private fun goToListen(id: String) {
+        Toast.makeText(requireContext(), "Program: $id", Toast.LENGTH_SHORT).show()
     }
 
-    private fun goToSections(id: String) {
-
+    private fun goToSections(programId: String, id: String) {
+        Toast.makeText(requireContext(), "Program: $programId\nSection: $id", Toast.LENGTH_SHORT).show()
     }
 }
