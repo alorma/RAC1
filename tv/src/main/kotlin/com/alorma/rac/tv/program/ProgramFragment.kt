@@ -1,6 +1,7 @@
 package com.alorma.rac.tv.program
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.app.DetailsSupportFragmentBackgroundController
@@ -9,6 +10,8 @@ import androidx.lifecycle.observe
 import com.alorma.rac.domain.model.Program
 import com.alorma.rac.programs.ProgramViewModel
 import com.alorma.rac.tv.R
+import com.alorma.rac.tv.base.createActionsAdapter
+import com.alorma.rac.tv.base.title
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -37,7 +40,7 @@ class ProgramFragment : DetailsSupportFragment() {
         buildAdapter()
 
         programViewModel.program.observe(viewLifecycleOwner) { program ->
-            setupDetailsOverviewRow(program)
+            setupDetail(program)
         }
     }
 
@@ -53,36 +56,17 @@ class ProgramFragment : DetailsSupportFragment() {
         adapter = rowsAdapter
     }
 
-    private fun setupDetailsOverviewRow(program: Program) {
-        setupDetail(program)
-        setupSections(program)
-    }
-
     private fun setupDetail(program: Program) {
         val row = DetailsOverviewRow(program).apply {
-            actionsAdapter = ArrayObjectAdapter().apply {
-                val listenAction = Action(0, "Escoltar")
-                add(listenAction)
-                setOnItemViewClickedListener { itemViewHolder,
-                                               item,
-                                               rowViewHolder,
-                                               row ->
 
-
-                }
+            actionsAdapter = createActionsAdapter(
+                0L to "Escoltar",
+                1L to "Seccions"
+            ) {
+                Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
             }
         }
 
         rowsAdapter.add(row)
-    }
-
-    private fun setupSections(program: Program) {
-        program.sections.forEachIndexed { i, section ->
-            val header = HeaderItem(i.toLong(), section.title)
-            val listRowAdapter = ArrayObjectAdapter(ProgramSectionsPresenter(program, lifecycle))
-
-            val sectionsRow = ListRow(header, listRowAdapter)
-            rowsAdapter.add(sectionsRow)
-        }
     }
 }
