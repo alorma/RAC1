@@ -10,6 +10,13 @@ import coil.util.CoilUtils
 import com.alorma.rac.di.*
 import com.alorma.rac.domain.model.domainModule
 import com.alorma.rac.work.UpdateProgramsWork
+import com.facebook.flipper.android.AndroidFlipperClient
+import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
+import com.facebook.flipper.plugins.inspector.DescriptorMapping
+import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
+import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
+import com.facebook.soloader.SoLoader
 import com.gabrielittner.threetenbp.LazyThreeTen
 import com.sergiandreplace.androiddatetimetextprovider.AndroidDateTimeTextProvider
 import okhttp3.OkHttpClient
@@ -20,6 +27,7 @@ import org.koin.core.module.Module
 import org.threeten.bp.format.DateTimeTextProvider
 import java.util.concurrent.TimeUnit
 
+
 abstract class RadioApplication : Application() {
 
     private val workManager: WorkManager by inject()
@@ -27,18 +35,9 @@ abstract class RadioApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        LazyThreeTen.init(this)
-        DateTimeTextProvider.setInitializer(AndroidDateTimeTextProvider())
-
-        Coil.setDefaultImageLoader {
-            ImageLoader(this) {
-                okHttpClient {
-                    OkHttpClient.Builder()
-                        .cache(CoilUtils.createDefaultCache(this@RadioApplication))
-                        .build()
-                }
-            }
-        }
+        initFlipper()
+        initDates()
+        initImageLoader()
 
         startKoin {
             androidContext(this@RadioApplication)
@@ -55,6 +54,39 @@ abstract class RadioApplication : Application() {
         }
 
         scheduleApiWork()
+    }
+
+    private fun initDates() {
+        LazyThreeTen.init(this)
+        DateTimeTextProvider.setInitializer(AndroidDateTimeTextProvider())
+    }
+
+    private fun initImageLoader() {
+        Coil.setDefaultImageLoader {
+            ImageLoader(this) {
+                okHttpClient {
+                    OkHttpClient.Builder()
+                        .cache(CoilUtils.createDefaultCache(this@RadioApplication))
+                        .build()
+                }
+            }
+        }
+    }
+
+    private fun initFlipper() {
+        if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
+            SoLoader.init(this, false)
+            AndroidFlipperClient.getInstance(this).apply {
+                addPlugin(
+                    InspectorFlipperPlugin(
+                        this@RadioApplication,
+                        DescriptorMapping.withDefaults()
+                    )
+                )
+                addPlugin(DatabasesFlipperPlugin(this@RadioApplication))
+                addPlugin(SharedPreferencesFlipperPlugin(this@RadioApplication))
+            }.start()
+        }
     }
 
     private fun scheduleApiWork() {

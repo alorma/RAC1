@@ -11,7 +11,9 @@ val databaseModule = module {
         Room.databaseBuilder(
             androidContext(),
             RadioDatabase::class.java, "radio-databaser"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     single { get<RadioDatabase>().programsDao() }
