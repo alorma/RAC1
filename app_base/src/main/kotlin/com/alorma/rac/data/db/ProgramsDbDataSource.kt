@@ -1,6 +1,5 @@
 package com.alorma.rac.data.db
 
-import android.util.Log
 import androidx.room.withTransaction
 import com.alorma.rac.domain.model.Program
 import kotlinx.coroutines.flow.Flow
@@ -41,10 +40,6 @@ class ProgramsDbDataSource(
                 program.sections.map { section ->
                     mapper.mapToSectionEntity(section, program)
                 }
-            }
-
-            sections.groupBy { it.programId }.forEach { t: String, u: List<SectionEntity> ->
-                    Log.i("Alorma", "ProgramID: $t")
             }
 
             sectionsDao.saveSections(sections)

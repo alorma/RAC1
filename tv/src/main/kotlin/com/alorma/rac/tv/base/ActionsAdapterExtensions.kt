@@ -10,10 +10,7 @@ fun DetailsSupportFragment.createActionsAdapter(
 ): ArrayObjectAdapter {
     return ArrayObjectAdapter().apply {
         actions.forEach { add(Action(it.first, it.second)) }
-        setOnItemViewClickedListener { itemViewHolder,
-                                       item,
-                                       rowViewHolder,
-                                       row ->
+        setOnItemViewClickedListener { _, item, _, _ ->
             (item as? Action)?.let(onActionSelected)
         }
     }

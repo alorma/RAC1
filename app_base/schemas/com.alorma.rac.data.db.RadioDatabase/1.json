@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cfa5c3a9138558d24c06bb698c823948",
+    "identityHash": "835c58871ea0ac49fef0e446ee9fc8f2",
     "entities": [
       {
         "tableName": "programs",
@@ -137,11 +137,17 @@
       },
       {
         "tableName": "sections",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `title` TEXT NOT NULL, `programId` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`programId`) REFERENCES `programs`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sectionId` TEXT NOT NULL, `programId` TEXT NOT NULL, `type` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`sectionId`, `programId`), FOREIGN KEY(`programId`) REFERENCES `programs`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "id",
+            "columnName": "sectionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "programId",
+            "columnName": "programId",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -156,28 +162,23 @@
             "columnName": "title",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "programId",
-            "columnName": "programId",
-            "affinity": "TEXT",
-            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "sectionId",
+            "programId"
           ],
           "autoGenerate": false
         },
         "indices": [
           {
-            "name": "index_sections_id",
+            "name": "index_sections_sectionId",
             "unique": false,
             "columnNames": [
-              "id"
+              "sectionId"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_sections_id` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_sections_sectionId` ON `${TABLE_NAME}` (`sectionId`)"
           },
           {
             "name": "index_sections_programId",
@@ -206,7 +207,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cfa5c3a9138558d24c06bb698c823948')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '835c58871ea0ac49fef0e446ee9fc8f2')"
     ]
   }
 }

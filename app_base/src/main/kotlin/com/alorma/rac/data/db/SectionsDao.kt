@@ -9,5 +9,4 @@ interface SectionsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveSections(sections: List<SectionEntity>)
-
 }
