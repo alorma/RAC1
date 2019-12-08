@@ -7,7 +7,6 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.observe
 import com.alorma.rac.domain.model.Program
-import com.alorma.rac.now.NowViewModel
 import com.alorma.rac.programs.ProgramsViewModel
 import com.alorma.rac.tv.R
 import com.alorma.rac.tv.base.IntentFactory
@@ -18,7 +17,6 @@ class ProgramsFragment : BrowseSupportFragment() {
 
     private val intentFactory: IntentFactory by inject()
 
-    private val nowViewModel: NowViewModel by viewModel()
     private val programsViewModel: ProgramsViewModel by viewModel()
 
     private val nowRowAdapter by lazy {
@@ -73,7 +71,7 @@ class ProgramsFragment : BrowseSupportFragment() {
     }
 
     private fun connectData() {
-        nowViewModel.now.distinctUntilChanged()
+        programsViewModel.now.distinctUntilChanged()
             .observe(viewLifecycleOwner) { program ->
                 nowRowAdapter.clear()
                 if (nowRowAdapter.unmodifiableList<Any>().isEmpty()) {
@@ -83,11 +81,12 @@ class ProgramsFragment : BrowseSupportFragment() {
                 }
             }
 
-        programsViewModel.programs.observe(viewLifecycleOwner) { programsList ->
-            programsRowAdapter.clear()
-            programsList.forEach {
-                programsRowAdapter.add(it)
+        programsViewModel.programs.distinctUntilChanged()
+            .observe(viewLifecycleOwner) { programsList ->
+                programsRowAdapter.clear()
+                programsList.forEach {
+                    programsRowAdapter.add(it)
+                }
             }
-        }
     }
 }

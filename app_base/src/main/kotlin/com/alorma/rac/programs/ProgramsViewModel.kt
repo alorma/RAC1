@@ -16,4 +16,10 @@ class ProgramsViewModel(
             emit(it)
         }
     }
+
+    val now: LiveData<Program> = liveData {
+        repository.getNow().collect {
+            it?.let { program -> emit(program) }
+        }
+    }
 }
