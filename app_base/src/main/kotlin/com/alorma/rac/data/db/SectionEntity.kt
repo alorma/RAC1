@@ -14,7 +14,7 @@ import androidx.room.*
 )
 data class SectionEntity(
     @PrimaryKey val id: String,
+    @ColumnInfo(name = "programId") val programId: String,
     @ColumnInfo(name = "type") val type: String,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "programId") val programId: String
+    @ColumnInfo(name = "title") val title: String
 )

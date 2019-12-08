@@ -2,6 +2,7 @@ package com.alorma.rac.data.db
 
 import com.alorma.rac.domain.model.Images
 import com.alorma.rac.domain.model.Program
+import com.alorma.rac.domain.model.Section
 import com.alorma.rac.domain.model.SocialNetworks
 
 class ProgramsDbMapper {
@@ -25,6 +26,29 @@ class ProgramsDbMapper {
         )
     }
 
+    fun map(it: ProgramWithSectionsEntity): Program {
+        return Program(
+            id = it.programEntity.id,
+            title = it.programEntity.title,
+            subtitle = it.programEntity.subtitle,
+            description = it.programEntity.description,
+            schedule = it.programEntity.schedule,
+            socialNetworks = it.programEntity.socialNetworks?.let { mapSocialNetworks(it) },
+            images = it.programEntity.images?.let { mapImages(it) },
+            email = it.programEntity.email,
+            url = it.programEntity.url,
+            now = it.programEntity.isNow,
+            sections = mapSections(it.sections)
+        )
+    }
+
+    private fun mapSections(sections: List<SectionEntity>): List<Section> = sections.map {
+        Section(
+            id = it.id,
+            title = it.title,
+            type = it.type
+        )
+    }
 
     private fun mapSocialNetworks(it: SocialNetworksEntity): SocialNetworks = SocialNetworks(
         twitter = it.twitter,
@@ -76,4 +100,13 @@ class ProgramsDbMapper {
         personSmall = images.personSmall,
         podcast = images.podcast
     )
+
+    fun mapToSectionEntity(section: Section, program: Program): SectionEntity {
+        return SectionEntity(
+            id = section.id,
+            programId = program.id,
+            title = section.title,
+            type = section.type
+        )
+    }
 }

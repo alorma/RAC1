@@ -15,6 +15,7 @@ val databaseModule = module {
     }
 
     single { get<RadioDatabase>().programsDao() }
+    single { get<RadioDatabase>().sectionsDao() }
 
     factory { ProgramsDbMapper() }
 }

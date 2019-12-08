@@ -9,5 +9,5 @@ import org.koin.dsl.module
 val dataModule = module {
     single { WorkManager.getInstance(androidContext()) }
     factory { ProgramsApiDataSource(get(), get()) }
-    factory { ProgramsDbDataSource(get(), get()) }
+    factory { ProgramsDbDataSource(get(), get(), get(), get()) }
 }

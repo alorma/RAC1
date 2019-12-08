@@ -15,6 +15,10 @@ interface ProgramsDao {
     @Query("SELECT * FROM programs WHERE id = :id")
     fun getProgramById(id: String): Flow<ProgramEntity>
 
+    @Transaction
+    @Query("SELECT * FROM programs WHERE id = :id")
+    fun getProgramWithSection(id: String): Flow<ProgramWithSectionsEntity>
+
     @Query("SELECT * FROM programs WHERE now = 1")
     fun now(): Flow<ProgramEntity?>
 
