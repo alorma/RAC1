@@ -71,8 +71,8 @@ class ProgramsFragment : BrowseSupportFragment() {
     }
 
     private fun connectData() {
-        programsViewModel.now.distinctUntilChanged()
-            .observe(viewLifecycleOwner) { program ->
+        programsViewModel.now.distinctUntilChanged().observe(viewLifecycleOwner) {
+            it?.let { program ->
                 nowRowAdapter.clear()
                 if (nowRowAdapter.unmodifiableList<Any>().isEmpty()) {
                     nowRowAdapter.add(program)
@@ -80,6 +80,7 @@ class ProgramsFragment : BrowseSupportFragment() {
                     nowRowAdapter.replace(0, program)
                 }
             }
+        }
 
         programsViewModel.programs.distinctUntilChanged()
             .observe(viewLifecycleOwner) { programsList ->
